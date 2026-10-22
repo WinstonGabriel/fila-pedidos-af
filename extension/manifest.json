@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Fila de Pedidos - Análise",
+  "version": "5.3.1",
+  "description": "Divide os pedidos em análise entre os analistas (intervalo de horário ou pilha), sincronizado entre todos. Chrome: painel lateral fixo. Opera GX: janela própria.",
+  "action": {
+    "default_title": "Fila de Pedidos"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "popup.html"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "sidePanel",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "https://af.mateusmais.com.br/*",
+    "https://*.supabase.co/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ]
+}

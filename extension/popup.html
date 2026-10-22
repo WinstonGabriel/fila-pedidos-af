@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="temas.css">
+</head>
+<body>
+  <header>
+    <h1>Fila de Pedidos</h1>
+    <div class="acoes-cabecalho">
+      <button id="btnLer" title="Ler a página novamente">↻ Ler página</button>
+      <button id="btnTema" class="botao-icone" title="Personalizar tema" aria-label="Personalizar tema" aria-haspopup="dialog" aria-expanded="false" aria-controls="temaDialogo">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18h1.2a2 2 0 0 0 1.6-3.2 1.5 1.5 0 0 1 1.2-2.4h1.2A3.8 3.8 0 0 0 21 11.6 8.8 8.8 0 0 0 12 3Z"/><circle cx="7.5" cy="10" r=".8"/><circle cx="11" cy="7" r=".8"/><circle cx="15.5" cy="8" r=".8"/><circle cx="6.8" cy="14" r=".8"/></svg>
+      </button>
+      <button id="btnHist" class="botao-info" title="Histórico de ações" aria-label="Histórico de ações" aria-haspopup="dialog">i</button>
+    </div>
+  </header>
+  <div id="status" role="status" aria-live="polite"></div>
+
+  <details id="conn">
+    <summary>Conexão</summary>
+    <div class="linha">
+      <input type="text" id="codigo" placeholder="Código da equipe" autocomplete="off">
+      <button id="btnCodigo" class="primario">Salvar</button>
+    </div>
+    <div id="coordInfo" class="meta"></div>
+    <div id="perm"></div>
+    <div id="usos"></div>
+  </details>
+
+  <div class="linha"><label for="eu">Eu sou</label><select id="eu"></select><button id="btnLiberarNome" title="Liberar seu nome para outro analista">Liberar</button></div>
+
+  <nav class="tabs">
+    <button data-mode="intervalo">Intervalo</button>
+    <button data-mode="pilha">Pilha</button>
+  </nav>
+
+  <details id="cfg" open>
+    <summary>Analistas</summary>
+    <div id="cfgBody"></div>
+  </details>
+
+  <section id="painel"></section>
+
+  <dialog id="hist" aria-labelledby="histTitulo">
+    <div class="hist-cabecalho"><h2 id="histTitulo">Histórico de ações</h2><button id="histFechar" class="ghost" aria-label="Fechar histórico">×</button></div>
+    <div class="hist-filtros">
+      <select id="histFiltro" aria-label="Filtrar por analista"></select>
+      <select id="histAcao" aria-label="Filtrar por ação">
+        <option value="">Todas as ações</option>
+        <option value="liberou_pedido">Pedidos liberados</option>
+        <option value="concluiu_pedido">Pedidos concluídos</option>
+        <option value="devolveu_pedido_a_fila">Pedidos devolvidos à fila</option>
+        <option value="recebeu_pedido">Pedidos recebidos</option>
+        <option value="assumiu_nome">Nomes escolhidos</option>
+        <option value="liberou_nome">Nomes liberados</option>
+      </select>
+    </div>
+    <div class="linha"><input id="histPedido" placeholder="Buscar ID do pedido" aria-label="Buscar ID do pedido"><button id="histAtualizar">Buscar / atualizar</button></div>
+    <div id="histResumo" class="meta" role="status"></div>
+    <div id="histBody"></div>
+    <button id="histMais" hidden>Carregar ações anteriores</button>
+  </dialog>
+
+  <dialog id="temaDialogo" aria-labelledby="temaTitulo" aria-describedby="temaDescricao">
+    <div class="hist-cabecalho"><h2 id="temaTitulo">Seu tema</h2><button id="temaFechar" class="ghost" aria-label="Fechar temas">×</button></div>
+    <p id="temaDescricao" class="meta">Escolha a aparência desta extensão neste computador.</p>
+    <div id="temaOpcoes" class="tema-opcoes" role="group" aria-label="Temas disponíveis"></div>
+    <p id="temaFeedback" class="meta" role="status" aria-live="polite">A escolha é salva automaticamente só aqui.</p>
+  </dialog>
+
+  <script src="temas.js"></script>
+  <script src="config.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
