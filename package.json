@@ -1,0 +1,16 @@
+{
+  "name": "fila-pedidos-af",
+  "version": "5.3.1",
+  "private": true,
+  "description": "Extensão Manifest V3 para distribuir a fila de pedidos do AF entre analistas.",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "check": "node --check extension/background.js && node --check extension/popup.js && node --check extension/temas.js",
+    "test": "npm run check && node tests/test-extension.cjs && node tests/test-ui-510.cjs && node tests/test-ui-530.cjs && node tests/test-contato-compartilhado.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}

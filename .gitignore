@@ -1,0 +1,9 @@
+node_modules/
+extension/config.js
+.env
+.env.*
+!.env.example
+*.log
+*.zip
+.DS_Store
+coverage/
