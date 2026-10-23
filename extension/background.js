@@ -24,3 +24,5 @@ if (temPainelLateral) {
     await chrome.storage.local.set({ janelaId: w.id });
   });
 }
+
+importScripts('config.js', 'avisos-background.js');

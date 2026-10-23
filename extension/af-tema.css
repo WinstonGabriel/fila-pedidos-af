@@ -1,0 +1,91 @@
+/* A aparência não modifica texto, estrutura, medidas, visibilidade ou eventos do AF. */
+:root[data-fila-af-tema],
+:root[data-fila-af-tema] body {
+  background-color: var(--fila-af-bg-principal) !important;
+  color: var(--fila-af-cor-texto) !important;
+}
+:root[data-fila-af-tema] :is(main, .main-container, .main-content, .page-container, .page-content, .content-wrapper, .app-content) {
+  background-color: var(--fila-af-bg-principal) !important;
+  color: var(--fila-af-cor-texto) !important;
+}
+:root[data-fila-af-tema] :is(.main-menu, .sidebar, .side-menu, .main-header, .navbar, .navbar-default, .navbar-inverse, .app-header, .page-header, footer,
+  .card, .panel, .panel-body, .panel-heading, .panel-footer, .box, .box-body, .box-header, .white-box, .well,
+  .modal-content, .modal-header, .modal-body, .modal-footer, .dropdown-menu, .list-group-item, .popover) {
+  background-color: var(--fila-af-bg-card) !important;
+  color: var(--fila-af-cor-texto) !important;
+  border-color: var(--fila-af-borda-fina) !important;
+}
+:root[data-fila-af-tema] :is(.main-menu, .sidebar, .side-menu, .navbar) :is(a, span, i) {
+  color: var(--fila-af-cor-texto) !important;
+}
+:root[data-fila-af-tema] :is(.main-menu, .sidebar, .side-menu, .navbar) :is(a:hover, li.active > a, a.active) {
+  background-color: var(--fila-af-bg-botao-hover) !important;
+  color: var(--fila-af-cor-link) !important;
+}
+:root[data-fila-af-tema] a:not(.btn) { color: var(--fila-af-cor-link) !important; }
+:root[data-fila-af-tema] :is(table, .table, #table-extended-transactions),
+:root[data-fila-af-tema] :is(table, .table, #table-extended-transactions) :is(th, td) {
+  color: var(--fila-af-cor-texto) !important;
+  background-color: var(--fila-af-bg-card) !important;
+  border-color: var(--fila-af-borda-fina) !important;
+}
+:root[data-fila-af-tema] :is(table, .table, #table-extended-transactions) thead th {
+  background-color: var(--fila-af-bg-principal) !important;
+}
+:root[data-fila-af-tema] :is(.table-striped tbody tr:nth-child(odd), .table-hover tbody tr:hover) > * {
+  background-color: var(--fila-af-bg-botao) !important;
+}
+:root[data-fila-af-tema] :is(.form-control, textarea, select, input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="submit"]):not([type="button"]), .select2-selection, .select2-dropdown) {
+  color: var(--fila-af-cor-texto) !important;
+  background-color: var(--fila-af-bg-input) !important;
+  border-color: var(--fila-af-borda-fina) !important;
+  accent-color: var(--fila-af-btn-destaque);
+}
+:root[data-fila-af-tema] :is(input, textarea)::placeholder { color: var(--fila-af-cor-texto-secundario) !important; }
+:root[data-fila-af-tema] :is(input, textarea, select):disabled { color: var(--fila-af-cor-texto-secundario) !important; background-color: var(--fila-af-bg-desativado) !important; }
+:root[data-fila-af-tema] :is(button, .btn, input[type="button"], input[type="submit"]):not(:is(.btn-danger, .btn-success, .btn-warning, .btn-info)) {
+  color: var(--fila-af-cor-texto) !important;
+  background-color: var(--fila-af-bg-botao) !important;
+  border-color: var(--fila-af-borda-botao) !important;
+}
+:root[data-fila-af-tema] :is(button, .btn):not(:is(.btn-danger, .btn-success, .btn-warning, .btn-info)):hover { background-color: var(--fila-af-bg-botao-hover) !important; }
+:root[data-fila-af-tema] :is(.btn-primary, input[type="submit"]):not(:is(.btn-danger, .btn-success, .btn-warning, .btn-info)) {
+  background-color: var(--fila-af-btn-principal) !important;
+  border-color: var(--fila-af-btn-principal) !important;
+  color: var(--fila-af-btn-principal-texto) !important;
+}
+:root[data-fila-af-tema] .btn-primary:not(:is(.btn-danger, .btn-success, .btn-warning, .btn-info)):hover { background-color: var(--fila-af-btn-principal-hover) !important; }
+:root[data-fila-af-tema] :is(.pagination > .active > a, .pagination > .active > span) {
+  background-color: var(--fila-af-btn-destaque) !important;
+  border-color: var(--fila-af-btn-destaque) !important;
+  color: var(--fila-af-btn-destaque-texto) !important;
+}
+:root[data-fila-af-tema] :is(.text-muted, small, .help-block, .form-text) { color: var(--fila-af-cor-texto-secundario) !important; }
+:root[data-fila-af-tema] .text-danger { color: var(--fila-af-cor-erro) !important; }
+:root[data-fila-af-tema] .text-success { color: var(--fila-af-cor-ok) !important; }
+:root[data-fila-af-tema] .text-warning { color: var(--fila-af-cor-aviso) !important; }
+:root[data-fila-af-tema] :is(.alert-danger, .table tr.danger > td, .table tr.danger > th, .table td.danger, .table th.danger) {
+  color: var(--fila-af-cor-erro) !important;
+  background-color: var(--fila-af-bg-perigo) !important;
+  border-color: var(--fila-af-borda-perigo) !important;
+}
+:root[data-fila-af-tema] :is(.alert-success, .table tr.success > td, .table tr.success > th, .table td.success, .table th.success) {
+  color: var(--fila-af-cor-ok) !important;
+  background-color: color-mix(in srgb, var(--fila-af-cor-ok) 12%, var(--fila-af-bg-card)) !important;
+}
+:root[data-fila-af-tema] :is(.alert-warning, .table tr.warning > td, .table tr.warning > th, .table td.warning, .table th.warning) {
+  color: var(--fila-af-cor-aviso) !important;
+  background-color: var(--fila-af-bg-aviso) !important;
+  border-color: var(--fila-af-borda-aviso) !important;
+}
+:root[data-fila-af-tema] :is(.alert-info, .table tr.info > td, .table tr.info > th, .table td.info, .table th.info) {
+  color: var(--fila-af-cor-link) !important;
+  background-color: color-mix(in srgb, var(--fila-af-cor-link) 12%, var(--fila-af-bg-card)) !important;
+}
+:root[data-fila-af-tema] :is(input, select, textarea, button, a):focus-visible { outline-color: var(--fila-af-btn-destaque) !important; }
+:root[data-fila-af-tema] [data-fila-hl],
+:root[data-fila-af-tema] [data-fila-hl] > * {
+  background-color: var(--fila-af-bg-meu) !important;
+  color: var(--fila-af-cor-texto) !important;
+}
+:root[data-fila-af-tema] [data-fila-hl] { outline: 3px solid var(--fila-af-btn-destaque) !important; }

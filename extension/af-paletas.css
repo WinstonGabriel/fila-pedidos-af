@@ -1,0 +1,150 @@
+/* Gerado por scripts/gerar-paletas-af.cjs a partir das paletas de temas.css. */
+/* Paleta original e variáveis de todos os componentes. */
+:root[data-fila-af-tema] {
+  color-scheme: light;
+  --fila-af-bg-principal: #ffffff;
+  --fila-af-bg-card: #ffffff;
+  --fila-af-cor-texto: #1f2937;
+  --fila-af-cor-texto-secundario: #6b7280;
+  --fila-af-btn-principal: #2563eb;
+  --fila-af-btn-principal-hover: #1d4ed8;
+  --fila-af-btn-destaque: #2563eb;
+  --fila-af-btn-destaque-hover: #1d4ed8;
+  --fila-af-borda-fina: #e5e7eb;
+  --fila-af-btn-principal-texto: #ffffff;
+  --fila-af-btn-destaque-texto: #ffffff;
+  --fila-af-bg-botao: #eef2ff;
+  --fila-af-bg-botao-hover: #e0e7ff;
+  --fila-af-borda-botao: #c7d2fe;
+  --fila-af-bg-input: #ffffff;
+  --fila-af-bg-desativado: #f3f4f6;
+  --fila-af-cor-erro: #b91c1c;
+  --fila-af-cor-ok: #15803d;
+  --fila-af-cor-aviso: #b45309;
+  --fila-af-cor-link: #2563eb;
+  --fila-af-cor-vazio: #6b7280;
+  --fila-af-bg-aviso: #fffbeb;
+  --fila-af-borda-aviso: #fde68a;
+  --fila-af-bg-perigo: #fee2e2;
+  --fila-af-borda-perigo: #fecaca;
+  --fila-af-bg-meu: #eef2ff;
+  --fila-af-borda-meu: #c7d2fe;
+  --fila-af-bg-chip: #fef3c7;
+  --fila-af-bg-atraso: #fee2e2;
+  --fila-af-borda-atraso: #dc2626;
+  --fila-af-sombra-dialogo: #0f172a25;
+}
+
+/* TEMA 01 — HOMEM ARANHA */
+:root[data-fila-af-tema="homem-aranha"] {
+  --fila-af-bg-principal: #0d1117;
+  --fila-af-bg-card: #161b22;
+  --fila-af-cor-texto: #ffffff;
+  --fila-af-cor-texto-secundario: #8b949e;
+  --fila-af-btn-principal: #d9383a;
+  --fila-af-btn-principal-hover: #b82e30;
+  --fila-af-btn-destaque: #2a75d3;
+  --fila-af-btn-destaque-hover: #1e5cb2;
+  --fila-af-borda-fina: #30363d;
+  --fila-af-cor-link: #81b4f2;
+}
+
+/* TEMA 02 — GAME OF THRONES */
+:root[data-fila-af-tema="got"] {
+  --fila-af-bg-principal: #1a1a1a;
+  --fila-af-bg-card: #262626;
+  --fila-af-cor-texto: #f2ece4;
+  --fila-af-cor-texto-secundario: #a69f96;
+  --fila-af-btn-principal: #8c1c1c;
+  --fila-af-btn-principal-hover: #661212;
+  --fila-af-btn-destaque: #d4af37;
+  --fila-af-btn-destaque-hover: #aa8c2c;
+  --fila-af-borda-fina: #3a3a3a;
+  --fila-af-btn-destaque-texto: #1a1a1a;
+  --fila-af-cor-link: #d4af37;
+}
+
+/* TEMA 03 — SEGURANÇA / CYBER */
+:root[data-fila-af-tema="seguranca"] {
+  --fila-af-bg-principal: #0a0f1d;
+  --fila-af-bg-card: #121b33;
+  --fila-af-cor-texto: #e0e6ed;
+  --fila-af-cor-texto-secundario: #7a8b9e;
+  --fila-af-btn-principal: #00ff66;
+  --fila-af-btn-principal-hover: #00cc52;
+  --fila-af-btn-destaque: #00d9ff;
+  --fila-af-btn-destaque-hover: #00b3cc;
+  --fila-af-borda-fina: #1f315c;
+  --fila-af-btn-principal-texto: #0a0f1d;
+  --fila-af-btn-destaque-texto: #0a0f1d;
+  --fila-af-cor-link: #00d9ff;
+}
+
+/* TEMA 04 — HOMEM DE FERRO */
+:root[data-fila-af-tema="homem-de-ferro"] {
+  --fila-af-bg-principal: #200808;
+  --fila-af-bg-card: #381010;
+  --fila-af-cor-texto: #ffffff;
+  --fila-af-cor-texto-secundario: #ffd6d6;
+  --fila-af-btn-principal: #aa0505;
+  --fila-af-btn-principal-hover: #800303;
+  --fila-af-btn-destaque: #4facfe;
+  --fila-af-btn-destaque-hover: #008eff;
+  --fila-af-borda-fina: #541a1a;
+  --fila-af-btn-destaque-texto: #200808;
+  --fila-af-cor-link: #8fcbff;
+}
+
+/* TEMA 05 — DARK PURO */
+:root[data-fila-af-tema="dark-puro"] {
+  --fila-af-bg-principal: #121212;
+  --fila-af-bg-card: #1e1e1e;
+  --fila-af-cor-texto: #ffffff;
+  --fila-af-cor-texto-secundario: #a0a0a0;
+  --fila-af-btn-principal: #2d2d2d;
+  --fila-af-btn-principal-hover: #3d3d3d;
+  --fila-af-btn-destaque: #bb86fc;
+  --fila-af-btn-destaque-hover: #9a66da;
+  --fila-af-borda-fina: #2c2c2c;
+  --fila-af-btn-destaque-texto: #121212;
+  --fila-af-cor-link: #bb86fc;
+}
+
+/* TEMA 06 — CAVEIRAS / PUNISHER */
+:root[data-fila-af-tema="caveiras"] {
+  --fila-af-bg-principal: #151515;
+  --fila-af-bg-card: #222222;
+  --fila-af-cor-texto: #ffffff;
+  --fila-af-cor-texto-secundario: #8c8c8c;
+  --fila-af-btn-principal: #333333;
+  --fila-af-btn-principal-hover: #444444;
+  --fila-af-btn-destaque: #e6e6e6;
+  --fila-af-btn-destaque-hover: #cccccc;
+  --fila-af-borda-fina: #2e2e2e;
+  --fila-af-btn-destaque-texto: #151515;
+  --fila-af-cor-link: #e6e6e6;
+}
+
+/* Estados de leitura e controles nativos nos temas escuros. */
+:root[data-fila-af-tema]:not([data-fila-af-tema="padrao"]) {
+  color-scheme: dark;
+  --fila-af-bg-botao: var(--fila-af-bg-card);
+  --fila-af-bg-botao-hover: var(--fila-af-borda-fina);
+  --fila-af-borda-botao: var(--fila-af-borda-fina);
+  --fila-af-bg-input: var(--fila-af-bg-principal);
+  --fila-af-bg-desativado: var(--fila-af-bg-card);
+  --fila-af-cor-erro: #ff9292;
+  --fila-af-cor-ok: #82e0a2;
+  --fila-af-cor-aviso: #f2c66d;
+  --fila-af-cor-vazio: var(--fila-af-cor-texto-secundario);
+  --fila-af-bg-aviso: var(--fila-af-bg-card);
+  --fila-af-borda-aviso: #77602f;
+  --fila-af-bg-perigo: #3b1418;
+  --fila-af-borda-perigo: #7f353d;
+  --fila-af-bg-meu: var(--fila-af-bg-card);
+  --fila-af-borda-meu: var(--fila-af-btn-destaque);
+  --fila-af-bg-chip: var(--fila-af-bg-principal);
+  --fila-af-bg-atraso: #3b1418;
+  --fila-af-borda-atraso: #f87171;
+  --fila-af-sombra-dialogo: #00000080;
+}

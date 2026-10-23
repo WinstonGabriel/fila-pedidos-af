@@ -1,4 +1,4 @@
-/* Aparência privada da instalação. Não usa o banco nem chrome.storage.sync. */
+/* Preferência pessoal com opção de tema central da equipe, sem sobrescrever a escolha salva. */
 (() => {
   'use strict';
   const CHAVE = 'filaPreferenciasVisuais';
@@ -14,19 +14,43 @@
   let atual = 'padrao';
   let salvando = false;
   let alteracoes = 0;
+  let preferenciaCarregada = false;
+  let ultimaPublicada = '';
+  let publicacao = Promise.resolve();
   const $ = (id) => document.getElementById(id);
+  const temaEquipe = () => TEMAS.find((t) => t.id === document.documentElement.dataset.temaEquipe);
+
+  function publicarAparencia(tema, equipe) {
+    if (!preferenciaCarregada) return;
+    const dados = window.FilaAparencia.capturar(tema.id, equipe ? 'equipe' : 'local', document.documentElement);
+    const assinatura = JSON.stringify(dados);
+    if (assinatura === ultimaPublicada) return;
+    ultimaPublicada = assinatura;
+    // Gravações sequenciais impedem uma escolha anterior de sobrescrever a mais recente.
+    publicacao = publicacao.then(() => chrome.storage.local.set({ [window.FilaAparencia.CHAVE]: dados })).catch(() => {
+      if (ultimaPublicada === assinatura) ultimaPublicada = '';
+      mensagem('Não foi possível sincronizar a aparência com o AF. Reabra o painel para tentar novamente.', true);
+    });
+  }
 
   function aplicar(id) {
-    const tema = TEMAS.find((t) => t.id === id) || TEMAS[0];
+    const pessoal = TEMAS.find((t) => t.id === id) || TEMAS[0];
+    const equipe = temaEquipe();
+    const tema = equipe || pessoal;
     document.documentElement.classList.remove(...TEMAS.map((t) => t.classe).filter(Boolean));
     if (tema.classe) document.documentElement.classList.add(tema.classe);
-    atual = tema.id;
+    atual = pessoal.id;
     for (const botao of $('temaOpcoes').querySelectorAll('[data-tema]')) {
-      botao.setAttribute('aria-pressed', String(botao.dataset.tema === atual));
-      botao.disabled = salvando;
+      botao.setAttribute('aria-pressed', String(botao.dataset.tema === tema.id));
+      botao.disabled = salvando || !!equipe;
     }
     $('btnTema').title = `Tema: ${tema.nome}`;
     $('btnTema').setAttribute('aria-label', `Personalizar tema. Atual: ${tema.nome}`);
+    $('temaTitulo').textContent = equipe ? 'Tema da equipe' : 'Seu tema';
+    $('temaDescricao').textContent = equipe
+      ? `O tema ${tema.nome} foi definido para toda a equipe. Sua preferência pessoal fica salva para quando o tema individual for liberado.`
+      : 'Escolha a aparência desta extensão neste computador.';
+    publicarAparencia(tema, equipe);
   }
 
   function mensagem(texto, erro = false) {
@@ -35,7 +59,7 @@
   }
 
   async function escolher(id) {
-    if (salvando || !TEMAS.some((t) => t.id === id)) return;
+    if (salvando || temaEquipe() || !TEMAS.some((t) => t.id === id)) return;
     const anterior = atual;
     alteracoes++;
     salvando = true;
@@ -102,7 +126,11 @@
       if (versao === alteracoes) aplicar(dados[CHAVE]?.tema);
     } catch (e) {
       if (versao === alteracoes) mensagem('Escolha um tema para salvar neste computador.');
-    } finally { document.documentElement.dataset.temaPronto = 'true'; }
+    } finally {
+      preferenciaCarregada = true;
+      aplicar(atual);
+      document.documentElement.dataset.temaPronto = 'true';
+    }
 
     chrome.storage.onChanged?.addListener((alteradas, area) => {
       if (area === 'local' && alteradas[CHAVE] && !salvando) {
@@ -111,6 +139,11 @@
       }
     });
   }
+
+  document.addEventListener('fila:tema-equipe', () => {
+    aplicar(atual);
+    mensagem(temaEquipe() ? 'Tema sincronizado com a equipe.' : 'A escolha é salva automaticamente só aqui.');
+  });
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar, { once: true });
   else iniciar();

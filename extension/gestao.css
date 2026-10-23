@@ -1,0 +1,334 @@
+#gestao .linha {
+  flex-wrap: wrap;
+}
+#gestao input,
+#gestao select,
+#escalaDialogo input,
+#escalaDialogo select,
+#escalaDialogo textarea,
+#escalaEditar input,
+#escalaEditar select,
+#escalaEditar textarea {
+  font: inherit;
+  max-width: 100%;
+  padding: 6px;
+  border: 1px solid var(--borda-fina, #d1d5db);
+  border-radius: 6px;
+  background: var(--bg-input, #fff);
+  color: var(--cor-texto, #1f2937);
+}
+#gestaoPin {
+  width: 86px;
+  letter-spacing: 3px;
+}
+#gestaoResponsavel {
+  flex: 1;
+  min-width: 130px;
+}
+#gestaoOpcoes {
+  margin-top: 8px;
+}
+#gestaoFeedback {
+  min-height: 1.4em;
+}
+.gestao-acoes {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+.status-analista {
+  width: 100%;
+  min-width: 88px;
+  font: inherit;
+  border: 1px solid var(--borda-fina);
+  border-radius: 6px;
+  padding: 4px;
+  background: var(--bg-input);
+  color: var(--cor-texto);
+}
+.status-periodo {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+table.cfg .status-periodo input[type='time'] {
+  width: 78px;
+  font-size: 11px;
+  min-width: 0;
+}
+#escalaDialogo,
+#escalaEditar,
+#avisosDialogo {
+  width: calc(100% - 20px);
+  max-width: 1150px;
+  max-height: calc(100vh - 24px);
+  padding: 14px;
+  border: 1px solid var(--borda-fina);
+  border-radius: 14px;
+  background: var(--bg-principal, #fff);
+  color: var(--cor-texto, #1f2937);
+}
+#escalaEditar {
+  max-width: 550px;
+}
+#avisosDialogo {
+  max-width: 560px;
+}
+dialog::backdrop {
+  background: #0f172a66;
+}
+.escala-barra {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+.escala-barra select {
+  flex: 1;
+  min-width: 110px;
+}
+.escala-scroll {
+  overflow: auto;
+  max-height: 57vh;
+  border: 1px solid var(--borda-fina);
+  border-radius: 8px;
+  margin-top: 8px;
+}
+.escala-tabela {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  font-size: 12px;
+}
+.escala-tabela th,
+.escala-tabela td {
+  border-right: 1px solid var(--borda-fina);
+  border-bottom: 1px solid var(--borda-fina);
+  padding: 7px;
+  text-align: center;
+  min-width: 76px;
+  white-space: nowrap;
+}
+.escala-tabela thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bg-secundario, #f3f4f6);
+}
+.escala-tabela .fixo {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--bg-principal, #fff);
+  text-align: left;
+  min-width: 100px;
+}
+.escala-tabela thead .fixo {
+  z-index: 3;
+}
+.escala-dia {
+  display: block;
+  width: 100%;
+  min-height: 42px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  border-radius: 5px;
+  padding: 4px;
+  cursor: default;
+}
+.escala-dia.editavel {
+  cursor: pointer;
+  outline: 1px dashed currentColor;
+  outline-offset: 1px;
+}
+.escala-dia small {
+  display: block;
+  font-size: 10px;
+}
+.tipo-trabalho {
+  background: #dcfce7 !important;
+  color: #14532d !important;
+}
+.tipo-folga {
+  background: #fef3c7 !important;
+  color: #78350f !important;
+}
+.tipo-feriado {
+  background: #ffedd5 !important;
+  color: #9a3412 !important;
+}
+.tipo-ferias {
+  background: #f3e8ff !important;
+  color: #6b21a8 !important;
+}
+.tipo-atestado {
+  background: #fee2e2 !important;
+  color: #991b1b !important;
+}
+.escala-legenda {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  margin-top: 8px;
+}
+.escala-legenda span {
+  padding: 3px 7px;
+  border-radius: 5px;
+}
+.escala-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.escala-tabs button[aria-selected='true'] {
+  background: var(--btn-principal, #2563eb);
+  color: var(--btn-principal-texto, #fff);
+}
+.escala-editar-grade {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.escala-editar-grade label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.escala-editar-grade .largo {
+  grid-column: 1/-1;
+}
+.escala-feedback {
+  white-space: pre-line;
+  min-height: 1.4em;
+  margin: 8px 0;
+}
+.escala-feedback.erro {
+  color: var(--cor-erro, #b91c1c);
+}
+#escalaPrevia {
+  max-height: 45vh;
+  overflow: auto;
+}
+#escalaPrevia input,
+#escalaPrevia select {
+  min-width: 70px;
+  width: 100%;
+}
+#escalaPrevia .conflito {
+  outline: 2px solid #dc2626;
+  outline-offset: -2px;
+}
+.aviso-item {
+  border-bottom: 1px solid var(--borda-fina);
+  padding: 10px 2px;
+}
+.aviso-item.novo {
+  border-left: 3px solid var(--btn-principal);
+  padding-left: 8px;
+}
+.aviso-item p {
+  margin: 4px 0;
+}
+@media (max-width: 480px) {
+  .escala-editar-grade {
+    grid-template-columns: 1fr 1fr;
+  }
+  #gestaoOpcoes button {
+    font-size: 12px;
+  }
+  .escala-tabela th,
+  .escala-tabela td {
+    padding: 4px;
+  }
+}
+
+/* Sino no cabeçalho e central de avisos. */
+.botao-sino {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.sino-contagem {
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  min-width: 14px;
+  height: 14px;
+  line-height: 14px;
+  padding: 0 3px;
+  border-radius: 10px;
+  background: #e54861;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  border: 1px solid var(--bg-principal);
+}
+.botao-sino.tem-avisos svg {
+  color: var(--btn-principal);
+}
+.rotas-lojas h3 {
+  font-size: 13px;
+  margin: 0 0 5px;
+}
+#rotaLoja {
+  display: block;
+  width: 100%;
+  margin: 5px 0;
+}
+.rota-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--borda-fina);
+}
+.rota-item .rota-descricao {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.rota-item small {
+  display: block;
+  margin-top: 3px;
+}
+.rota-item button {
+  font-size: 11px;
+}
+#avisosDialogo .aviso-item {
+  position: relative;
+  margin: 10px 0;
+  padding: 12px;
+  border: 1px solid var(--borda-fina);
+  border-radius: 16px;
+  background: var(--bg-card);
+}
+#avisosDialogo .aviso-item.novo {
+  border-left: 3px solid var(--btn-principal);
+}
+.aviso-titulo {
+  font-weight: 650;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+.aviso-titulo svg {
+  width: 25px;
+  height: 25px;
+  color: var(--btn-principal);
+  flex: none;
+}
+#avisosDialogo .aviso-item p {
+  margin: 5px 0;
+}
+#avisosDialogo .aviso-item.destacado {
+  outline: 2px solid var(--btn-principal);
+  outline-offset: 2px;
+}

@@ -1,20 +1,22 @@
 {
   "manifest_version": 3,
   "name": "Fila de Pedidos - Análise",
-  "version": "5.3.1",
+  "version": "6.1.1",
   "description": "Divide os pedidos em análise entre os analistas (intervalo de horário ou pilha), sincronizado entre todos. Chrome: painel lateral fixo. Opera GX: janela própria.",
   "action": {
     "default_title": "Fila de Pedidos",
     "default_icon": {
-      "19": "icons/sidebar-19.png",
-      "38": "icons/sidebar-38.png",
-      "48": "icons/icon-48.png",
-      "128": "icons/icon-128.png"
+      "16": "icons/icon16.png",
+      "24": "icons/icon24.png",
+      "32": "icons/icon32.png"
     }
   },
   "icons": {
-    "48": "icons/icon-48.png",
-    "128": "icons/icon-128.png"
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png",
+    "512": "icons/icon512.png"
   },
   "background": {
     "service_worker": "background.js"
@@ -27,27 +29,31 @@
       "matches": [
         "https://af.mateusmais.com.br/*"
       ],
-      "css": ["sidebar-injetada.css"],
-      "js": ["sidebar-injetada.js"]
-    }
-  ],
-  "web_accessible_resources": [
+      "css": [
+        "af-paletas.css",
+        "af-tema.css"
+      ],
+      "js": [
+        "aparencia.js",
+        "af-tema.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": false,
+      "world": "ISOLATED"
+    },
     {
-      "resources": ["popup.html", "icons/*"],
       "matches": [
         "https://af.mateusmais.com.br/*"
-      ]
+      ],
+      "js": [
+        "baloes.js",
+        "af-notificacoes.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false,
+      "world": "ISOLATED"
     }
   ],
-  "sidebar_action": {
-    "default_title": "Fila de Pedidos",
-    "default_panel": "popup.html",
-    "default_icon": {
-      "19": "icons/sidebar-19.png",
-      "38": "icons/sidebar-38.png"
-    },
-    "panel_width": 400
-  },
   "permissions": [
     "storage",
     "activeTab",
@@ -58,5 +64,12 @@
   "host_permissions": [
     "https://af.mateusmais.com.br/*",
     "https://*.supabase.co/*"
-  ]
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; worker-src 'self'"
+  }
 }

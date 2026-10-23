@@ -1,0 +1,44 @@
+FILA DE PEDIDOS AF — 6.1.1
+
+COMO ATUALIZAR SEM PERDER O NOME RESERVADO
+1. Feche o painel da extensão.
+2. Extraia este ZIP e copie seus arquivos POR CIMA DA MESMA PASTA já cadastrada no navegador. O manifest.json deve ficar na raiz dessa pasta.
+3. Abra chrome://extensions ou opera://extensions e clique em Recarregar na extensão existente.
+4. Recarregue as abas do AF (F5) e abra o painel.
+Não remova a extensão e não carregue outra pasta como uma nova instalação. Isso criaria outra identificação e poderia deixar seu nome reservado na instalação anterior.
+
+NOVIDADES
+• Status: ON, OFF, Intervalo (início/fim), Férias, Contato tel, Em call, Missão, CBKs, Valid e Folga.
+• Coordenação / Gestão: perfil, responsável e código de quatro números. Não precisa selecionar analista nem marcar ON.
+• Escala semanal/mensal: consulta para todos, filtro individual, edição exclusiva da gestão e repetição por dias da semana.
+• Importação local de PDF, XLSX, XLS e CSV, inclusive OCR em PDF digitalizado, com prévia antes de salvar. Informe mês/ano quando o arquivo não trouxer ano.
+• Relatórios por período/analista, presença confirmada, dias de folga/feriado e exportação CSV.
+• Balões de status e escala para o analista afetado e central de avisos.
+
+A gestão também pode vincular ou transferir pedidos, definir lojas de preferência por analista, colocar OFF e liberar um nome.
+
+Somente ON recebe novos pedidos automaticamente. OFF, Férias e Folga devolvem o pedido atual; outras pausas o preservam. Os horários do intervalo são informativos. Estar escalado não confirma que a pessoa trabalhou: presença é registrada separadamente pela gestão.
+
+O código inicial de gestão é entregue separadamente ao responsável e NÃO está neste pacote. Após entrar, use Trocar código para alterá-lo. Sessões duram até oito horas e há limite de tentativas.
+
+O banco já está preparado. A escala começa sem dias cadastrados: as imagens foram usadas como referência de layout. Cadastre ou importe a escala real antes de usá-la.
+
+Depois desta atualização, status, escala, preferências e avisos são compartilhados pelo banco. A leitura do AF continua configurada para 5 segundos. Componentes novos ainda exigem atualização dos arquivos.
+
+Avisos dependem de conexão e do painel ou de uma aba visível do AF. No AF com o painel fechado, os próprios avisos são consultados a cada dez segundos; balões não são notificações do sistema operacional. Confira os avisos recentes na extensão.
+
+Importação: até 25 MB, 24 páginas de PDF e 1.500 dias por prévia. Reconhecimento de documentos exige revisão, especialmente OCR. Se corrigir nome/data, atualize as versões da prévia antes de salvar. Arquivos originais não são enviados ao banco.
+
+NOVIDADES DA VERSÃO 6.1
+• Sino minimalista no topo: abre notificações e mostra a quantidade não lida.
+• Notificações com transparência e ações no modelo enviado: Entendi confirma somente o aviso exibido; Saber mais abre a central e destaca a alteração.
+• Ver na escala abre o dia e o analista da alteração.
+• Gestão > Direcionar lojas: busque ou informe o nome completo da loja como aparece no AF, escolha o analista e salve. Alterar troca o destino; Remover restaura a distribuição normal. Pode colocar várias lojas para o mesmo analista.
+• As lojas direcionadas ficam exclusivamente com o analista selecionado na distribuição automática. Quando ele estiver OFF, em pausa, ocupado ou sem nome reservado, os pedidos aguardam. Pedidos da loja têm prioridade para seu destino quando ficar ON e livre.
+• As regras de Força de Vendas continuam valendo. Reservas existentes e vínculos feitos pela gestão mantêm o destino escolhido. Salvar uma regra não transfere pedidos já em andamento. Para isso, use o vínculo manual da gestão.
+• Analistas não podem criar reservas de loja destinada a outro. O botão Liberar de uma loja destinada ao próprio analista orienta solicitar à gestão outro destino, pois a distribuição voltaria para ele.
+
+O código de gestão continua o mesmo. A configuração de leitura permanece em 5 segundos. Nenhuma loja foi direcionada por exemplo: cadastre os destinos reais na gestão.
+NOVIDADE DA VERSÃO 6.1.1
+• Ícone da equipe na barra do navegador, na lista de extensões e na janela do painel.
+• Substitua os arquivos na mesma pasta já instalada, incluindo a nova pasta icons, e clique em Recarregar na extensão existente.
