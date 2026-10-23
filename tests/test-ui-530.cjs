@@ -3,6 +3,7 @@ const fs=require('node:fs');
 const {createHarness}=require('./dom-harness.cjs');
 const dir=require('node:path').resolve(__dirname,'../extension');
 const source=fs.readFileSync(dir+'/popup.js','utf8');
+const aparencia=fs.readFileSync(dir+'/aparencia.js','utf8');
 const html=fs.readFileSync(dir+'/popup.html','utf8').replace(/<script[\s\S]*?<\/script>/g,'').replace(/<link[^>]+>/g,'');
 const item=n=>({id:String(5300000000000000n+BigInt(n)),hora:'10:00',data:'2026-10-21',minutos:600,cat:'Varejo',estab:'Loja teste',valor:'R$ 20,00',href:'https://af.mateusmais.com.br/pedido/test-'+n});
 const assignment=(n,name,status='em_andamento')=>({...item(n),pedido_id:item(n).id,analista:name,status,criado_em:new Date().toISOString()});
@@ -39,7 +40,7 @@ async function toggle(on){await p.evaluate(async on=>{const target=document.quer
   window.chrome={storage:{local:{get:async()=>({local:{codigo:'TEST',token:'TEST-TOKEN-530',me:'Gabriel',mode:'pilha'}}),set:async()=>{}}},permissions:{contains:async()=>true},windows:{getLastFocused:async()=>({id:1})},tabs:{query:async()=>[tab],get:async()=>tab,onUpdated:{addListener:()=>{}},onActivated:{addListener:()=>{}}},scripting:{executeScript:async({args})=>args[0].somenteTela?[{result:{ok:true,pedidos:orders,porPagina:{1:orders},paginaAtual:1,contexto:tab.url,paginas:1,primeira:orders.length,totalMenu:orders.length}}]:new Promise(()=>{})}};
  },[item(1),item(2),item(3)]);
  await p.addScriptTag({content:"const SUPABASE_URL='https://test.invalid';const SUPABASE_KEY='TEST';"});
- await p.addScriptTag({content:source});await p.evaluate(()=>document.dispatchEvent(new Event('DOMContentLoaded')));await p.waitForFunction(()=>typeof tickBanco==='function'&&typeof tickTela==='function');
+ await p.addScriptTag({content:aparencia});await p.addScriptTag({content:source});await p.evaluate(()=>document.dispatchEvent(new Event('DOMContentLoaded')));await p.waitForFunction(()=>typeof tickBanco==='function'&&typeof tickTela==='function');
  await test('manual pick button is absent and OFF receives no automatic call',async()=>{
   assert.equal(await p.evaluate(()=>document.querySelector('#btnDistribuir')),null);
   assert.ok(!await p.evaluate(()=>document.querySelector('#painel').textContent.includes('Pegar meu pedido')));

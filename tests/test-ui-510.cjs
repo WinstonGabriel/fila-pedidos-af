@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const { createHarness } = require('./dom-harness.cjs');
 const root = require('node:path').resolve(__dirname, '../extension');
 const source = fs.readFileSync(root + '/popup.js', 'utf8');
+const aparencia = fs.readFileSync(root + '/aparencia.js', 'utf8');
 const html = fs.readFileSync(root + '/popup.html', 'utf8').replace(/<script[\s\S]*?<\/script>/g, '').replace(/<link[^>]+>/g, '');
 const names = ['Natalie','Cássio','Evangela','Gabriel','Kazaf','Rayla','Abigail','Alisson'];
 const users = new Map(); const calls = []; const logs = []; const errors = [];
@@ -63,6 +64,7 @@ async function installation(token, savedMe = '') {
     };
   },{token,savedMe});
   await p.addScriptTag({content:"const SUPABASE_URL='https://test.invalid'; const SUPABASE_KEY='TEST';"});
+  await p.addScriptTag({content:aparencia});
   await p.addScriptTag({content:source});
   await p.evaluate(()=>document.dispatchEvent(new Event('DOMContentLoaded')));
   await p.waitForFunction(()=>typeof tickBanco==='function' && typeof tickTela==='function');
@@ -79,9 +81,9 @@ async function installation(token, savedMe = '') {
     }
     assert.equal(calls.filter(c=>/assumir|escolher/.test(c.fn)).length,0);
   });
-  await test('screen is available while full pagination remains blocked, with two second cadence',async()=>{
+  await test('screen is available while full pagination remains blocked, with three second cadence',async()=>{
     const r=await p1.evaluate('({orders:pedidos.length,full:!!completaEmCurso,interval:INTERVALO_LEITURA_MS,sync:delays.banco,screen:delays.tela,partial:leitura.parcial})');
-    assert.equal(r.orders,1); assert.equal(r.full,true); assert.equal(r.interval,2000); assert.equal(r.sync,2000); assert.ok(r.screen<=2000 && r.screen>0); assert.equal(r.partial,true);
+    assert.equal(r.orders,1); assert.equal(r.full,true); assert.equal(r.interval,3000); assert.equal(r.sync,2000); assert.ok(r.screen<=3000 && r.screen>0); assert.equal(r.partial,true);
     const n=await p1.evaluate(()=>scripts.fast); await p1.evaluate(()=>tickTela()); assert.equal(await p1.evaluate(()=>scripts.fast),n+1);
     await p1.evaluate(()=>tickBanco()); assert.equal(await p1.evaluate(()=>scripts.full),1);
   });

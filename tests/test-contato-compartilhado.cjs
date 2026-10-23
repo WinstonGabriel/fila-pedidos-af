@@ -4,6 +4,7 @@ const path = require('node:path');
 const { createHarness } = require('./dom-harness.cjs');
 const dir = path.resolve(__dirname, '../extension');
 const source = fs.readFileSync(dir+'/popup.js','utf8');
+const aparencia = fs.readFileSync(dir+'/aparencia.js','utf8');
 const html = fs.readFileSync(dir+'/popup.html','utf8').replace(/<script[\s\S]*?<\/script>/g,'').replace(/<link[^>]+>/g,'');
 const names = ['Gabriel','Abigail','Rayla'];
 const users = {testGabriel:'Gabriel',testAbigail:'Abigail',testRayla:'Rayla'};
@@ -47,7 +48,7 @@ async function installation(token) {
     window.chrome={storage:{local:{get:async()=>({local:{codigo:'TEST',token,mode:'pilha'}}),set:async()=>{}}},permissions:{contains:async()=>true},windows:{getLastFocused:async()=>({id:1})},tabs:{query:async()=>[tab],get:async()=>tab,onUpdated:{addListener:()=>{}},onActivated:{addListener:()=>{}}},scripting:{executeScript:async({args})=>args[0].somenteTela?[{result:{ok:true,pedidos:orders,porPagina:{1:orders},paginaAtual:1,contexto:tab.url,paginas:1,primeira:orders.length,totalMenu:orders.length}}]:new Promise(()=>{})}};
   },{token,orders:Array.from({length:7},(_,i)=>order(i+1))});
   await p.addScriptTag({content:"const SUPABASE_URL='https://test.invalid';const SUPABASE_KEY='TEST';"});
-  await p.addScriptTag({content:source});await p.evaluate(()=>document.dispatchEvent(new Event('DOMContentLoaded')));
+  await p.addScriptTag({content:aparencia});await p.addScriptTag({content:source});await p.evaluate(()=>document.dispatchEvent(new Event('DOMContentLoaded')));
   await p.waitForFunction(()=>typeof tickBanco==='function'&&typeof tickTela==='function');return p;
 }
 const click = (p,selector) => p.evaluate(async selector=>{const target=document.querySelector(selector);if(!target)throw new Error('Missing action '+selector);await document.querySelector('#painel').onclick({target,preventDefault(){}});},selector);
