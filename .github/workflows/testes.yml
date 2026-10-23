@@ -20,4 +20,5 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
+      - run: npx commitlint --from=origin/main --to=HEAD --verbose
       - run: npm test
