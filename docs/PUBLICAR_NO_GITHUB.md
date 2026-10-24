@@ -1,41 +1,37 @@
-# Publicar o projeto no GitHub
+# Publicação e colaboração no GitHub
 
-Nome sugerido: `fila-pedidos-af`. Para permitir contribuições de qualquer pessoa, utilize um repositório público com colaboração por forks e pull requests.
+O repositório existente é [WinstonGabriel/fila-pedidos-af](https://github.com/WinstonGabriel/fila-pedidos-af), com extensão em `extension/` e branch principal `main`. Não crie outro repositório para atualizar esta cópia.
 
-## Publicação pela interface
-
-1. Entre na sua conta do GitHub e escolha **New repository**.
-2. Informe o nome e selecione **Public**.
-3. Crie o repositório e envie o conteúdo da pasta do projeto, mantendo a estrutura.
-4. Não envie `extension/config.js`, arquivos `.env`, `node_modules/` ou configurações de produção.
-5. Ative ou confira o workflow **Testes**, incluído em `.github/workflows/testes.yml`.
-
-## Publicação por Git
-
-Se você recebeu o projeto como ZIP e ainda não o inicializou:
+## Fluxo recomendado
 
 ```bash
-git init -b main
-git add .
-git commit -m "Organiza a extensão 5.3.1 para colaboração"
+git clone https://github.com/WinstonGabriel/fila-pedidos-af.git
+cd fila-pedidos-af
+git switch -c docs/atualizar-manual
+npm ci
 ```
 
-Crie o repositório vazio na sua conta e substitua o marcador abaixo pela URL fornecida pelo GitHub:
+Faça a mudança e confira `git diff`, os arquivos selecionados e as regras de [contribuição](../CONTRIBUTING.md). Para mudanças de código, rode `npm test`. Para documentação, confira links relativos, contratos e exemplos.
 
 ```bash
-git remote add origin <URL-DO-REPOSITORIO>
-git push -u origin main
+git add docs/ README.md
+git diff --cached --check
+git commit -m "docs: atualize a documentação da extensão"
+git push -u origin docs/atualizar-manual
 ```
 
-Se o diretório já contém um repositório com um commit inicial, utilize apenas a etapa de associar o remoto e enviar. Use a sua identidade Git e a autenticação da sua conta.
+Abra um pull request com problema, comportamento final e validação. Confira o workflow **Testes**. Colaboradores com escrita podem publicar em branches do repositório; leitura pública permite fork e propostas por PR, sem conceder escrita a todos. Siga as proteções configuradas pelo proprietário.
 
-## Como as outras pessoas colaboram
+## Identidade, integração e acesso
 
-Um repositório público permite leitura e forks. A pessoa faz alterações em sua cópia e abre um pull request para propor a integração. Para editar diretamente o repositório principal, ela precisa de acesso de escrita concedido pelo proprietário.
+A conta autenticada e a instalação do aplicativo GitHub são autorizações distintas. Um conector pode ler repositórios públicos e ainda receber 403 ao tentar escrever se não estiver instalado/autorizado no proprietário e repositório corretos. Configure somente o alcance necessário e confirme o acesso antes de repetir um envio. Não use a conta de outro colaborador como substituição da autorização do proprietário.
 
-Referências oficiais:
+No terminal, use o mecanismo de autenticação aprovado da sua conta. Não inclua tokens na URL remota, em arquivos versionados ou em relatos de erro. Antes de atualizar `main`, confira o head remoto e integre alterações concorrentes; não use force push para evitar uma divergência.
 
-- [Escrever código para um projeto](https://docs.github.com/en/pull-requests/concepts/writing-code-for-a-project)
-- [Criar um pull request a partir de um fork](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request-from-a-fork)
+## Conteúdo que não deve ser enviado
 
-Publicar no GitHub organiza o desenvolvimento; a distribuição automática de novas versões da extensão é outro fluxo e não está implementada por este pacote.
+`extension/config.js`, `.env`, `node_modules/`, ZIPs locais, códigos da equipe, PINs, tokens, links pessoais dos portais e dados reais de pedidos. Confira `.gitignore`, mas lembre que ignorar não remove um arquivo que já foi rastreado.
+
+## Entrega para os analistas
+
+O GitHub organiza código, revisões e testes. Publicar um commit não atualiza as extensões instaladas. A instalação por pasta exige atualizar os arquivos da mesma instalação e recarregar o navegador/extensão conforme o [guia de manutenção](INSTALACAO-E-MANUTENCAO.md). Configurações declarativas compatíveis seguem o fluxo online descrito em [Temas e configuração](TEMAS-E-CONFIGURACAO.md).

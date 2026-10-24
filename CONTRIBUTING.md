@@ -83,6 +83,8 @@ feat: algo.
 
 ## Revisão
 
-## Revisão
-
 O mantenedor pode solicitar ajustes no pull request. A proposta só integra a versão principal depois de ser aceita. O fluxo automatizado verifica os testes locais com dados simulados, sem credenciais de produção.
+
+## Referências atuais
+
+Consulte o [índice de documentação](docs/README.md), os [contratos do banco](docs/BANCO-E-RPCS.md) e a [matriz de testes](docs/TESTES-E-VALIDACAO.md). Documentação nova deve refletir o código da versão e identificar definições ausentes do repositório, sem pressupor um bootstrap completo do backend.

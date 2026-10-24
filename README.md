@@ -2,6 +2,10 @@
 
 Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.8.1.**
 
+## Documentação completa
+
+O [índice de documentação](docs/README.md) reúne os manuais de analista e gestão, arquitetura atualizada a partir do modelo 5.3.1, banco/RPCs, temas, segurança, manutenção e testes. Comece pelo [manual do analista](docs/MANUAL-DO-ANALISTA.md) para usar a extensão ou pela [arquitetura](docs/ARQUITETURA.md) para desenvolver.
+
 ## Funcionalidades
 
 - Fila compartilhada, distribuição automática, reserva exclusiva de nome e confirmação pelo ID do pedido.

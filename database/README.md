@@ -31,3 +31,7 @@ Os arquivos em `updates/` correspondem às mudanças recentes: catálogo online,
 `descanso.sql`, `historico-6.6.sql`, `efeito-pedido-6.7.sql` e `suporte.sql` utilizam o esquema privado `af_mobile`, que deve existir antes da execução. A infraestrutura de status, escala e notificações das versões intermediárias é uma dependência já implantada no banco da equipe e não foi reconstruída como bootstrap neste repositório. O material não contém dados operacionais, códigos da equipe ou segredos de aplicação.
 
 A operação de suporte mantém pedidos retidos em `status='contato'`, com `destino_apoio='suporte'`, para que clientes antigos também os excluam da distribuição. Só a interface atual mostra a lista separada. Remover explicitamente da lista disponibiliza o pedido para distribuição, como ocorre em contato.
+
+## Referência técnica atual
+
+Veja [Banco e RPCs — 6.8.1](../docs/BANCO-E-RPCS.md) para o inventário de contratos, identidade, locks, regras recentes e dependências por script. O [guia de manutenção](../docs/INSTALACAO-E-MANUTENCAO.md) descreve atualização e diagnóstico. Essas referências não substituem a inspeção das definições do ambiente antes de aplicar patches.
