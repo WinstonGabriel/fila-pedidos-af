@@ -13,7 +13,6 @@ A extensão executa código empacotado. A lista AF é lida na origem autorizada 
 | Atribuições, pausas e auditoria | Banco compartilhado com controles de acesso |
 | Preferências de tema/ocultação | Localmente por analista no navegador |
 | Projeções de aviso/efeito | Storage local com contexto derivado por hash; sem os valores brutos de credenciais |
-| Link pessoal do portal móvel | Credencial individual; não deve entrar no Git, exemplos ou mensagens públicas |
 
 O cache contém dados da lista de pedidos. Proteja o perfil do navegador e a sessão do computador. Armazenamento local da extensão não deve ser descrito como cofre criptográfico ou defesa contra alguém com controle do dispositivo.
 
@@ -48,10 +47,10 @@ Catálogo/layout aceitam campos limitados e cores hexadecimais, sem CSS/HTML/scr
 
 ## Práticas de colaboração
 
-Não versionar `config.js`, `.env`, PIN, código da equipe, tokens de instalação, links pessoais, exportações reais de pedidos ou capturas com dados sensíveis. O repositório público é visível para qualquer pessoa; permissão de escrita permite contribuir diretamente e deve ser concedida só a colaboradores autorizados.
+Não versionar `config.js`, `.env`, PIN, código da equipe, tokens de instalação, exportações reais de pedidos ou capturas com dados sensíveis. O repositório público é visível para qualquer pessoa; permissão de escrita permite contribuir diretamente e deve ser concedida só a colaboradores autorizados.
 
 Se uma credencial vazar, remover o arquivo do último commit não basta: revogue/rotacione a credencial no serviço responsável, investigue o alcance e revise o histórico Git conforme o caso. Não inclua o segredo em uma issue pública ao relatar a ocorrência.
 
 ## Limites desta revisão
 
-A documentação descreve proteções observadas no código e nos scripts incluídos. Não certifica o estado atual de todas as políticas, funções ou segredos do banco e dos Workers. As suítes simuladas não substituem revisão de permissões no ambiente de desenvolvimento nem uma avaliação de segurança completa.
+A documentação descreve proteções observadas no código e nos scripts incluídos. Não certifica o estado atual de todas as políticas, funções ou segredos do banco. As suítes simuladas não substituem revisão de permissões no ambiente de desenvolvimento nem uma avaliação de segurança completa.

@@ -21,8 +21,6 @@ A organização técnica segue a [documentação anterior de extração e aprese
 
 O repositório contém a extensão, seus recursos locais, testes e atualizações SQL incrementais. Não é um instalador autossuficiente de um banco novo: faltam definições originais de parte das RPCs e da infraestrutura intermediária de gestão, escala e notificações.
 
-Os portais pessoais para celular são uma aplicação separada, hospedada em Cloudflare Workers e integrada ao mesmo backend. Esta documentação explica a relação, mas não inclui o código dos Workers nem os links pessoais de acesso. Não se deve usar esta pasta para reconstruir ou republicar os portais.
-
 ## Glossário
 
 | Termo | Significado |

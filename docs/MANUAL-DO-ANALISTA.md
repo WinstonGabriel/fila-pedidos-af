@@ -54,7 +54,7 @@ Regras:
 - Durante a pausa, a mudança de status fica protegida no banco. Fechar o painel, trocar de computador ou reinstalar não zera o uso.
 - Ao terminar, o servidor retorna o analista para ON. O cron periódico pode levar até aproximadamente um minuto se nenhum painel disparar a verificação antes.
 
-A linha mostra uso do dia, contador ou motivo de bloqueio: outro usuário, banco indisponível, duas pausas usadas, status diferente de ON, pedido atual ou espera entre pausas. O **Intervalo comum**, com horários informados, é distinto deste benefício limitado. Nos portais móveis a pausa ativa aparece como Intervalo; o botão de início documentado aqui fica na extensão.
+A linha mostra uso do dia, contador ou motivo de bloqueio: outro usuário, banco indisponível, duas pausas usadas, status diferente de ON, pedido atual ou espera entre pausas. O **Intervalo comum**, com horários informados, é distinto deste benefício limitado.
 
 ## 6. Pilha e aba Intervalo
 

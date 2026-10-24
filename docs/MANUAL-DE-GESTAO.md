@@ -60,7 +60,3 @@ Planilhas são lidas com SheetJS. PDF com texto usa PDF.js; página com pouco te
 A interface consulta `fila_gestao_relatorio` para o período e permite exportar o resultado oferecido. O relatório não substitui o histórico auditado nem dados que existem apenas no AF. Revise o período antes de compartilhar uma exportação.
 
 O sino permite consultar e confirmar avisos. Confirmação de leitura é individual; não muda a situação do pedido. A distribuição de avisos para a equipe depende da infraestrutura implantada, cuja instalação completa não está incluída neste repositório.
-
-## Portais de celular
-
-Os portais individuais são serviços separados. Cada acesso fica restrito à identidade vinculada no servidor, permite a operação de status prevista e consulta da escala. Não distribua o link pessoal de um analista para outro: ele é uma credencial de acesso. Esta documentação não contém esses links. A extensão e os portais compartilham as proteções do descanso no banco; o botão de iniciar descanso está na extensão 6.8.1.

@@ -30,7 +30,7 @@ No terminal, use o mecanismo de autenticação aprovado da sua conta. Não inclu
 
 ## Conteúdo que não deve ser enviado
 
-`extension/config.js`, `.env`, `node_modules/`, ZIPs locais, códigos da equipe, PINs, tokens, links pessoais dos portais e dados reais de pedidos. Confira `.gitignore`, mas lembre que ignorar não remove um arquivo que já foi rastreado.
+`extension/config.js`, `.env`, `node_modules/`, ZIPs locais, códigos da equipe, PINs, tokens e dados reais de pedidos. Confira `.gitignore`, mas lembre que ignorar não remove um arquivo que já foi rastreado.
 
 ## Entrega para os analistas
 

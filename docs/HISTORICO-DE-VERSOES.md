@@ -20,6 +20,6 @@ Este histórico consolida as notas presentes no pacote; não inventaria cada ver
 
 A documentação 6.8.1 foi ampliada a partir da arquitetura 5.3.1, com manual do analista, gestão, instalação/manutenção, contratos do banco, configuração online, segurança e testes. A arquitetura antiga continua preservada. A revisão documental não altera comportamento, manifesto ou dados do banco.
 
-As notificações de equipe, gestão, escala, rotas e portais móveis também dependem de infraestrutura de versões intermediárias implantada fora do conjunto de migrations completo deste repositório. Não deduza uma ordem de instalação total apenas pela tabela acima.
+As notificações de equipe, gestão, escala e rotas também dependem de infraestrutura de versões intermediárias implantada fora do conjunto de migrations completo deste repositório. Não deduza uma ordem de instalação total apenas pela tabela acima.
 
 Para o texto das notas originais, consulte `extension/ATUALIZACAO-6.3.txt` até `ATUALIZACAO-6.8.1.txt`. Notas antigas descrevem a entrega de seu momento; os manuais atuais resolvem diferenças de caminhos e limites da versão atual.

@@ -19,7 +19,7 @@ O cliente usa PostgREST em `/rest/v1/rpc/<funcao>`, por POST JSON, com a chave p
 | `af_mobile.historico_exibicao` | View privada de apresentação, sem regravar a auditoria original |
 | Objetos intermediários de gestão/escala/avisos | Dependências do backend implantado; suas definições completas não estão no repositório |
 
-O schema `af_mobile` é usado por funções privadas recentes, além da integração móvel. Seu nome não significa que a extensão possa chamar livremente todos os objetos desse schema.
+O schema `af_mobile` contém funções privadas usadas pela extensão. A existência desse schema não concede ao cliente acesso livre a todos os seus objetos.
 
 ## Identidade, autorização e concorrência
 

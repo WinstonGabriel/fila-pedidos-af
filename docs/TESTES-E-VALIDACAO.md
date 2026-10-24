@@ -57,4 +57,4 @@ Nesta revisão, as alterações são documentais. A conferência deve incluir li
 
 ## Relatar um problema
 
-Informe versão, navegador, fluxo, resultado esperado/observado e se a tela indicava cache, parcial ou falha de rede. Use IDs fictícios e capture somente o trecho necessário, ocultando dados reais. Não publique código da equipe, token, PIN, configuração real ou link pessoal em uma issue.
+Informe versão, navegador, fluxo, resultado esperado/observado e se a tela indicava cache, parcial ou falha de rede. Use IDs fictícios e capture somente o trecho necessário, ocultando dados reais. Não publique código da equipe, token, PIN ou configuração real em uma issue.
