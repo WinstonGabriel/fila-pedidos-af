@@ -1,0 +1,6 @@
+const {runtime}=require('./catalogo-integration.cjs'),vm=require('node:vm'),assert=require('node:assert/strict');
+(async()=>{const r=runtime({});await new Promise(setImmediate);
+vm.runInContext(`local.me='Gabriel';remote.atribuicoes=[{pedido_id:'ativo',analista:'Rayla',status:'em_andamento'},{pedido_id:'contato',analista:'Abigail',status:'contato',destino_apoio:'contato'},{pedido_id:'suporte',analista:'Rayla',status:'contato',destino_apoio:'suporte'}];renderPilha();`,r.context);
+const html=r.el('painel').innerHTML;assert(html.includes('data-suporte="Rayla"'));assert(html.includes('Para suporte (1)'));assert(html.includes('Para contato (1)'));assert(html.includes('data-rmsuporte="suporte"'));assert(html.includes('viewBox="0 0 48 48"'));assert.equal(vm.runInContext('ocupados().has("suporte")',r.context),true);assert.equal(vm.runInContext('contatos().some(a=>a.pedido_id==="suporte")',r.context),false);
+vm.runInContext(`local.me='';remote.coord=false;renderPilha();`,r.context);assert(!r.el('painel').innerHTML.includes('data-suporte='));assert(!r.el('painel').innerHTML.includes('data-rmsuporte='));
+console.log('Suporte: ícone baseado na referência, lista separada, qualquer analista identificado, remoção e retenção fora da fila passaram');})();

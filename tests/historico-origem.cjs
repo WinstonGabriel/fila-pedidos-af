@@ -1,0 +1,10 @@
+const {runtime}=require('./catalogo-integration.cjs');const vm=require('node:vm'),assert=require('node:assert/strict');
+const r=runtime({});
+const render=h=>vm.runInContext(`tituloHistorico(${JSON.stringify(h)})`,r.context);
+let h={acao:'recebeu_pedido',analista:'Rayla',ator:'Abigail',detalhe:'Distribuição automática; ordem de disponibilidade; Loja'};
+let s=render(h);assert(s.includes('recebeu automaticamente o pedido'));assert(!s.includes('Abigail'));assert(!s.includes('acionada por'));
+s=render({...h,modalidade:'redistribuicao',origem_liberacao:{analista:'Gabriel',ator:'Gabriel'}});assert(s.includes('após liberação de'));assert(s.includes('Gabriel'));assert(!s.includes('Abigail'));
+s=render({...h,detalhe:'Reserva manual',modalidade:'recebimento'});assert(s.includes('recebeu o pedido'));assert(!s.includes('Abigail'));assert(!s.includes('após liberação'));
+s=render({acao:'liberou_pedido',analista:'Gabriel',ator:'Gabriel'});assert(s.includes('Gabriel'));assert(s.includes('liberou o pedido'));
+s=render({...h,modalidade:'redistribuicao',origem_liberacao:{analista:'Rayla'}});assert(!s.includes('após liberação'));
+console.log('Histórico: automático sem ator, liberação comprovada, origem diferente do sincronizador, reserva manual e ações preservadas passaram');

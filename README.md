@@ -1,67 +1,55 @@
-# Fila de Pedidos AF
+# AF Operação
 
-Extensão Chrome Manifest V3 para organizar a fila do AF Mateus Mais entre analistas. A versão 5.3.1 inclui distribuição automática ao ligar ON, próximo pedido após conclusão, devolução para outro analista, contato compartilhado, nomes exclusivos, histórico e temas locais.
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.8.1.**
 
 ## Funcionalidades
 
-- Leitura da tela com cadência nominal de dois segundos e paginação separada.
-- Um pedido atual por analista, com atribuição coordenada no banco.
-- Reservas manuais, lojas de preferência e elegibilidade de Força de Vendas.
-- Marcação e remoção de contato entre analistas identificados.
-- Histórico por analista, ação e pedido.
-- Seis temas personalizados e opção Padrão, salvos por instalação.
-- Painel lateral no Chrome e janela alternativa conforme as APIs do navegador.
+- Fila compartilhada, distribuição automática, reserva exclusiva de nome e confirmação pelo ID do pedido.
+- Listas **Para contato** e **Para suporte**, compartilhadas entre analistas identificados; pedidos retidos ficam fora da distribuição até remoção explícita.
+- Status, escala, gestão, direcionamento por loja, histórico com origem de liberação comprovada e ranking de conclusões.
+- Descanso individual de 20 minutos, até duas vezes por dia, com 20 minutos contínuos em ON entre pausas; regras no banco e retorno automático.
+- Catálogo online com 13 temas, incluindo Fullmetal Alchemist, LoL, Fluminense e Nuvens com volume 3D. No tema LoL, os oito analistas têm campeões distintos.
+- Notificações nas cores do destinatário e animação de novos pedidos do próprio analista, com controles remotos de duração, cor e efeito incluído.
+- Painel lateral no Chrome, janela alternativa e painel flutuante com abertura pelo mouse nas páginas web autorizadas.
+
+## Instalação
+
+1. Clone ou baixe o repositório.
+2. Copie `extension/config.example.js` para `extension/config.js` e configure a URL do Supabase e a chave pública `anon`. Em uma atualização, preserve o `config.js` da instalação atual.
+3. Abra `chrome://extensions` ou `opera://extensions`, ative o modo de desenvolvedor e carregue a pasta **extension** sem compactação.
+4. Informe o código da equipe dentro da extensão e escolha seu nome em **Eu sou**.
+5. Para o painel em outros sites, clique em **Permitir painel em outros sites** e ative **Ocultação ON**.
+
+O código de equipe, credenciais de gestão, tokens pessoais e a configuração real de produção não estão no Git. Nunca use uma chave `service_role` no navegador.
+
+O mouse abre o painel pelo ícone flutuante da página; o ícone nativo da barra funciona por clique. Páginas internas e protegidas do navegador podem bloquear a injeção. Para capturar pedidos novos do AF, mantenha uma aba AF disponível, mesmo em segundo plano. Os dados já conhecidos continuam sincronizando pelo banco em outras páginas.
 
 ## Estrutura
 
-| Pasta | Conteúdo |
+| Caminho | Conteúdo |
 |---|---|
-| `extension/` | Arquivos que o navegador carrega |
-| `tests/` | Testes automatizados com DOM e serviços simulados |
-| `database/` | SQL de atualização e documentação das dependências do banco |
-| `docs/` | Arquitetura e instruções de publicação |
-| `.github/` | Testes no GitHub Actions e modelos de contribuição |
+| `extension/` | Extensão completa, recursos locais, bibliotecas OCR e notas das atualizações |
+| `tests/` | Testes atuais e testes legados preservados |
+| `database/updates/` | Atualizações de banco das funcionalidades recentes |
+| `database/tests/` | Testes SQL separados, com dados simulados e rollback |
+| `docs/` | Arquitetura e documentação histórica |
+| `scripts/check-extension.cjs` | Verificação de sintaxe, manifesto e recursos |
 
-## Instalar para desenvolvimento
+## Testes
 
-1. Baixe o projeto ou clone o repositório.
-2. Copie `extension/config.example.js` para `extension/config.js`.
-3. Preencha a URL do Supabase e a chave pública `anon` compatível com as RPCs da equipe. A configuração real fica fora do Git.
-4. Abra `chrome://extensions` ou `opera://extensions` e ative o modo de desenvolvedor.
-5. Escolha **Carregar sem compactação** e selecione a pasta `extension/`.
-6. Abra a lista do AF, entre na sua conta e informe o código da equipe dentro da extensão.
-
-```bash
-cp extension/config.example.js extension/config.js
-```
-
-O manifesto do projeto permite a origem do AF e subdomínios `*.supabase.co`. Para um domínio próprio de API, ajuste também `host_permissions`. O pacote não contém o endereço do projeto de produção, códigos da equipe ou tokens de instalações.
-
-Os testes locais não precisam de configuração do Supabase nem de sessão do AF. Para usar as funcionalidades reais, é necessário um banco com o esquema e as RPCs descritos em [database/README.md](database/README.md).
-
-## Executar os testes
-
-Utilize Node.js 24 e npm. A dependência de desenvolvimento é fixada no `package-lock.json`.
+Com Node.js 24 e npm:
 
 ```bash
 npm ci
 npm test
 ```
 
-Os testes usam dados fictícios, DOM simulado e chamadas de rede simuladas. Eles não acessam o AF nem executam operações no banco real. A validação visual no navegador é uma etapa complementar.
+A suíte executa o extrator original e os testes atuais de catálogo, identidade, notificações, histórico, animações, painel global e suporte. Usa dados fictícios e serviços simulados, sem acessar o banco de produção. Os arquivos `test-ui-510.cjs`, `test-ui-530.cjs` e `test-contato-compartilhado.cjs` permanecem como referência da interface 5.x e foram substituídos na suíte pelos testes atuais.
 
-## Contribuir
+## Banco e atualização
 
-Qualquer pessoa pode trabalhar em uma cópia do projeto e propor uma alteração por pull request. O mantenedor revisa a proposta antes de incorporá-la à versão principal. Acesso direto de escrita é uma permissão separada.
+O SQL é incremental sobre o banco AF existente, não um instalador completo. Veja [database/README.md](database/README.md) antes de executar qualquer script. Algumas atualizações corrigem funções existentes por trechos exatos e exigem revisão ao mudar a versão de base. Nunca rode testes SQL em produção como parte do CI.
 
-Veja [CONTRIBUTING.md](CONTRIBUTING.md), o [documento de arquitetura](docs/ARQUITETURA.md) e as [instruções para publicar no GitHub](docs/PUBLICAR_NO_GITHUB.md).
+Publicar no GitHub não atualiza automaticamente as extensões instaladas. Atualize os arquivos da mesma instalação e clique em **Recarregar**. Depois da instalação do motor adequado, paletas e opções declarativas compatíveis podem ser alteradas online; novos comportamentos fora do motor instalado ainda precisam de atualização.
 
-## Atualizações para a equipe
-
-O Git mantém o código e permite colaboração. Publicar um commit não atualiza automaticamente uma extensão carregada manualmente nas máquinas da equipe.
-
-Alterações compatíveis nas RPCs podem valer nas próximas chamadas ao banco. Alterações de interface dependem dos arquivos instalados. Ao atualizar a mesma instalação, preserve `extension/config.js`, mantenha o mesmo armazenamento local e recarregue a extensão.
-
-## Licenciamento
-
-Este pacote prepara a colaboração por repositório público. Uma licença geral de redistribuição ainda deve ser definida pelo titular; nenhuma licença adicional é atribuída automaticamente por estes arquivos.
+Os créditos dos campeões estão em `extension/assets/lol/CREDITOS.txt`. A licença geral do projeto continua pendente de definição pelo titular; esta atualização não altera esse status.

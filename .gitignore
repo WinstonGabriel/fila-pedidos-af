@@ -7,3 +7,5 @@ extension/config.js
 *.zip
 .DS_Store
 coverage/
+
+extension/vendor/**/.*

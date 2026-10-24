@@ -24,3 +24,5 @@ if (temPainelLateral) {
     await chrome.storage.local.set({ janelaId: w.id });
   });
 }
+
+importScripts('painel-global-background.js', 'config.js', 'avisos-background.js', 'efeito-core.js', 'pedido-background.js');

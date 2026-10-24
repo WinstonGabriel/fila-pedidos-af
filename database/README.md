@@ -23,3 +23,11 @@ As RPCs expostas validam equipe e ator. O alocador e a gravação de auditoria n
 ## Testes SQL
 
 Os arquivos em `tests/` substituem os dados da fila dentro de uma transação e terminam em `ROLLBACK`. Utilize somente uma base de desenvolvimento. Esses testes são separados dos testes JavaScript, que usam simulações e não precisam de conexão com um banco.
+
+## Funcionalidades 6.x
+
+Os arquivos em `updates/` correspondem às mudanças recentes: catálogo online, descanso, Fullmetal/LoL/Fluminense/Nuvens, exibição do histórico, animações de recebimento e suporte. Não execute toda a pasta cegamente: `fullmetal-6.3.sql`, `temas-6.4.sql` e `temas-6.5.sql` são atualizações de dados e incrementam a revisão do catálogo; os patches de funções dependem do conteúdo atual do banco.
+
+`descanso.sql`, `historico-6.6.sql`, `efeito-pedido-6.7.sql` e `suporte.sql` utilizam o esquema privado `af_mobile`, que deve existir antes da execução. A infraestrutura de status, escala e notificações das versões intermediárias é uma dependência já implantada no banco da equipe e não foi reconstruída como bootstrap neste repositório. O material não contém dados operacionais, códigos da equipe ou segredos de aplicação.
+
+A operação de suporte mantém pedidos retidos em `status='contato'`, com `destino_apoio='suporte'`, para que clientes antigos também os excluam da distribuição. Só a interface atual mostra a lista separada. Remover explicitamente da lista disponibiliza o pedido para distribuição, como ocorre em contato.

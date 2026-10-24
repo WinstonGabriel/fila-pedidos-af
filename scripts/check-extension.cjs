@@ -1,0 +1,10 @@
+const {readdirSync,readFileSync,existsSync}=require('node:fs');
+const path=require('node:path'),{execFileSync}=require('node:child_process'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'../extension');
+for(const file of readdirSync(root).filter(f=>f.endsWith('.js')))execFileSync(process.execPath,['--check',path.join(root,file)]);
+const m=JSON.parse(readFileSync(path.join(root,'manifest.json')));
+const arquivos=[m.background.service_worker,m.side_panel.default_path,...m.content_scripts.flatMap(c=>c.js||[]),...m.web_accessible_resources.flatMap(c=>c.resources),...Object.values(m.icons),...Object.values(m.action.default_icon)];
+for(const f of arquivos)assert(existsSync(path.join(root,f)),'Arquivo ausente: '+f);
+const avatares=JSON.parse(readFileSync(path.join(root,'assets/lol/analistas.json')));assert.equal(new Set(Object.values(avatares)).size,8);
+for(const f of Object.values(avatares))assert(existsSync(path.join(root,'assets/lol/'+f+'.png')));
+console.log('Sintaxe, manifesto, recursos e oito avatares verificados');

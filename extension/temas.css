@@ -210,3 +210,210 @@ li a { color: var(--cor-link); }
 .tema-mini-botoes span + span { background: var(--btn-destaque); width: 18%; }
 .tema-amostra-padrao { --bg-principal: #ffffff; --bg-card: #ffffff; --borda-fina: #e5e7eb; --cor-texto-secundario: #6b7280; --btn-principal: #2563eb; --btn-destaque: #2563eb; }
 #temaFeedback { margin: 12px 0 0; min-height: 32px; }
+
+/* Catálogo online: os efeitos abaixo são locais; a rede fornece só paletas e opções. */
+html[data-tema-modo="escuro"] { color-scheme: dark; --sombra-dialogo: #00000080; --bg-secundario: var(--bg-card); }
+html[data-tema-modo="claro"] { color-scheme: light; }
+#temaDialogo { max-width: 560px; }
+.tema-catalogo-barra { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 14px; }
+#temaCatalogoStatus { font-size: 11px; }
+#temaCatalogoStatus::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--cor-texto-secundario); margin-right: 6px; }
+#temaCatalogoStatus[data-online="true"]::before { background: var(--cor-ok); }
+#temaAtualizar { padding: 5px 9px; font-size: 11px; }
+.tema-opcao { gap: 6px; padding: 9px; border-radius: 11px; }
+.tema-opcao:disabled { cursor: default; }
+.tema-amostra { height: 64px; padding: 10px; border-radius: 7px; overflow: hidden; position: relative; }
+.tema-mini-card { z-index: 1; }
+.tema-rotulo { display: flex; align-items: flex-start; gap: 6px; padding-right: 15px; font-weight: 600; }
+.tema-emoji { flex-shrink: 0; }
+.tema-legenda { display: block; font-size: 10px; line-height: 1.45; color: var(--cor-texto-secundario); min-height: 29px; }
+.tema-check { bottom: 39px; right: 10px; }
+.tema-novo { position: absolute; top: 13px; right: 13px; border-radius: 20px; padding: 1px 6px; color: var(--btn-destaque-texto); background: var(--btn-destaque); font-size: 9px; font-weight: 700; }
+.tema-amostra[data-tema-estilo="metal"] { border-color: var(--btn-destaque); background-image: repeating-linear-gradient(0deg, #ffffff05 0 1px, transparent 1px 4px); }
+.tema-amostra[data-tema-estilo="aurora"] { background-image: radial-gradient(ellipse at top left, #5eead433, transparent 65%), radial-gradient(ellipse at bottom right, #a78bfa44, transparent 65%); }
+
+/* Automail: aço, bordas de latão e um círculo de transmutação gravado no cabeçalho. */
+html[data-tema-estilo="metal"] body { background-image: repeating-linear-gradient(0deg, #ffffff03 0 1px, transparent 1px 4px); }
+html[data-tema-estilo="metal"] header {
+  position: relative; overflow: hidden; isolation: isolate; padding: 12px;
+  border: 1px solid var(--btn-destaque); border-radius: 6px;
+  background: linear-gradient(110deg, #d4af3714, transparent 55%), var(--bg-card);
+  box-shadow: inset 0 1px #ffffff16, inset 0 -2px #00000050, 0 4px 12px #00000020;
+}
+html[data-tema-estilo="metal"] header::before {
+  content: ''; position: absolute; pointer-events: none; z-index: -1; width: 196px; height: 196px;
+  right: 12px; top: -70px; border: 1px solid var(--btn-destaque); border-radius: 50%; opacity: .18;
+  background: url('assets/alquimia.svg') center / contain no-repeat;
+  box-shadow: inset 0 0 0 9px var(--bg-card), inset 0 0 0 10px var(--btn-destaque), inset 0 0 0 36px var(--bg-card), inset 0 0 0 37px var(--btn-destaque);
+}
+html[data-tema-estilo="metal"] h1 { font-family: Georgia, 'Times New Roman', serif; color: var(--btn-destaque); letter-spacing: .02em; }
+html[data-tema-estilo="metal"] .card, html[data-tema-estilo="metal"] details { border-radius: 6px; box-shadow: inset 0 1px #ffffff0b, 0 2px 5px #00000018; }
+html[data-tema-estilo="metal"] details > summary { color: var(--cor-texto); }
+html[data-tema-estilo="metal"] .card.voce { border-color: var(--btn-destaque); }
+html[data-tema-estilo="metal"] .card.sem { background-image: url('assets/alquimia.svg'), radial-gradient(circle at 90% 50%, #00b4d814, transparent 55%); background-size: 140px 140px, auto; background-position: right center, center; background-repeat: no-repeat; }
+
+/* Um pulso lento, sem alterar o texto nem a dimensão do cartão. */
+@keyframes pulsoAlquimico {
+  from { box-shadow: 0 0 8px rgba(var(--tema-energia-rgb), .2), inset 0 0 10px rgba(var(--tema-energia-rgb), .08); }
+  to { box-shadow: 0 0 18px rgba(var(--tema-energia-rgb), .5), inset 0 0 10px rgba(var(--tema-energia-rgb), .1); }
+}
+html[data-tema-pulso="true"] .card-alerta,
+html[data-tema-pulso="true"] .card.atraso,
+html[data-tema-pulso="true"] li.atraso,
+html[data-tema-pulso="true"] .card.sem {
+  border: 1px solid var(--tema-energia); animation: pulsoAlquimico 2s ease-in-out infinite alternate;
+}
+
+/* Aurora: uma faixa de luz discreta, restrita ao cabeçalho. */
+html[data-tema-estilo="aurora"] header {
+  border: 1px solid var(--borda-fina); border-radius: 12px; padding: 12px;
+  background: radial-gradient(ellipse at top left, #5eead424, transparent 65%), radial-gradient(ellipse at bottom right, #a78bfa33, transparent 65%), var(--bg-card);
+}
+html[data-tema-estilo="aurora"] .card.voce { border-color: var(--btn-destaque); box-shadow: 0 0 16px #5eead40c; }
+@media (prefers-reduced-motion: reduce) {
+  html[data-tema-pulso="true"] .card-alerta,
+  html[data-tema-pulso="true"] .card.atraso,
+  html[data-tema-pulso="true"] li.atraso,
+  html[data-tema-pulso="true"] .card.sem { animation: none; box-shadow: 0 0 8px rgba(var(--tema-energia-rgb), .2); }
+}
+@media (max-width: 340px) { .tema-opcoes { grid-template-columns: 1fr; } .tema-legenda { min-height: 0; } .tema-check { bottom: 25px; } }
+html[data-tema-modo="escuro"] .tipo-trabalho { background: color-mix(in srgb, var(--cor-ok) 12%, var(--bg-card)) !important; color: var(--cor-ok) !important; }
+html[data-tema-modo="escuro"] .tipo-folga,
+html[data-tema-modo="escuro"] .tipo-feriado { background: color-mix(in srgb, var(--cor-aviso) 12%, var(--bg-card)) !important; color: var(--cor-aviso) !important; }
+html[data-tema-modo="escuro"] .tipo-ferias { background: color-mix(in srgb, var(--cor-link) 12%, var(--bg-card)) !important; color: var(--cor-link) !important; }
+html[data-tema-modo="escuro"] .tipo-atestado { background: var(--bg-perigo) !important; color: var(--cor-erro) !important; }
+
+/* 6.3: registros industriais, aço automail e alquimia — recursos locais. */
+html[data-tema-estilo="metal"] body {
+ background: radial-gradient(ellipse at top, #514638, #2b251e 100%);
+ border: 7px solid #5d4f3e;
+ border-image: linear-gradient(#74634e,#3c3227) 12;
+ color: var(--cor-texto); font-family: Georgia,'Times New Roman',serif;
+ box-shadow: inset 0 0 20px #0009;
+}
+html[data-tema-estilo="metal"] header {
+ background: linear-gradient(#514434,#2f271e); border: 2px solid #1a1612;
+ border-radius: 4px; padding: 12px 8px; gap: 8px;
+ box-shadow: inset 0 1px 3px #ffffff33,0 3px 6px #0008;
+}
+html[data-tema-estilo="metal"] h1 { color:#ebdcb9; text-transform:uppercase;letter-spacing:1px;text-shadow:2px 2px 2px #000;font-size:15px; }
+html[data-tema-estilo="metal"] details { background:#26282c;border:2px solid #4a3e31; }
+html[data-tema-estilo="metal"] summary {background:linear-gradient(#5c412f,#3a261a);border:1px solid #231610;color:#e2cca0!important;border-radius:3px;padding:7px 9px;box-shadow:inset 0 1px #ffffff20;}
+html[data-tema-estilo="metal"] .card {background:linear-gradient(135deg,#2b313d,#1c2029);border:3px solid #6d5b47;border-radius:8px;position:relative;isolation:isolate;box-shadow:0 4px 8px #0008,inset 0 1px 1px #ffffff10;}
+html[data-tema-estilo="metal"] .card::before {content:'';position:absolute;inset:4px;pointer-events:none;background:radial-gradient(circle at 3px 3px,#a58a68 0 2px,#211a11 2px 3px,transparent 3px),radial-gradient(circle at calc(100% - 3px) 3px,#a58a68 0 2px,#211a11 2px 3px,transparent 3px);z-index:-1;}
+html[data-tema-estilo="metal"] .card.sem,
+html[data-tema-estilo="metal"] #contatos .card {background-image:url('assets/alquimia.svg'),linear-gradient(135deg,#443725,#211a11);background-repeat:no-repeat;background-size:140px,auto;background-position:right center,center;border-color:#b89047;box-shadow:0 0 15px #d4af3733,inset 0 0 20px #0008;}
+html[data-tema-estilo="metal"] [data-analista="Gabriel"] {background-image:url('assets/ouroboros.svg'),linear-gradient(135deg,#2b313d,#1c2029);background-position:right 10px top 8px,center;background-size:48px,auto;background-repeat:no-repeat;}
+html[data-tema-estilo="metal"] .nome {text-shadow:0 1px 2px #000;}
+html[data-tema-estilo="metal"] [data-analista="Evangela"] .nome {color:#d8a9db!important;}
+html[data-tema-estilo="metal"] [data-analista="Abigail"] .nome {color:#9bcee9!important;}
+html[data-tema-estilo="metal"] #status.ok {color:#ff9b9b;text-shadow:0 0 8px #e6394640;}
+html[data-tema-modo="escuro"] input:focus-visible,html[data-tema-modo="escuro"] select:focus-visible,html[data-tema-modo="escuro"] button:focus-visible {outline:2px solid var(--cor-link);outline-offset:2px;}
+html[data-tema-modo="escuro"] dialog {box-shadow:0 16px 56px #0009;}
+.descanso-opcao {display:flex;flex-direction:column;gap:3px;margin:5px 0;font-family:system-ui,sans-serif;}
+.descanso-opcao button {font-size:11px;text-align:left;}
+.descanso-opcao small {font-size:10px;color:var(--cor-texto-secundario);}
+.descanso-ativo {color:var(--cor-aviso);font:11px system-ui;margin-top:5px;}
+.descanso-ativo span {display:block;font-variant-numeric:tabular-nums;}
+@media(max-width:380px){html[data-tema-estilo="metal"] body{padding:7px;border-width:4px}html[data-tema-estilo="metal"] header{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){html[data-tema-estilo="metal"] *{animation:none!important;}}
+html[data-tema-modo="escuro"] .nome[data-nome] {filter:none;}
+html[data-tema-modo="escuro"] [data-nome="Natalie"] {color:#ff9bc5!important;}
+html[data-tema-modo="escuro"] [data-nome="Cássio"] {color:#ffb18a!important;}
+html[data-tema-modo="escuro"] [data-nome="Evangela"] {color:#d8a9ef!important;}
+html[data-tema-modo="escuro"] [data-nome="Gabriel"] {color:#a1c4ff!important;}
+html[data-tema-modo="escuro"] [data-nome="Kazaf"] {color:#9bdfae!important;}
+html[data-tema-modo="escuro"] [data-nome="Rayla"] {color:#e8cd91!important;}
+html[data-tema-modo="escuro"] [data-nome="Abigail"] {color:#9bcee9!important;}
+html[data-tema-modo="escuro"] [data-nome="Alisson"] {color:#bdcadb!important;}
+
+/* LoL: ornamentos Hextech locais, legíveis em painel estreito. */
+html[data-tema-estilo="hextech"] body {background:radial-gradient(at top right,#0b425044,transparent 45%),linear-gradient(135deg,#010a13,#091428);border:4px solid #785a28;box-shadow:inset 0 0 20px #00d5ff20;padding:10px;}
+html[data-tema-estilo="hextech"] header {padding:13px 8px;background:linear-gradient(#1d2830,#071019);border:1px solid #a48750;box-shadow:inset 0 0 0 3px #010a13;}
+html[data-tema-estilo="hextech"] h1 {font:700 21px Georgia,serif;color:#f0e6d2;text-shadow:0 2px 3px #000;letter-spacing:.03em;}
+html[data-tema-estilo="hextech"] button {background:linear-gradient(#1e2328,#111318);border:1px solid #a48750;color:#cdbe91;border-radius:2px;font-weight:700;box-shadow:0 2px 4px #0008;}
+html[data-tema-estilo="hextech"] button:not(:disabled):hover,html[data-tema-estilo="hextech"] .tabs button.ativo {background:linear-gradient(#1a6074,#10384f);border-color:#00c8c8;color:#f0e6d2;box-shadow:inset 0 0 8px #00c8c833,0 0 8px #00c8c833;}
+html[data-tema-estilo="hextech"] summary {padding:8px 10px;background:linear-gradient(#1e2932,#0d171e);border-bottom:2px solid #785a28;color:#f0e6d2;text-transform:uppercase;letter-spacing:.05em;font-size:11px;}
+html[data-tema-estilo="hextech"] summary::marker {content:'♦ ';color:#00c8c8;}
+html[data-tema-estilo="hextech"] details {border:1px solid #785a28;border-radius:2px;}
+html[data-tema-estilo="hextech"] input,html[data-tema-estilo="hextech"] select {border-color:#a48750;border-radius:1px;}
+html[data-tema-estilo="hextech"] .card {border:1px solid #785a28;border-left-width:4px;background:linear-gradient(130deg,#0e1621,#091428);border-radius:2px;}
+html[data-tema-estilo="hextech"] .card.sem {background:#1d0b0e;border:2px solid #ae2c2c;border-left-width:5px;box-shadow:0 0 10px #ae2c2c33;}
+html[data-tema-estilo="hextech"] .card.sem h3::before {content:'⚔ ';color:#eeb7a0;}
+html[data-tema-estilo="hextech"] #status.ok {color:#00e676;text-shadow:0 0 5px #00e67655;}
+html[data-tema-estilo="hextech"] .nome::before {content:'♦';display:inline-flex;align-items:center;justify-content:center;width:25px;height:25px;vertical-align:middle;margin-right:6px;border:1px solid #a48750;border-radius:50%;color:#5ce1e6;background:#091428;}
+html[data-tema-estilo="hextech"] .nome[data-nome="Natalie"]::before {content:'';background:url('assets/lol/Morgana.png') center/cover;}
+html[data-tema-estilo="hextech"] .nome[data-nome="Cássio"]::before {content:'';background:url('assets/lol/Graves.png') center/cover;}
+html[data-tema-estilo="hextech"] .tema-amostra {background-image:linear-gradient(135deg,#010a13,#091428);border:1px solid #a48750;}
+/* Fluminense: faixas tricolores, textura discreta de gramado e grená. */
+html[data-tema-estilo="tricolor"] body {border-top:6px solid #f5ecd8;background:repeating-linear-gradient(90deg,#ffffff02 0 40px,transparent 40px 80px),#091f19;}
+html[data-tema-estilo="tricolor"] header {padding:14px 10px;border:1px solid #94b99f;border-bottom:4px solid #f5ecd8;border-radius:8px;background:linear-gradient(115deg,#154b36 45%,#721f34 46%);}
+html[data-tema-estilo="tricolor"] h1 {color:#fff9ef;font:700 20px Georgia,serif;text-shadow:0 2px 3px #0008;}
+html[data-tema-estilo="tricolor"] summary {padding:7px 9px;color:#fff9ef;background:linear-gradient(100deg,#154b36,#411c25);border-left:4px solid #f5ecd8;border-radius:4px;}
+html[data-tema-estilo="tricolor"] .tabs button.ativo {background:#8f243e;color:#fff;border-color:#e9c5cd;box-shadow:inset 0 -3px #f5ecd8;}
+html[data-tema-estilo="tricolor"] .card {border-left:5px solid #e9d8b5;background:linear-gradient(120deg,#11352b,#0d2921);}
+html[data-tema-estilo="tricolor"] .card.voce {border-left-color:#dd90a1;border-top:2px solid #f5ecd8;}
+html[data-tema-estilo="tricolor"] .card.sem {background:#3a1720;border-color:#cc6d80;}
+html[data-tema-estilo="tricolor"] .tema-amostra {background-image:linear-gradient(115deg,#154b36 45%,#f5ecd8 45% 49%,#721f34 49%);}
+.descanso-opcao small{max-width:175px;white-space:normal;line-height:1.35;}
+
+/* Nuvens: céu local, superfícies claras e contraste nos painéis. */
+html[data-tema-estilo="nuvens"] {color-scheme:light;background:#d9eff7;}
+html[data-tema-estilo="nuvens"] body {background:#d9eff7 url('assets/nuvens.svg') center top/cover fixed;color:#243d50;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;}
+html[data-tema-estilo="nuvens"] header {padding:8px 0 12px;gap:8px;}
+html[data-tema-estilo="nuvens"] h1 {display:inline-block;margin:0;padding:8px 15px;border:1px solid #fff;border-radius:24px;background:#ffffffdc;box-shadow:0 4px 15px #6d9ab333;color:#243d50;}
+html[data-tema-estilo="nuvens"] h2 {color:#243d50;}
+html[data-tema-estilo="nuvens"] #status {background:#ffffffc9;padding:8px 10px;border-radius:16px;border:1px solid #ffffffdb;box-shadow:0 3px 12px #52768b16;}
+html[data-tema-estilo="nuvens"] details {background:linear-gradient(135deg,#2c4961f2,#1f3547f5);border:1px solid #ffffffb3;border-radius:18px;box-shadow:0 8px 24px #314a6830;padding:10px;color:#f5fbff;backdrop-filter:blur(10px);}
+html[data-tema-estilo="nuvens"] details summary {color:#fff9e9;padding:5px 2px;font-weight:650;}
+html[data-tema-estilo="nuvens"] details label,html[data-tema-estilo="nuvens"] details .meta,html[data-tema-estilo="nuvens"] details th,html[data-tema-estilo="nuvens"] details .vazio {color:#dcecf7;}
+html[data-tema-estilo="nuvens"] details .erro {color:#ffd0d6;}
+html[data-tema-estilo="nuvens"] details .descanso-ativo {color:#ffe1a1;}
+html[data-tema-estilo="nuvens"] .descanso-opcao small {color:#e1edf5;}
+html[data-tema-estilo="nuvens"] button {border:1px solid #a5c9da;border-radius:22px;background:linear-gradient(#ffffff,#e6f2f7);color:#30566e;padding:6px 10px;box-shadow:0 4px 9px #38596b1c,inset 0 1px #fff;font-weight:600;transition:box-shadow .18s,background .18s;}
+html[data-tema-estilo="nuvens"] button:not(:disabled):hover {background:#fff;box-shadow:0 5px 13px #5b9bbe40;}
+html[data-tema-estilo="nuvens"] button.primario,html[data-tema-estilo="nuvens"] .tabs button.ativo {background:linear-gradient(#2c7ea9,#21658c);color:#fff;border-color:#21658c;}
+html[data-tema-estilo="nuvens"] button.primario:not(:disabled):hover,html[data-tema-estilo="nuvens"] .tabs button.ativo:hover {background:#195778;}
+html[data-tema-estilo="nuvens"] .botao-icone,html[data-tema-estilo="nuvens"] .botao-info {padding:0;}
+html[data-tema-estilo="nuvens"] button.ghost {padding:1px 5px;border:0;box-shadow:none;}
+html[data-tema-estilo="nuvens"] button.perigo {background:#fff0f2;color:#a62232;border-color:#c98d98;}
+html[data-tema-estilo="nuvens"] input:not([type=checkbox]):not([type=radio]),html[data-tema-estilo="nuvens"] select,html[data-tema-estilo="nuvens"] textarea {border:1px solid #a7c7d8;border-radius:12px;background:#ffffffed;color:#243d50;padding:5px 7px;}
+html[data-tema-estilo="nuvens"] input::placeholder,html[data-tema-estilo="nuvens"] textarea::placeholder {color:#526a7b;}
+html[data-tema-estilo="nuvens"] input[type=checkbox] {accent-color:#216b94;width:17px;height:17px;vertical-align:middle;}
+html[data-tema-estilo="nuvens"] input:focus-visible,html[data-tema-estilo="nuvens"] select:focus-visible,html[data-tema-estilo="nuvens"] button:focus-visible,html[data-tema-estilo="nuvens"] a:focus-visible {outline:2px solid #277ca8;outline-offset:2px;box-shadow:0 0 0 4px #91c8e94d;}
+html[data-tema-estilo="nuvens"] .cfg {border-collapse:separate;border-spacing:0 7px;}
+html[data-tema-estilo="nuvens"] .cfg td {vertical-align:middle;padding-right:5px;}
+html[data-tema-estilo="nuvens"] .nome {display:inline-block;padding:3px 9px;border:1px solid #fff;border-radius:20px;background:radial-gradient(ellipse at top,#fff,#edf7fb);box-shadow:0 3px 7px #0002;filter:none;white-space:nowrap;}
+html[data-tema-estilo="nuvens"] [data-nome="Natalie"] {color:#9f2263!important;}
+html[data-tema-estilo="nuvens"] [data-nome="Cássio"] {color:#a34b07!important;}
+html[data-tema-estilo="nuvens"] [data-nome="Evangela"] {color:#6038a8!important;}
+html[data-tema-estilo="nuvens"] [data-nome="Gabriel"] {color:#1c5ea6!important;}
+html[data-tema-estilo="nuvens"] [data-nome="Kazaf"] {color:#166534!important;}
+html[data-tema-estilo="nuvens"] [data-nome="Rayla"] {color:#806009!important;}
+html[data-tema-estilo="nuvens"] [data-nome="Abigail"] {color:#0b647b!important;}
+html[data-tema-estilo="nuvens"] [data-nome="Alisson"] {color:#435469!important;}
+html[data-tema-estilo="nuvens"] .card {background:#ffffffed;border:1px solid #fff;border-radius:18px;box-shadow:0 5px 18px #56798f25;}
+html[data-tema-estilo="nuvens"] .card.voce {background:#edf8fff2;border-color:#468ab2;}
+html[data-tema-estilo="nuvens"] .card.sem {background:#fff6df;border-color:#ba9646;}
+html[data-tema-estilo="nuvens"] .card .meta {color:#435f73;}
+html[data-tema-estilo="nuvens"] dialog {background:#f7fcff;border-color:#a4c6d8;border-radius:20px;color:#243d50;box-shadow:0 16px 50px #2f52634d;}
+html[data-tema-estilo="nuvens"] .tema-amostra {background:#d9eff7 url('assets/nuvens.svg') center/cover;}
+@media(max-width:380px){html[data-tema-estilo="nuvens"] body{padding:8px}html[data-tema-estilo="nuvens"] details{padding:7px}html[data-tema-estilo="nuvens"] button{padding:5px 8px}html[data-tema-estilo="nuvens"] .nome{padding:3px 6px}}
+@media(prefers-reduced-motion:reduce){html[data-tema-estilo="nuvens"] button{transition:none}}
+
+/* Nuvens 3D: volumes vetoriais com luz superior e sombra azul suave. */
+html[data-tema-estilo="nuvens"] header::before {content:'';display:block;flex:0 0 100%;height:54px;background:url('assets/nuvem-3d.svg') left center/105px 65px no-repeat,url('assets/nuvem-3d.svg') right center/130px 80px no-repeat;pointer-events:none;}
+html[data-tema-estilo="nuvens"] details > summary {position:relative;padding-right:55px;min-height:32px;}
+html[data-tema-estilo="nuvens"] details > summary::after {content:'';position:absolute;right:0;top:-5px;width:62px;height:42px;background:url('assets/nuvem-3d.svg') center/contain no-repeat;pointer-events:none;filter:drop-shadow(0 3px 4px #081b2b33);}
+html[data-tema-estilo="nuvens"] .card {background-image:url('assets/nuvem-3d.svg');background-repeat:no-repeat;background-position:right 6px top 2px;background-size:80px 50px;}
+html[data-tema-estilo="nuvens"] .card h3 {padding-right:74px;min-height:24px;}
+html[data-tema-estilo="nuvens"] .tema-amostra {background-image:url('assets/nuvem-3d.svg'),linear-gradient(#bce3f1,#f7fcff);background-position:center;background-size:80%,cover;background-repeat:no-repeat;}
+@media(max-width:380px){html[data-tema-estilo="nuvens"] header::before{height:42px;background-size:85px 53px,105px 65px}}
+
+/* Campeões distintos para todos os analistas no tema LoL. */
+html[data-tema-estilo="hextech"] .nome[data-nome="Evangela"]::before {content:'';background:url('assets/lol/Ahri.png') center/cover;}
+html[data-tema-estilo="hextech"] .nome[data-nome="Gabriel"]::before {content:'';background:url('assets/lol/Garen.png') center/cover;}
+html[data-tema-estilo="hextech"] .nome[data-nome="Kazaf"]::before {content:'';background:url('assets/lol/Yasuo.png') center/cover;}
+html[data-tema-estilo="hextech"] .nome[data-nome="Rayla"]::before {content:'';background:url('assets/lol/Lux.png') center/cover;}
+html[data-tema-estilo="hextech"] .nome[data-nome="Abigail"]::before {content:'';background:url('assets/lol/Ashe.png') center/cover;}
+html[data-tema-estilo="hextech"] .nome[data-nome="Alisson"]::before {content:'';background:url('assets/lol/Ekko.png') center/cover;}

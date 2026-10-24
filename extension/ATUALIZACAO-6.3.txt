@@ -1,0 +1,11 @@
+FILA DE PEDIDOS — VERSÃO 6.3.0
+
+1. Atualize os arquivos da extensão e clique em Recarregar em chrome://extensions (ou opera://extensions). Esta atualização é necessária para os novos botões e o novo visual. Extraia o ZIP antes de escolher a pasta em Carregar sem compactação. Preserve a instalação atual para manter seu nome e preferências.
+2. Recarregue a página AF para carregar o ícone flutuante.
+3. Selecione seu nome em Eu sou. O botão “[seu nome] · ocultação ON/OFF” fica abaixo. A preferência é guardada por analista neste navegador. ON mostra um ícone no canto superior direito da página AF: passe o mouse para abrir e retire para recolher; você pode mover o mouse do ícone para o painel. OFF remove esse ícone e mantém o painel lateral/janela pelo clique na barra.
+4. O ícone da barra do Chrome/Opera continua abrindo por clique. O navegador não permite detectar o mouse sobre ele para abrir automaticamente.
+5. No campo Analistas, cada linha tem “Descanso 20 min”. Somente o usuário identificado pode iniciar sua pausa: duas por dia, total de 40 minutos, com no mínimo 20 minutos contínuos em ON entre elas. O dia segue America/Fortaleza. Pausas são contadas ao iniciar e não se acumulam para o dia seguinte. É preciso estar ON e concluir ou liberar o pedido atual antes de iniciar.
+6. O banco mantém o cronômetro; fechar a extensão ou trocar de computador não renova o limite. Ao terminar, volta a ON. A extensão sincroniza o término; com todos os painéis fechados, o servidor processa o retorno em até um minuto. Não recebe novos pedidos durante o descanso.
+7. Durante a pausa, a troca de status fica bloqueada também nos links pessoais e versões antigas da extensão. O intervalo comum de almoço continua separado. Os links pessoais mostram a pausa como Intervalo com início e fim; o novo botão fica na extensão.
+8. Fullmetal Alchemist: moldura de bronze envelhecido, cabeçalho industrial, aço automail, parafusos e círculos alquímicos. Símbolo geométrico de ouroboros local no card de Gabriel, sem imagens externas. Outros temas recebem foco de teclado mais visível e diálogos melhor destacados. Animações respeitam redução de movimento.
+9. O catálogo online continua permitindo novas paletas sem novos ZIPs. Alterações no funcionamento da extensão e novos efeitos locais exigem atualizar os arquivos.

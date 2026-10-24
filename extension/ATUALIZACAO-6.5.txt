@@ -1,0 +1,11 @@
+AF OPERAÇÃO — 6.5.0 — TEMA NUVENS
+
+Extraia este ZIP e substitua os arquivos da pasta da extensão atual. Clique em Recarregar na instalação existente em chrome://extensions ou opera://extensions. Atualize a página AF para aplicar os scripts novos. Mantenha a mesma instalação para preservar identificação e preferências.
+
+No botão de temas do cabeçalho, escolha Nuvens.
+O tema tem céu azul e nuvens suaves desenhadas em SVG local, títulos e botões claros arredondados, painéis azul-profundo, nomes dos analistas em etiquetas brancas, seletores claros e cores individuais legíveis. O fundo não depende de sites externos.
+As notificações do AF e da extensão acompanham a escolha de Nuvens, com balões claros e texto escuro.
+A escolha continua salva por analista neste navegador. Se a equipe fixou um tema, ele mantém prioridade.
+
+A atualização dos arquivos é necessária para o novo efeito Nuvens. A paleta já está publicada no catálogo online; versões anteriores continuam recebendo os dados de cor, mas precisam desta versão para a composição completa.
+Os temas anteriores, o descanso de 20 minutos e a correção do painel flutuante estão preservados.

@@ -1,0 +1,5 @@
+NOTIFICAÇÕES DA EQUIPE
+
+O servidor entrega avisos de status e escala a todos os analistas identificados. A leitura de cada aviso é individual.
+Os balões aparecem com a página do AF aberta e visível ou com o painel da extensão aberto. Os avisos também podem ser consultados no sino.
+Para instalar a versão com catálogo online, siga LEIA-ME-ATUALIZAR.txt.

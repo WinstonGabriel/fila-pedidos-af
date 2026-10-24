@@ -1,0 +1,26 @@
+/* Valores declarativos da equipe. Não recebe CSS ou JavaScript do servidor. */
+body {
+  font-size: var(--fila-fonte, 13px);
+  padding: var(--fila-margem, 12px);
+  max-width: var(--fila-largura, none);
+  margin-left: auto;
+  margin-right: auto;
+}
+h1 { font-size: calc(var(--fila-fonte, 13px) + 3px); }
+.card h3 { font-size: var(--fila-fonte, 13px); }
+.meta, #status { font-size: calc(var(--fila-fonte, 13px) - 1px); }
+.card {
+  padding: var(--fila-espaco, 8px);
+  margin: var(--fila-espaco, 8px) 0;
+  border-radius: var(--fila-raio, 8px);
+}
+details { margin: var(--fila-espaco, 8px) 0; border-radius: var(--fila-raio, 8px); }
+button { border-radius: var(--fila-raio-botao, 6px); }
+.linha, .janela, .tabs { gap: calc(var(--fila-espaco, 8px) - 2px); }
+html[data-cabecalho="coluna"] header { align-items: flex-start; flex-direction: column; }
+html[data-cabecalho="coluna"] .acoes-cabecalho { margin-left: 0; }
+@media (min-width: 560px) {
+  #painel[data-cartoes="grade"] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--fila-espaco, 8px); }
+  #painel[data-cartoes="grade"] > :not([data-card-analista]) { grid-column: 1 / -1; }
+  #painel[data-cartoes="grade"] > [data-card-analista] { min-width: 0; margin: 0; }
+}

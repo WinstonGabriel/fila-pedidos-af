@@ -2,49 +2,96 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
+  <title>AF Operação</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/icon16.png">
   <link rel="stylesheet" href="popup.css">
   <link rel="stylesheet" href="temas.css">
+  <link rel="stylesheet" href="cliente.css">
+  <link rel="stylesheet" href="gestao.css">
 </head>
 <body>
-  <header>
-    <h1>Fila de Pedidos</h1>
+  <header data-bloco="cabecalho">
+    <h1>AF Operação</h1>
     <div class="acoes-cabecalho">
       <button id="btnLer" title="Ler a página novamente">↻ Ler página</button>
       <button id="btnTema" class="botao-icone" title="Personalizar tema" aria-label="Personalizar tema" aria-haspopup="dialog" aria-expanded="false" aria-controls="temaDialogo">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18h1.2a2 2 0 0 0 1.6-3.2 1.5 1.5 0 0 1 1.2-2.4h1.2A3.8 3.8 0 0 0 21 11.6 8.8 8.8 0 0 0 12 3Z"/><circle cx="7.5" cy="10" r=".8"/><circle cx="11" cy="7" r=".8"/><circle cx="15.5" cy="8" r=".8"/><circle cx="6.8" cy="14" r=".8"/></svg>
       </button>
-      <button id="btnHist" class="botao-info" title="Histórico de ações" aria-label="Histórico de ações" aria-haspopup="dialog">i</button>
+      <button id="btnAvisos" class="botao-icone botao-sino" title="Notificações" aria-label="Notificações" aria-haspopup="dialog" aria-controls="avisosDialogo">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4M12 2V1"/></svg><span id="avisosContagem" class="sino-contagem" hidden></span>
+      </button>
+      <button id="btnHist" class="botao-info" title="Ranking e histórico" aria-label="Ranking e histórico de ações" aria-haspopup="dialog">i</button>
     </div>
   </header>
-  <div id="status" role="status" aria-live="polite"></div>
+  <div id="status" data-bloco="status" role="status" aria-live="polite"></div>
 
-  <details id="conn">
+  <details id="conn" data-bloco="conexao">
     <summary>Conexão</summary>
     <div class="linha">
       <input type="text" id="codigo" placeholder="Código da equipe" autocomplete="off">
       <button id="btnCodigo" class="primario">Salvar</button>
     </div>
     <div id="coordInfo" class="meta"></div>
+    <div id="clienteInfo" class="meta" role="status"></div>
     <div id="perm"></div>
     <div id="usos"></div>
   </details>
 
-  <div class="linha"><label for="eu">Eu sou</label><select id="eu"></select><button id="btnLiberarNome" title="Liberar seu nome para outro analista">Liberar</button></div>
+  <div class="linha" data-bloco="identificacao"><label for="eu">Eu sou</label><select id="eu"></select><button id="btnLiberarNome" title="Liberar seu nome para outro analista">Liberar</button></div>
 
-  <nav class="tabs">
+  <div class="linha"><button id="btnOcultacao" aria-pressed="false">Ocultação OFF</button></div><p class="meta">Ocultação ON: passe o mouse no ícone flutuante no canto da página. OFF: use o painel fixo.</p><div class="linha"><button id="btnPermitirGlobal">Permitir painel em outros sites</button></div><p id="painelGlobalInfo" class="meta" role="status"></p>
+  <nav class="tabs" data-bloco="abas">
     <button data-mode="intervalo">Intervalo</button>
     <button data-mode="pilha">Pilha</button>
   </nav>
 
-  <details id="cfg" open>
+  <details id="gestao" data-bloco="gestao">
+    <summary>Coordenação / Gestão</summary>
+    <form id="gestaoLogin">
+      <div class="linha"><select id="gestaoPerfil" aria-label="Perfil de acesso"><option>Coordenação</option><option>Gestão</option></select><input id="gestaoResponsavel" placeholder="Seu nome" aria-label="Nome do responsável" required minlength="2" maxlength="80"></div>
+      <div class="linha"><label for="gestaoPin">Código de 4 números</label><input id="gestaoPin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" required><button type="submit" class="primario">Entrar</button></div>
+    </form>
+    <div id="gestaoSessao" hidden><div class="linha"><span id="gestaoIdentidade" class="meta"></span><button id="gestaoSair">Sair</button><button id="gestaoTrocarPin">Trocar código</button></div>
+      <form id="gestaoPinForm" hidden><div class="linha"><input id="gestaoNovoPin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required placeholder="Novo código" aria-label="Novo código de gestão"><input id="gestaoConfirmarPin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required placeholder="Confirmar" aria-label="Confirmar novo código"><button type="submit">Salvar código</button></div></form>
+    </div>
+    <p id="gestaoFeedback" class="meta" role="status" aria-live="polite"></p>
+    <div class="gestao-acoes"><button id="escalaAbrir">▦ Ver escala</button><button id="relatorioAbrir" data-so-gestao hidden>Relatórios</button></div>
+    <div id="gestaoOpcoes" hidden>
+      <div class="linha"><label for="gestaoAlvo">Analista</label><select id="gestaoAlvo"></select></div>
+      <div id="gestaoOperacao"></div>
+      <section class="prefbox rotas-lojas" aria-labelledby="rotaTitulo"><h3 id="rotaTitulo">Direcionar lojas</h3>
+        <p class="meta">Os pedidos automáticos destas lojas aguardam o analista escolhido ficar ON e livre. Use o nome completo da loja como aparece no AF.</p>
+        <form id="rotaForm"><label for="rotaLoja">Loja</label><input id="rotaLoja" list="rotaSugestoes" placeholder="Busque ou informe a loja" maxlength="200" required autocomplete="off"><datalist id="rotaSugestoes"></datalist>
+        <div class="linha"><label for="rotaAnalista">Direcionar para</label><select id="rotaAnalista" required></select><button type="submit" class="primario">Salvar</button></div></form>
+        <div id="rotaLista"></div><p class="meta">Reservas já existentes e vínculos feitos pela gestão mantêm o destino escolhido. As regras de Força de Vendas continuam valendo.</p>
+      </section>
+      <div class="prefbox"><label for="gestaoLojas">Lojas de preferência do analista selecionado</label><textarea id="gestaoLojas" rows="2" placeholder="Uma loja por linha"></textarea><button id="gestaoSalvarLojas">Salvar lojas</button></div>
+      <div class="prefbox"><label for="gestaoPedido">Vincular pedido ao analista selecionado</label><div class="linha"><input id="gestaoPedido" placeholder="ID ou link do pedido"><button id="gestaoVincular" class="primario">Vincular</button></div><label><input id="gestaoTransferir" type="checkbox"> Autorizar transferência se já estiver com outra pessoa</label></div>
+      <div class="gestao-acoes"><button id="gestaoOff">Colocar OFF e devolver pedido atual</button><button id="gestaoLiberarNome">Colocar OFF e liberar nome</button></div>
+    </div>
+  </details>
+
+  <details id="cfg" data-bloco="analistas" open>
     <summary>Analistas</summary>
     <div id="cfgBody"></div>
   </details>
 
-  <section id="painel"></section>
+  <section id="painel" data-bloco="pedidos"></section>
 
   <dialog id="hist" aria-labelledby="histTitulo">
     <div class="hist-cabecalho"><h2 id="histTitulo">Histórico de ações</h2><button id="histFechar" class="ghost" aria-label="Fechar histórico">×</button></div>
+    <section class="ranking" aria-labelledby="rankingTitulo">
+      <div class="ranking-cabecalho">
+        <h3 id="rankingTitulo">Top 3 <span>· Conclusões</span></h3>
+        <div class="ranking-periodos" role="group" aria-label="Período do ranking">
+          <button type="button" data-ranking="hoje" aria-pressed="true">Hoje</button>
+          <button type="button" data-ranking="geral" aria-pressed="false">Geral</button>
+        </div>
+      </div>
+      <ol id="rankingPodio" class="ranking-podio" aria-label="Três analistas com mais pedidos concluídos"></ol>
+      <p id="rankingResumo" class="meta" role="status" aria-live="polite"></p>
+    </section>
     <div class="hist-filtros">
       <select id="histFiltro" aria-label="Filtrar por analista"></select>
       <select id="histAcao" aria-label="Filtrar por ação">
@@ -66,12 +113,57 @@
   <dialog id="temaDialogo" aria-labelledby="temaTitulo" aria-describedby="temaDescricao">
     <div class="hist-cabecalho"><h2 id="temaTitulo">Seu tema</h2><button id="temaFechar" class="ghost" aria-label="Fechar temas">×</button></div>
     <p id="temaDescricao" class="meta">Escolha a aparência desta extensão neste computador.</p>
+    <div class="tema-catalogo-barra"><span id="temaCatalogoStatus" class="meta" role="status">Temas disponíveis offline</span><button id="temaAtualizar" type="button">Atualizar temas</button></div>
     <div id="temaOpcoes" class="tema-opcoes" role="group" aria-label="Temas disponíveis"></div>
     <p id="temaFeedback" class="meta" role="status" aria-live="polite">A escolha é salva automaticamente só aqui.</p>
   </dialog>
 
+  <dialog id="escalaDialogo" aria-labelledby="escalaTitulo">
+    <div class="hist-cabecalho"><h2 id="escalaTitulo">Escala da equipe</h2><button id="escalaFechar" aria-label="Fechar escala">×</button></div>
+    <div class="escala-tabs" role="tablist" aria-label="Área da escala"><button data-escala-tab="escala" role="tab" aria-selected="true">Escala</button><button data-escala-tab="relatorio" role="tab" data-so-gestao hidden>Relatórios</button><button data-escala-tab="importar" role="tab" data-so-gestao hidden>Importar PDF / Excel</button></div>
+    <p id="escalaFeedback" class="escala-feedback meta" role="status" aria-live="polite"></p>
+    <section id="escalaSecao">
+      <div class="escala-barra"><button id="escalaAnterior" aria-label="Período anterior">‹</button><input id="escalaReferencia" type="date" aria-label="Data da escala"><button id="escalaProximo" aria-label="Próximo período">›</button><select id="escalaModo" aria-label="Visão da escala"><option value="semana">Semanal</option><option value="mes">Mensal</option></select><select id="escalaAnalista" aria-label="Filtrar escala por analista"></select></div>
+      <div class="gestao-acoes"><button id="escalaAtualizar">Atualizar</button><button id="escalaLote" data-so-gestao hidden>Editar período / repetir semana</button><button id="escalaJanela">Abrir em janela maior</button></div>
+      <p id="escalaPeriodo" class="meta"></p><div id="escalaGrade" class="escala-scroll"></div>
+      <div class="escala-legenda"><span class="tipo-trabalho">Trabalho</span><span class="tipo-folga">Folga</span><span class="tipo-feriado">Feriado</span><span class="tipo-ferias">Férias</span><span class="tipo-atestado">Atestado</span><span>— Não definido</span></div>
+      <p class="meta">Todos podem consultar. Somente Coordenação/Gestão altera horários, folgas e feriados. Horários sem saída mostram apenas a entrada informada.</p>
+    </section>
+    <section id="relatorioSecao" hidden>
+      <div class="escala-barra"><label>De <input id="relatorioInicio" type="date"></label><label>Até <input id="relatorioFim" type="date"></label><select id="relatorioAnalista" aria-label="Filtrar relatório por analista"></select><button id="relatorioGerar">Consultar</button><button id="relatorioExportar" disabled>Exportar CSV</button></div>
+      <p class="meta">Dias previstos, presença confirmada e atividade registrada são medidas diferentes. O sistema não presume presença a partir da escala.</p><div id="relatorioResultado"></div>
+    </section>
+    <section id="importarSecao" hidden>
+      <p>Selecione uma escala em PDF, XLSX, XLS ou CSV. O reconhecimento ocorre neste computador; somente os dias revisados serão salvos.</p>
+      <div class="escala-barra"><label>Mês de referência <input id="importarMes" type="month" required></label><input id="importarArquivo" type="file" accept=".pdf,.xlsx,.xls,.csv" aria-label="Arquivo de escala"></div>
+      <p class="meta">O mês/ano de referência completa datas sem ano. Aceita analistas nas linhas e datas nas colunas, ou colunas Analista, Data, Entrada, Saída e Tipo. PDFs digitalizados passam por OCR; confira todos os dados.</p>
+      <div class="gestao-acoes"><button id="importarReconhecer" class="primario">Reconhecer e revisar</button><button id="importarCancelar" hidden>Cancelar leitura</button></div><div id="importarAvisos" class="escala-feedback meta"></div><div id="escalaPrevia"></div>
+      <label id="importarConfirmacao" hidden><input id="importarRevisei" type="checkbox"> Revisei nomes, datas e turnos selecionados.</label><div class="gestao-acoes"><button id="importarAplicar" class="primario" hidden>Salvar dias selecionados</button></div>
+    </section>
+  </dialog>
+  <dialog id="escalaEditar" aria-labelledby="escalaEditarTitulo">
+    <form id="escalaForm">
+      <div class="hist-cabecalho"><h2 id="escalaEditarTitulo">Editar escala</h2><button type="button" id="escalaEditarFechar" aria-label="Fechar edição">×</button></div>
+      <div class="escala-editar-grade"><label class="largo">Analista<select id="editarAnalista"></select></label><label>De<input id="editarDe" type="date" required></label><label>Até<input id="editarAte" type="date" required></label>
+        <fieldset class="largo"><legend>Aplicar nestes dias da semana</legend><div id="editarSemana" class="gestao-acoes"></div></fieldset>
+        <label class="largo">Situação<select id="editarTipo"><option value="trabalho">Trabalho</option><option value="folga">Folga</option><option value="feriado">Feriado</option><option value="ferias">Férias</option><option value="atestado">Atestado</option><option value="nao_definido">Não definido</option></select></label><label>Entrada<input id="editarInicio" type="time"></label><label>Saída<input id="editarFim" type="time"></label>
+        <label class="largo">Presença confirmada<select id="editarPresenca"><option value="manter">Manter informação existente</option><option value="nao_informada">Não informada</option><option value="trabalhou">Trabalhou</option><option value="ausente">Ausente</option></select></label><label class="largo">Observação<textarea id="editarObservacao" maxlength="500" rows="2"></textarea></label>
+      </div><p id="editarFeedback" class="escala-feedback meta" role="status"></p><button type="submit" class="primario">Salvar alterações</button>
+    </form>
+  </dialog>
+  <dialog id="avisosDialogo" aria-labelledby="avisosTitulo"><div class="hist-cabecalho"><h2 id="avisosTitulo">Notificações</h2><button id="avisosFechar" aria-label="Fechar avisos">×</button></div><div class="gestao-acoes"><button id="avisosAtualizar">Atualizar</button><button id="avisosLidos">Marcar como lidos</button></div><p id="avisosResumo" class="meta" role="status"></p><div id="avisosLista"></div></dialog>
+
+  <script src="efeito-core.js"></script>
+  <script src="pedido-animacao.js"></script>
+  <script src="aparencia.js"></script>
+  <script src="catalogo-temas.js"></script>
   <script src="temas.js"></script>
   <script src="config.js"></script>
+  <script src="vendor/xlsx.full.min.js"></script>
+  <script src="vendor/tesseract.min.js"></script>
+  <script src="escala-importar.js"></script>
+  <script src="baloes.js"></script>
+  <script src="gestao.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

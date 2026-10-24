@@ -1,0 +1,27 @@
+AF OPERAÇÃO 6.7.0 — ANIMAÇÃO DE NOVO PEDIDO
+
+ATUALIZAÇÃO ÚNICA
+Extraia este ZIP e substitua os arquivos da pasta atual. Em chrome://extensions ou opera://extensions, clique em Recarregar na instalação existente. Atualize a página AF. Preserve a instalação atual para manter nome, código e preferências.
+
+COMO FUNCIONA
+Selecione seu nome em Eu sou e use a extensão normalmente. Quando um novo pedido entrar em andamento para você, aparece um aviso breve no canto, com seu nome, número do pedido e animação do tema escolhido:
+• Nuvens: nuvem com volume flutuando.
+• Fullmetal Alchemist: círculo de transmutação.
+• LoL: cristal Hextech.
+• Fluminense: bandeira/escudo tricolor estilizado.
+• Aurora: fitas de luz.
+• Homem-Aranha: teia.
+• Game of Thrones: cristal de gelo.
+• Homem de Ferro: energia em chamas.
+• Caveiras: caveira estilizada.
+• Demais temas: pulso de confirmação nas cores do tema.
+
+O aviso não abre pedidos, não muda a distribuição e não bloqueia cliques. A consulta usa a identidade reservada no banco, sem indicar pedidos de outros analistas. Reservas ainda não ativas não disparam a animação.
+Na primeira sincronização, o pedido atual vira referência: instalar/reabrir a extensão não anima um pedido antigo. Cada recebimento novo aparece uma vez neste navegador, mesmo com painel e várias abas AF abertos. Em computadores diferentes, cada instalação tem sua própria referência.
+O alerta acompanha a tela visível: página AF ou painel da extensão. Com tudo fechado ou oculto, não há notificação push do sistema. Eventos antigos não ficam acumulados para reaparecer depois. Uma interrupção de conexão pode impedir o aviso; confira a fila normalmente.
+Redução de movimento do sistema mostra somente o aviso textual, sem movimento.
+
+CONTROLE ONLINE — SEM OUTRO ZIP PARA AJUSTAR
+A configuração central animacoes_pedido_v1 já está ativa. É possível ativar/desativar globalmente, por tema ou por analista; ajustar duração de 1,2 a 6 segundos, cor e escolher um dos efeitos já incluídos.
+Peça o ajuste desejado informando o tema ou o analista. Exemplo: “desative as animações de Gabriel” ou “deixe a animação Nuvens em 2 segundos”. Não é necessário baixar outra versão para esses ajustes.
+Efeitos gráficos totalmente novos, fora do motor instalado, ainda exigem atualização da extensão. O catálogo de temas e as preferências individuais continuam funcionando.

@@ -1,0 +1,4 @@
+Avatares: Morgana, Graves, Ahri, Garen, Yasuo, Lux, Ashe, Ekko.
+Riot Games / Data Dragon 16.21.1.
+Fonte: https://developer.riotgames.com/docs/lol#data-dragon
+AF Operação não é endossado pela Riot Games. League of Legends e seus personagens pertencem à Riot Games.

@@ -1,0 +1,12 @@
+AF OPERAÇÃO 6.8.1 — AVATARES LOL PARA OS OITO ANALISTAS
+
+Natalie: Morgana
+Cássio: Graves
+Evangela: Ahri
+Gabriel: Garen
+Kazaf: Yasuo
+Rayla: Lux
+Abigail: Ashe
+Alisson: Ekko
+
+Os avatares aparecem no tema LoL · Hextech e são carregados de arquivos locais. Extraia o ZIP e substitua os arquivos da instalação atual, clique em Recarregar nas extensões e atualize a página. Preserve a instalação atual para manter nome e preferências.

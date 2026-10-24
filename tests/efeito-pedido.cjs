@@ -1,0 +1,34 @@
+const vm=require('node:vm'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{webcrypto}=require('node:crypto');
+const root=path.resolve(__dirname,'../extension');const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync(root+'/efeito-core.js','utf8'),ctx);const core=ctx.FilaEfeitoCore;
+const catalogo=JSON.parse(fs.readFileSync(root+'/catalogo-temas.json'));
+for(const tema of catalogo.temas){const o=core.normalizar({schema:1},tema,'Gabriel');assert(core.EFEITOS.includes(o.efeito));assert(o.ativo)}
+assert.equal(core.normalizar({schema:1},catalogo.temas.find(t=>t.id==='nuvens'),'Gabriel').efeito,'nuvens');
+assert.equal(core.normalizar({schema:1},catalogo.temas.find(t=>t.id==='fullmetal-alchemist'),'Gabriel').efeito,'alquimia');
+assert.equal(core.normalizar({schema:1,ativo:false},null,'Gabriel').ativo,false);
+assert.equal(core.normalizar({schema:1,analistas:{Gabriel:{ativo:false}}},null,'Gabriel').ativo,false);
+assert.equal(core.normalizar({schema:1,analistas:{Gabriel:{ativo:false}}},null,'Rayla').ativo,true);
+assert.equal(core.normalizar({schema:1,temas:{nuvens:{efeito:'hextech',duracao_ms:1500}}},{id:'nuvens'},'Gabriel').efeito,'hextech');
+const safe=core.normalizar({schema:1,duracao_ms:900000,temas:{nuvens:{efeito:'javascript:alert(1)',cor:'url(https://bad.test)'}}},{id:'nuvens',estilo:'nuvens'},'Gabriel');assert.equal(safe.efeito,'nuvens');assert.equal(safe.duracao,3200);assert.equal(safe.cor,'#38bdf8');
+let event={nome:'Gabriel',ultimo_evento:12,pedido:{id:'123',evento_id:12}};
+assert.equal(core.escolherEvento(event,undefined).novo,false);assert.equal(core.escolherEvento(event,12).novo,false);assert.equal(core.escolherEvento(event,11).novo,true);assert.equal(core.escolherEvento({...event,pedido:null},11).novo,false);
+console.log('Motor: 13 temas, controles remotos, duração limitada, dados seguros e referência inicial passaram');
+(async()=>{
+ const listeners=[],saved={local:{codigo:'teste',token:'token',me:'Gabriel'}},requests=[];let data;
+ const clone=v=>v===undefined?undefined:structuredClone(v);
+ const c={console,crypto:webcrypto,TextEncoder,Date,chrome:{runtime:{id:'ext',getURL:p=>'chrome-extension://ext/'+p,onMessage:{addListener:f=>listeners.push(f)}},storage:{local:{get:async key=>({[key]:clone(saved[key])}),set:async v=>Object.assign(saved,clone(v)),remove:async key=>delete saved[key]}}},contextoPublicoAvisos:async s=>s.token+'hash',chaveAvisos:s=>JSON.stringify([s?.codigo,s?.token,s?.me]),rpcAvisosBackground:async fn=>{requests.push(fn);return clone(data)}};
+ vm.createContext(c);for(const f of ['efeito-core.js','pedido-background.js'])vm.runInContext(fs.readFileSync(root+'/'+f,'utf8'),c);
+ const send=(msg,url='https://af.mateusmais.com.br/fila')=>new Promise(resolve=>{const result=listeners[0](msg,{id:'ext',url},resolve);if(!result)resolve(null)});
+ const poll=async()=>{vm.runInContext('pedidoConsultadoEm=0',c);return send({tipo:'fila-atualizar-pedido-efeito'})};
+ data={nome:'Gabriel',ultimo_evento:10,pedido:{id:'antigo',evento_id:10,quando:new Date().toISOString()},config:{schema:1,ativo:true},servidor_em:new Date().toISOString()};
+ await poll();assert.equal(saved.afPedidoEfeitoUI,undefined);
+ data={...data,ultimo_evento:11,pedido:{id:'novo',evento_id:11,quando:new Date().toISOString()}};await poll();assert.equal(saved.afPedidoEfeitoUI.pedido,'novo');
+ const key=saved.afPedidoEfeitoUI.chave;
+ const claims=await Promise.all([send({tipo:'fila-consumir-pedido-efeito',chave:key}),send({tipo:'fila-consumir-pedido-efeito',chave:key})]);assert.equal(claims.filter(r=>r.ok).length,1);
+ await poll();assert.equal(saved.afPedidoEfeitoUI.consumido,true);
+ assert.equal(await send({tipo:'fila-consumir-pedido-efeito',chave:key},'https://evil.test/'),null);
+ data={...data,nome:'Rayla',ultimo_evento:12};await poll();assert.equal(saved.afPedidoEfeitoUI,undefined);
+ data={...data,nome:'Gabriel',ultimo_evento:12,pedido:{id:'novo2',evento_id:12,quando:new Date().toISOString()}};await poll();saved.local.me='Rayla';assert.equal((await send({tipo:'fila-consumir-pedido-efeito',chave:saved.afPedidoEfeitoUI.chave})).ok,false);
+ saved.local.me='Gabriel';data={...data,ultimo_evento:13,pedido:{id:'atrasado',evento_id:13,quando:new Date(Date.now()-120000).toISOString()},servidor_em:new Date().toISOString()};await poll();assert.notEqual(saved.afPedidoEfeitoUI.pedido,'atrasado');
+ data={...data,config:{schema:1,ativo:false}};await poll();assert.equal(saved.afEfeitoConfig.ativo,false);
+ console.log('Worker: pedido próprio, uma exibição por evento, concorrência entre abas, recarga, troca de usuário, expiração e OFF remoto passaram');
+})().catch(e=>{console.error(e);process.exitCode=1});

@@ -1,0 +1,14 @@
+BEGIN;
+DO $patch$
+DECLARE c jsonb; temas jsonb; revisao int;
+BEGIN
+ SELECT valor::jsonb INTO c FROM public.fila_config WHERE chave='temas_catalogo_v1' FOR UPDATE;
+ IF c IS NULL OR c->>'schema'<>'1' THEN RAISE EXCEPTION 'Catálogo incompatível'; END IF;
+ SELECT coalesce(jsonb_agg(t ORDER BY ord),'[]'::jsonb) INTO temas FROM jsonb_array_elements(c->'temas') WITH ORDINALITY x(t,ord) WHERE t->>'id' NOT IN ('league-of-legends','fluminense');
+ temas:=temas || $novos$[{"id": "league-of-legends", "nome": "LoL · Hextech", "icone": "♦", "descricao": "Azul profundo, ouro de Runeterra e luz Hextech.", "modo": "escuro", "estilo": "hextech", "pulso": false, "novo": true, "energia": "#00c8c8", "cores": {"fundo": "#010a13", "cartao": "#0e1621", "texto": "#f0e6d2", "texto_secundario": "#cdbe91", "primaria": "#075b70", "primaria_hover": "#086e85", "primaria_texto": "#ffffff", "destaque": "#00c8c8", "destaque_hover": "#5ce1e6", "destaque_texto": "#010a13", "borda": "#785a28", "link": "#5ce1e6", "botao": "#1e2328", "botao_hover": "#1a3249", "borda_botao": "#a48750", "input": "#010a13", "desativado": "#282e35", "erro": "#ff9292", "sucesso": "#00e676", "aviso": "#efd26c", "vazio": "#b1bac4", "fundo_aviso": "#1d0b0e", "borda_aviso": "#ae2c2c", "fundo_perigo": "#3b242b", "borda_perigo": "#ad5363", "meu_pedido": "#0e1e2e", "borda_meu_pedido": "#00c8c8", "chip": "#20252b", "atraso": "#3b242b", "borda_atraso": "#f87171"}}, {"id": "fluminense", "nome": "Fluminense", "icone": "⚽", "descricao": "Verde, grená e branco em um painel tricolor.", "modo": "escuro", "estilo": "tricolor", "pulso": false, "novo": true, "energia": "#f5ecd8", "cores": {"fundo": "#091f19", "cartao": "#11352b", "texto": "#fff9ef", "texto_secundario": "#d0ded6", "primaria": "#8f243e", "primaria_hover": "#741b32", "primaria_texto": "#ffffff", "destaque": "#f5ecd8", "destaque_hover": "#ffffff", "destaque_texto": "#163c30", "borda": "#598b72", "link": "#f0ce88", "botao": "#173e32", "botao_hover": "#225541", "borda_botao": "#79a38c", "input": "#09271d", "desativado": "#282e35", "erro": "#ff9292", "sucesso": "#82e0a2", "aviso": "#efd26c", "vazio": "#b1bac4", "fundo_aviso": "#3a1720", "borda_aviso": "#cc6d80", "fundo_perigo": "#3b242b", "borda_perigo": "#ad5363", "meu_pedido": "#173e32", "borda_meu_pedido": "#e9d8b5", "chip": "#20252b", "atraso": "#3b242b", "borda_atraso": "#f87171"}}]$novos$::jsonb;
+ revisao:=greatest((c->>'revisao')::int+1,3);
+ UPDATE public.fila_config SET valor=jsonb_set(jsonb_set(c,'{temas}',temas),'{revisao}',to_jsonb(revisao))::text WHERE chave='temas_catalogo_v1';
+ UPDATE public.fila_config SET valor=revisao::text WHERE chave='temas_catalogo_revisao';
+END $patch$;
+COMMIT;
+SELECT jsonb_build_object('revisao',valor::jsonb->'revisao','total',jsonb_array_length(valor::jsonb->'temas')) FROM public.fila_config WHERE chave='temas_catalogo_v1';

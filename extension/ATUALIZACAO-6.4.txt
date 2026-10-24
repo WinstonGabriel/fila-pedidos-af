@@ -1,0 +1,25 @@
+AF OPERAÇÃO — VERSÃO 6.4.0
+
+COMO ATUALIZAR
+Extraia o ZIP. Substitua os arquivos da pasta da extensão já instalada, mantendo o mesmo local. Em chrome://extensions ou opera://extensions, clique em Recarregar na instalação atual. Atualize a página AF uma vez para carregar os novos scripts. Não remova a instalação atual: assim você preserva nome, código e preferências.
+
+OCULTAÇÃO
+O painel flutuante preserva a abertura em uma recarga da mesma aba. Não fecha por uma troca temporária de foco nem quando a página AF redesenha seu conteúdo. Ao sair com o mouse da área do ícone e do painel, ele recolhe. Uma recarga completa ainda reconstrói a página e o painel reaparece aberto depois do carregamento. O ícone da barra do navegador continua abrindo por clique.
+
+DESCANSO 20 MINUTOS — COMO USAR
+1. Escolha seu próprio nome em Eu sou.
+2. No campo Analistas, mude seu status para ON.
+3. Conclua ou libere seu pedido em andamento, se houver.
+4. Clique em Descanso 20 min na sua linha e confirme.
+O botão agora explica qualquer bloqueio: outro usuário, falta de conexão, status diferente de ON, pedido em andamento, espera entre pausas ou limite diário.
+São duas pausas por dia, de 20 min cada, com ao menos 20 minutos contínuos em ON entre elas. A contagem diária segue America/Fortaleza e fica no banco, independente de fechar a extensão. Não inicia pausa real durante os testes. As regras de 6.3 continuam válidas.
+
+TEMAS E NOTIFICAÇÕES
+Abra o botão de temas no cabeçalho e escolha LoL · Hextech ou Fluminense. Os demais temas continuam disponíveis.
+LoL: azul profundo, ouro envelhecido, detalhes ciano, cards Hextech e avatares locais de Morgana (Natalie) e Graves (Cássio). Sem dependência de imagens externas durante o uso.
+Fluminense: verde, grená e branco, faixas tricolores e textura discreta de gramado.
+O tema pessoal fica salvo por analista neste navegador. Se a equipe fixou um tema, ele continua tendo prioridade e a preferência pessoal é preservada.
+Os balões de notificação no AF e dentro da extensão recebem as cores do usuário destinatário, não as cores do analista cujo status mudou. Avisos já visíveis também acompanham a mudança de tema. Esta atualização não adiciona notificações push do sistema operacional.
+
+VALIDAÇÃO
+Testes de catálogo, identidade, motivos do descanso, preservação do painel ao recarregar, foco temporário e temas dos avisos incluídos em tests. O banco mantém as regras de descanso já verificadas na versão 6.3.

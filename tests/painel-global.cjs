@@ -1,0 +1,22 @@
+const vm=require('node:vm'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{webcrypto}=require('node:crypto');
+(async()=>{
+const local={afPainelFlutuante:{ativo:true,nome:'Gabriel'}},session={},registered=[],injetados=[],mensagens=[];let granted=false;
+const abas={4:{id:4,url:'https://exemplo.test/pagina'},5:{id:5,url:'https://outro.test/'},6:{id:6,url:'https://af.mateusmais.com.br/'}};
+const event=()=>({addListener(){}}),store=obj=>({get:async k=>({[k]:obj[k]}),set:async d=>Object.assign(obj,d),remove:async k=>delete obj[k]});
+const c={URL,crypto:webcrypto,Date,Promise,console,chrome:{runtime:{id:'ext',getURL:p=>'chrome-extension://ext/'+p,onInstalled:event(),onStartup:event(),onMessage:{addListener:f=>mensagens.push(f)}},storage:{local:store(local),session:store(session)},permissions:{contains:async()=>granted,onAdded:event(),onRemoved:event()},scripting:{getRegisteredContentScripts:async()=>registered.slice(),registerContentScripts:async ds=>registered.push(...ds),updateContentScripts:async ds=>{registered.splice(0,registered.length,...ds)},unregisterContentScripts:async()=>registered.splice(0),executeScript:async d=>injetados.push(d)},tabs:{query:async()=>Object.values(abas),get:async id=>abas[id],onRemoved:event()}}};
+vm.createContext(c);vm.runInContext(fs.readFileSync(path.resolve(__dirname,'../extension/painel-global-background.js'),'utf8'),c);await new Promise(setImmediate);
+assert.equal(registered.length,0);assert.equal(await c.AFOrigemPermitida(abas[4].url),false);assert.equal(await c.AFOrigemPermitida(abas[6].url),true);
+granted=true;await vm.runInContext('atualizarRegistro(true)',c);assert.equal(registered.length,1);assert.equal(registered[0].matches.length,2);assert.equal(injetados.length,2);assert(registered[0].excludeMatches.includes('https://af.mateusmais.com.br/*'));
+const send=(msg,sender)=>new Promise(resolve=>{const r=mensagens[0](msg,{id:'ext',...sender},resolve);if(!r)resolve(null)});
+const ticket=await send({tipo:'af-autorizar-painel'},{url:abas[4].url,tab:{id:4}});assert(ticket.ok);const token=ticket.url.split('#')[1];assert.equal(token.length,72);
+const frame={url:'chrome-extension://ext/painel-global.html',tab:{id:4}};
+assert((await send({tipo:'af-validar-painel',token},frame)).ok);
+assert.equal((await send({tipo:'af-validar-painel',token:'errado'},frame)).ok,false);
+assert.equal((await send({tipo:'af-validar-painel',token},{...frame,tab:{id:5}})).ok,false);
+assert.equal(await send({tipo:'af-validar-painel',token},{...frame,id:'outra-ext'}),null);
+abas[4].url='https://outra-origem.test/';assert.equal((await send({tipo:'af-validar-painel',token},frame)).ok,false);abas[4].url='https://exemplo.test/pagina';
+local.afPainelFlutuante.ativo=false;assert.equal((await send({tipo:'af-validar-painel',token},frame)).ok,false);local.afPainelFlutuante.ativo=true;
+assert.equal(await c.AFOrigemPermitida('chrome://settings/'),false);assert.equal(await c.AFOrigemPermitida('file:///tmp/x'),false);
+granted=false;await vm.runInContext('atualizarRegistro(false)',c);assert.equal(registered.length,0);assert.equal(local.afAlcancePainel.https,false);
+console.log('Painel global: permissão, injeção em abas abertas, exclusão AF, token por aba/origem, troca de página, OFF e revogação passaram');
+})();

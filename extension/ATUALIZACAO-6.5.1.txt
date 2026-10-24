@@ -1,0 +1,5 @@
+AF OPERAÇÃO 6.5.1 — NUVENS COM EFEITO 3D
+
+Nuvens com volume, iluminação branca e sombras azuladas no céu de fundo, no cabeçalho, nas seções e nos cards. Desenhos vetoriais locais: funcionam sem carregar imagens externas.
+
+Extraia o ZIP e substitua os arquivos da pasta atual. Clique em Recarregar na instalação existente em chrome://extensions ou opera://extensions e atualize a página AF. Escolha Nuvens no seletor de temas. Preserve a instalação atual para manter identificação e preferências.

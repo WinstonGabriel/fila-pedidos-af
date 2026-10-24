@@ -1,0 +1,23 @@
+AF OPERAÇÃO 6.8.0 — PAINEL FLUTUANTE EM OUTROS SITES
+
+INSTALAÇÃO
+1. Extraia este ZIP e substitua os arquivos da pasta da extensão já instalada.
+2. Em chrome://extensions ou opera://extensions, clique em Recarregar na instalação atual. Mantenha a mesma instalação para preservar nome, código e preferências.
+3. Abra a extensão pelo clique no ícone da barra do navegador e selecione seu nome em Eu sou.
+4. Clique em Permitir painel em outros sites e aceite a permissão solicitada pelo navegador.
+5. Deixe Ocultação ON. O ícone flutuante aparece no canto dos sites HTTP/HTTPS autorizados. Passe o mouse nele para expandir o painel e retire para recolher. As abas já abertas recebem o recurso após a concessão, quando permitido pelo navegador; recarregue a página se necessário.
+
+SINCRONIZAÇÃO
+O painel preenche e atualiza o estado compartilhado pelo banco mesmo quando a aba visível não é do AF. Pedidos atribuídos, status, suporte, descanso e histórico acompanham a sincronização existente.
+A leitura de pedidos novos da tela AF continua exigindo uma aba AF disponível em alguma janela. Você pode navegar em outro site enquanto ela permanece aberta. Sem nenhuma aba AF, é possível consultar e operar os pedidos já conhecidos pelo banco; a extensão não lê pedidos novos de outro sistema por conta própria.
+Em outras páginas, o painel é pré-carregado na aba visível. Ao ocultar essa aba, a instância flutuante é liberada e volta a carregar ao retornar, reduzindo consultas duplicadas. O painel lateral aberto mantém seu funcionamento normal.
+As animações de novos pedidos também podem aparecer na página autorizada. Um iframe recolhido não deve consumir o aviso visível: o motor verifica a visibilidade da superfície.
+
+LIMITES DO NAVEGADOR
+O mouse abre o painel pelo ÍCONE FLUTUANTE DENTRO DA PÁGINA. O ícone nativo na barra do Chrome/Opera continua abrindo por CLIQUE: não oferece um evento de mouse que permita esse comportamento.
+Páginas internas como chrome://, opera://, nova aba protegida, lojas de extensões, visualizadores protegidos e outros sites com bloqueios do navegador podem não aceitar painéis injetados. Use o ícone da barra para abrir o painel lateral/janela nesses casos. A opção não se estende à área de trabalho nem a outros aplicativos.
+A permissão é opcional e pode ser revogada nas configurações da extensão. Ocultação OFF remove o ícone flutuante. O AF continua com o painel original sem exigir permissão para todos os sites.
+
+SEGURANÇA E RECURSOS PRESERVADOS
+O iframe de sites externos valida uma autorização temporária vinculada à aba e à origem antes de carregar o painel operacional. Os scripts não leem formulários nem raspam conteúdo desses sites. A leitura de pedidos permanece restrita à origem AF configurada.
+Inclui o botão Para suporte com ícone de engrenagem e chave, temas, animações, descanso de 20 minutos e histórico corrigido das versões anteriores.
