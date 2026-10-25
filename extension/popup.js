@@ -38,6 +38,8 @@ let syncEmCurso = null;
 let escolhendoNome = false;
 let acaoEmCurso = false;
 let distribuicaoEmCurso = null;
+let distribuicaoAssinatura = '';
+let distribuicaoPendente = false;
 let estadoLeitura = { lendo: false, erro: '' };
 let rede = { ok: false, msg: '', hora: '' };
 let zerarArmado = false;
@@ -632,7 +634,10 @@ async function lerCompleto(tab, contexto) {
     try {
       const r = await injetarLeitura(tab, RASPAGEM, RASPAGEM.tempoTotalMs + 5000);
       // Um filtro alterado durante a busca não pode receber resultados do filtro antigo.
-      if (r.contexto === contexto && paginasLidas.contexto === contexto) await aplicarLeitura(r, true, inicio);
+      if (r.contexto === contexto && paginasLidas.contexto === contexto) {
+        await aplicarLeitura(r, true, inicio);
+        distribuirAutomatico();
+      }
     } catch (e) { /* A tela mantém a cadência da equipe; as outras páginas serão tentadas novamente. */ }
     finally {
       ultimaCompleta = Date.now();
@@ -798,9 +803,9 @@ function candidatosAuto() {
   const essenciais = new Set(remote.atribuicoes.filter((a) => ['em_andamento','reservado','devolvido'].includes(a.status)).map((a) => a.pedido_id));
   const lista = [...pedidos.filter(ehPref), ...pedidos.filter((p) => !ehPref(p))];
   const ocup = ocupados();
-  const disponiveis = lista.filter((p) => !ocup.has(p.id)).slice(0, 500);
   const detalhes = lista.filter((p) => essenciais.has(p.id));
-  return [...new Map([...disponiveis, ...detalhes].map((p) => [p.id, p])).values()].slice(0, 1000)
+  const disponiveis = lista.filter((p) => !ocup.has(p.id) && !essenciais.has(p.id)).slice(0, Math.max(0, 1000 - detalhes.length));
+  return [...new Map([...detalhes, ...disponiveis].map((p) => [p.id, p])).values()].slice(0, 1000)
     .map((p) => ({ id: p.id, hora: p.hora, valor: p.valor, estab: p.estab, href: p.href, cat: p.cat || '', preferencia: ehPref(p) }));
 }
 
@@ -810,16 +815,22 @@ async function sincronizarAposAcao() {
 }
 
 async function distribuirAutomatico() {
-  if (distribuicaoEmCurso) return distribuicaoEmCurso;
-  if (acaoEmCurso || escolhendoNome || !rede.ok || !local.me || !cfg(local.me).ligado || usandoCache) return false;
+  if (distribuicaoEmCurso) {
+    if (JSON.stringify(candidatosAuto()) !== distribuicaoAssinatura) distribuicaoPendente = true;
+    return distribuicaoEmCurso;
+  }
+  if (acaoEmCurso || escolhendoNome || !rede.ok || (!local.me && !remote.coord) || usandoCache) return false;
   const registrados = new Set(remote.usuarios.map((u) => u.nome));
   const alguemLivre = ANALISTAS.some((n) => registrados.has(n) && cfg(n).ligado && !atualDe(n));
   const ocup = ocupados();
   const haPedidos = pedidos.some((p) => !ocup.has(p.id)) || remote.atribuicoes.some((a) => ['reservado','devolvido'].includes(a.status));
   if (!alguemLivre || !haPedidos) return false;
+  const pool = candidatosAuto();
+  distribuicaoAssinatura = JSON.stringify(pool);
+  distribuicaoPendente = false;
   distribuicaoEmCurso = (async () => {
     try {
-      const resultado = await rpc('fila_distribuir_auto', { p_candidatos: candidatosAuto() });
+      const resultado = await rpc('fila_distribuir_auto', { p_candidatos: pool });
       if (resultado?.distribuidos > 0) await sincronizarAposAcao();
       return true;
     } catch (e) {
@@ -827,7 +838,14 @@ async function distribuirAutomatico() {
       return false;
     } finally { renderPainel(); renderStatus(); }
   })();
-  try { return await distribuicaoEmCurso; } finally { distribuicaoEmCurso = null; }
+  try { return await distribuicaoEmCurso; } finally {
+    distribuicaoEmCurso = null;
+    distribuicaoAssinatura = '';
+    if (distribuicaoPendente) {
+      distribuicaoPendente = false;
+      queueMicrotask(() => distribuirAutomatico().catch(() => {}));
+    }
+  }
 }
 
 async function avancarPedido(n, tipo, id = atualDe(n)?.pedido_id) {
@@ -1004,7 +1022,7 @@ function renderPilha() {
     const atr = atrasado(a); // cronômetro oculto: só aparece como animação vermelha
     h += `<div data-card-analista data-analista="${esc(n)}" class="card ${n === local.me ? 'voce' : ''} ${atr ? 'atraso' : ''}"><h3>${nomeHtml(n)}${n === local.me ? ' (você)' : ''}</h3>${
       p
-        ? `<ul>${item(p, { atraso: atr })}</ul>${destinoLoja ? `<div class="meta">Loja direcionada para ${nomeHtml(destinoLoja)}</div>` : ''}${saiu ? `<div class="tag ok">✔ saiu da lista — feito por: ${nomeHtml(n)}</div>` : ''}
+        ? `<ul>${item(p, { atraso: atr })}</ul>${destinoLoja ? `<div class="meta">Loja direcionada para ${nomeHtml(destinoLoja)}</div>` : ''}${saiu ? '<div class="tag">Saiu da lista do AF · conclusão e origem da saída a confirmar</div>' : ''}
            <div class="linha">${podeAgirEm(n) ? `<button data-concluir="${n}" data-pedido="${esc(a.pedido_id)}" class="primario">✔ Concluí → próximo</button>` : ''}
            ${podeEditarContato() ? `<button data-contato="${n}" data-pedido="${esc(a.pedido_id)}" title="Marcar para contato e buscar o próximo para ${esc(n)}">📞 Para contato</button>` : ''}
            ${podeEditarContato() ? `<button data-suporte="${esc(n)}" data-pedido="${esc(a.pedido_id)}" title="Reter em suporte e buscar o próximo pedido">${FilaIconeSuporte.html(ICONE_SUPORTE)}Para suporte</button>` : ''}

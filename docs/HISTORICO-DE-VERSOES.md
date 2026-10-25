@@ -16,6 +16,7 @@ Este histórico consolida as notas presentes no pacote; não inventaria cada ver
 | 6.8.0 | Painel flutuante em outros sites autorizados, guard por aba/origem e permissão opcional |
 | 6.8.1 | Oito retratos distintos de campeões no tema LoL, empacotados localmente |
 | 6.8.2 | Imagem de Para suporte configurável online para a equipe, com validação de URL e alternativa local |
+| 6.8.3 | Distribuição por leitor identificado, nova tentativa para listas recebidas em paralelo e mensagem de saída sem atribuição indevida de conclusão |
 
 ## Revisão documental de 24/10/2026
 

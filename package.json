@@ -1,6 +1,6 @@
 {
   "name": "fila-pedidos-af",
-  "version": "6.8.2",
+  "version": "6.8.3",
   "private": true,
   "description": "AF Operação: extensão Manifest V3 com fila, gestão, temas e painel flutuante.",
   "engines": {
@@ -8,12 +8,13 @@
   },
   "scripts": {
     "check": "node scripts/check-extension.cjs",
-    "test": "npm run check && node tests/test-extension.cjs && node tests/catalogo-integration.cjs && node tests/individual-ui.cjs && node tests/notificacoes-tema.cjs && node tests/historico-origem.cjs && node tests/efeito-pedido.cjs && node tests/efeito-pedido-ui.cjs && node tests/painel-global.cjs && node tests/suporte.cjs && node tests/suporte-icone.cjs",
+    "test": "npm run check && node tests/test-extension.cjs && node tests/catalogo-integration.cjs && node tests/individual-ui.cjs && node tests/notificacoes-tema.cjs && node tests/historico-origem.cjs && node tests/efeito-pedido.cjs && node tests/efeito-pedido-ui.cjs && node tests/painel-global.cjs && node tests/suporte.cjs && node tests/suporte-icone.cjs && node tests/distribuicao-leitor.cjs",
     "prepare": "husky"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
+    "@electric-sql/pglite": "0.5.11",
     "husky": "^9.1.7",
     "jsdom": "26.1.0"
   }

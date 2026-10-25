@@ -1,0 +1,11 @@
+AF OPERAÇÃO 6.8.3 — DISTRIBUIÇÃO E CONCLUSÃO A CONFIRMAR
+
+Atualize os arquivos na MESMA pasta já instalada, preserve config.js, clique em Recarregar na extensão e atualize as páginas que usam o painel flutuante.
+
+Correções: um leitor identificado ou a gestão pode solicitar a distribuição para os analistas ON e disponíveis, mesmo que o próprio leitor esteja OFF. A elegibilidade de quem recebe continua validada no banco. Pedidos detectados durante uma requisição recebem outra tentativa imediatamente; o fim da leitura das outras páginas também solicita distribuição. O lote deixa de cortar em 500 candidatos e usa o limite de 1.000, reservando espaço aos detalhes dos pedidos já vinculados.
+
+Um pedido ativo que desaparece do AF passa a mostrar conclusão e origem da saída a confirmar. Desaparecer não comprova trabalho do analista nem aprovação automática. O registro humano de conclusão continua sendo uma ação explícita.
+
+Esta correção não implementa contagem presumida de aprovações automáticas. A conciliação automática e o relatório por origem dependem da identificação do registro confiável de aprovação no AF. Casos anteriores não foram reclassificados.
+
+A correção de banco está em supabase/migrations/20261025175646_distribuicao_por_leitor_identificado.sql no repositório. Ela preserva assinatura, autorização e permissões e recusa uma definição divergente da esperada.

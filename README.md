@@ -1,6 +1,8 @@
 # AF Operação
 
-Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.8.2.**
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.8.3.**
+
+A correção 6.8.3 melhora o disparo da distribuição e diferencia saída da lista de conclusão humana. Veja [captura e origem da aprovação](docs/CAPTURA-E-APROVACAO-AUTOMATICA.md) para as correções e a integração de aprovações automáticas ainda pendente de validação no AF.
 
 ## Documentação completa
 
