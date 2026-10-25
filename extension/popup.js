@@ -69,6 +69,7 @@ function normalizarCliente(valor) {
       leitura_ms: numeroCliente(valor.leitura_ms, 2000, 60000, INTERVALO_LEITURA_MS),
       layout: {
         tema: l.tema === 'local' || FilaCatalogoTemas.validoId(l.tema) ? l.tema : 'local',
+        icone_suporte_url: FilaIconeSuporte.normalizar(l.icone_suporte_url),
         titulo: typeof l.titulo === 'string' && l.titulo.trim() ? l.titulo.trim().slice(0, 80) : 'AF Operação',
         fonte_px: numeroCliente(l.fonte_px, 11, 20, 13), espacamento_px: numeroCliente(l.espacamento_px, 4, 20, 8),
         margem_px: numeroCliente(l.margem_px, 4, 24, 12), raio_px: numeroCliente(l.raio_px, 0, 20, 8),
@@ -120,6 +121,7 @@ const segundosLeitura = () => (intervaloLeitura() / 1000).toLocaleString('pt-BR'
 
 function aplicarCliente() {
   const l = cliente.config.layout;
+  FilaIconeSuporte.definir(l.icone_suporte_url);
   const raiz = document.documentElement;
   for (const [propriedade, valor] of Object.entries({
     '--fila-fonte': l.fonte_px, '--fila-espaco': l.espacamento_px, '--fila-margem': l.margem_px,
@@ -168,6 +170,7 @@ async function receberCliente(valor) {
   cliente.config = proxima;
   cliente.erro = '';
   cliente.cache = false;
+  FilaIconeSuporte.definir(proxima.layout.icone_suporte_url);
   if (mudou) aplicarCliente();
   if (mudou || !local.clienteCompartilhado) {
     local.clienteCompartilhado = { contexto: cliente.contexto, config: proxima };
@@ -1004,7 +1007,7 @@ function renderPilha() {
         ? `<ul>${item(p, { atraso: atr })}</ul>${destinoLoja ? `<div class="meta">Loja direcionada para ${nomeHtml(destinoLoja)}</div>` : ''}${saiu ? `<div class="tag ok">✔ saiu da lista — feito por: ${nomeHtml(n)}</div>` : ''}
            <div class="linha">${podeAgirEm(n) ? `<button data-concluir="${n}" data-pedido="${esc(a.pedido_id)}" class="primario">✔ Concluí → próximo</button>` : ''}
            ${podeEditarContato() ? `<button data-contato="${n}" data-pedido="${esc(a.pedido_id)}" title="Marcar para contato e buscar o próximo para ${esc(n)}">📞 Para contato</button>` : ''}
-           ${podeEditarContato() ? `<button data-suporte="${esc(n)}" data-pedido="${esc(a.pedido_id)}" title="Reter em suporte e buscar o próximo pedido">${ICONE_SUPORTE}Para suporte</button>` : ''}
+           ${podeEditarContato() ? `<button data-suporte="${esc(n)}" data-pedido="${esc(a.pedido_id)}" title="Reter em suporte e buscar o próximo pedido">${FilaIconeSuporte.html(ICONE_SUPORTE)}Para suporte</button>` : ''}
            ${podeAgirEm(n) ? `<button data-liberar="${n}" data-pedido="${esc(a.pedido_id)}" ${destinoLoja === n ? 'disabled title="Solicite à gestão outro destino para esta loja ou pedido"' : 'title="Devolver à fila para redistribuir a outro analista ON"'}>↩ Liberar</button>` : ''}</div>`
         : `<div class="vazio">${cfg(n).ligado ? 'Aguardando pedido disponível…' : esc(window.FilaGestao?.rotuloStatus(cfg(n).atividade || 'off') || 'OFF') + ' · sem pedido atual'}</div>`
     }${reservadosDe(n).length ? `<div class="meta">Reservados${n === local.me ? ' para você' : ''} (próximos):</div><ul>${reservadosDe(n)
@@ -1029,7 +1032,7 @@ function renderPilha() {
       .join('')}</ul></div>`;
   }
   const ss = suportes();
-  if (ss.length) h += `<div class="card sem"><h3>${ICONE_SUPORTE}Para suporte (${ss.length})</h3><p class="meta">Retidos: não voltam à distribuição enquanto estiverem aqui.</p><ul>${ss.map(c=>`<li><a href="#" data-open="${esc(c.pedido_id)}">${esc(c.pedido_id)}</a><span class="meta">${esc(c.hora)} · ${esc(c.valor)} · ${esc(c.estab)}<br>pedido de ${nomeHtml(c.analista)}</span>${c.href ? `<button class="ghost" data-copiar="${esc(c.href)}" title="Copiar link">⧉</button>` : ''}${podeEditarContato() ? `<button data-rmsuporte="${esc(c.pedido_id)}" title="Remover de suporte e devolver à distribuição">↩ Remover</button>` : ''}</li>`).join('')}</ul></div>`;
+  if (ss.length) h += `<div class="card sem"><h3>${FilaIconeSuporte.html(ICONE_SUPORTE)}Para suporte (${ss.length})</h3><p class="meta">Retidos: não voltam à distribuição enquanto estiverem aqui.</p><ul>${ss.map(c=>`<li><a href="#" data-open="${esc(c.pedido_id)}">${esc(c.pedido_id)}</a><span class="meta">${esc(c.hora)} · ${esc(c.valor)} · ${esc(c.estab)}<br>pedido de ${nomeHtml(c.analista)}</span>${c.href ? `<button class="ghost" data-copiar="${esc(c.href)}" title="Copiar link">⧉</button>` : ''}${podeEditarContato() ? `<button data-rmsuporte="${esc(c.pedido_id)}" title="Remover de suporte e devolver à distribuição">↩ Remover</button>` : ''}</li>`).join('')}</ul></div>`;
   const saidos = usandoCache || leitura.parcial
     ? []
     : remote.atribuicoes
@@ -1184,6 +1187,10 @@ function fecharHist() {
 
 /* ---------- eventos ---------- */
 document.addEventListener('DOMContentLoaded', async () => {
+  document.addEventListener('fila:icone-suporte', () => renderTudo());
+  document.addEventListener('error', e => {
+    if (e.target?.classList?.contains('icone-suporte-remoto')) FilaIconeSuporte.falhou(e.target.getAttribute('src'));
+  }, true);
   document.addEventListener('fila:atualizar-catalogo', () => sincronizarCatalogo(remote.janela.temas_catalogo_revisao, true));
   await loadLocal();
   window.FilaGestao?.iniciar();

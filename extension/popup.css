@@ -98,3 +98,5 @@ li.atraso { border-radius: 6px; padding: 4px; }
 .ranking-sem-dados .ranking-nome { color: var(--cor-texto-secundario); font-weight: 400; font-size: 10px; }
 #rankingResumo { margin: 7px 0 0; text-align: center; font-size: 10px; }
 @media (max-width: 360px) { .ranking { padding: 9px 8px 7px; } .ranking-cabecalho h3 span { display: none; } }
+/* O tamanho do botão fica constante durante trocas da imagem da equipe. */
+.icone-suporte-remoto { width:17px; height:17px; object-fit:contain; vertical-align:-3px; margin-right:3px; }

@@ -1,6 +1,6 @@
 # AF Operação
 
-Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.8.1.**
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.8.2.**
 
 ## Documentação completa
 
@@ -10,6 +10,7 @@ O [índice de documentação](docs/README.md) reúne os manuais de analista e ge
 
 - Fila compartilhada, distribuição automática, reserva exclusiva de nome e confirmação pelo ID do pedido.
 - Listas **Para contato** e **Para suporte**, compartilhadas entre analistas identificados; pedidos retidos ficam fora da distribuição até remoção explícita.
+- Imagem de **Para suporte** configurável online para a equipe, com desenho original como alternativa se a imagem falhar. Requer a atualização inicial para 6.8.2.
 - Status, escala, gestão, direcionamento por loja, histórico com origem de liberação comprovada e ranking de conclusões.
 - Descanso individual de 20 minutos, até duas vezes por dia, com 20 minutos contínuos em ON entre pausas; regras no banco e retorno automático.
 - Catálogo online com 13 temas, incluindo Fullmetal Alchemist, LoL, Fluminense e Nuvens com volume 3D. No tema LoL, os oito analistas têm campeões distintos.

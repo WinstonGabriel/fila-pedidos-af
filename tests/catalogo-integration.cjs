@@ -36,7 +36,8 @@ function runtime(saved, initial = base) {
   vm.createContext(context);
   // A inicialização real por DOMContentLoaded do popup fica suspensa: os ciclos
   // são acionados explicitamente contra o RPC simulado, sem conexão ao AF.
-  for(const f of ['config.example.js','aparencia.js','catalogo-temas.js','temas.js','popup.js'])vm.runInContext(fs.readFileSync(source+f,'utf8'),context,{filename:f});
+  context.URL=URL;
+  for(const f of ['config.example.js','aparencia.js','catalogo-temas.js','temas.js','suporte-icone.js','popup.js'])vm.runInContext(fs.readFileSync(source+f,'utf8'),context,{filename:f});
   vm.runInContext("local.codigo='equipe-teste';local.token='token-de-teste-123';local.me='Gabriel';",context);
   const sync=async()=>{const ok=await vm.runInContext('sync()',context);if(ok)await vm.runInContext('sincronizarCatalogo(remote.janela.temas_catalogo_revisao)',context);return ok;};
   const choose=async id=>{const b=el('temaOpcoes').querySelectorAll('[data-tema]').find(b=>b.dataset.tema===id);assert(b,'Tema ausente: '+id);el('temaOpcoes').onclick({target:b});await tick();};

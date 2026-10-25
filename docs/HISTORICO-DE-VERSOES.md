@@ -15,6 +15,7 @@ Este histórico consolida as notas presentes no pacote; não inventaria cada ver
 | Suporte (incluído em 6.8+) | Lista Para suporte e ícone local, retenção compatível, remoção compartilhada e auditoria |
 | 6.8.0 | Painel flutuante em outros sites autorizados, guard por aba/origem e permissão opcional |
 | 6.8.1 | Oito retratos distintos de campeões no tema LoL, empacotados localmente |
+| 6.8.2 | Imagem de Para suporte configurável online para a equipe, com validação de URL e alternativa local |
 
 ## Revisão documental de 24/10/2026
 

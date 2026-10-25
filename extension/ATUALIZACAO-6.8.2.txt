@@ -1,0 +1,9 @@
+AF OPERAÇÃO 6.8.2 — ÍCONE DE SUPORTE ONLINE
+
+Atualização inicial: feche o painel, copie os arquivos deste pacote por cima da MESMA pasta já instalada, preservando config.js, e clique em Recarregar em chrome://extensions ou opera://extensions. Atualize as páginas abertas que usam o painel flutuante. Mantenha a instalação atual para preservar seu nome e suas preferências.
+
+Depois desta atualização, a imagem do botão Para suporte e do título da lista podem ser alteradas na configuração online da equipe, sem outro ZIP. Os painéis conectados recebem a alteração na próxima sincronização; painéis fechados recebem ao abrir. A troca não ocorre simultaneamente em todas as máquinas.
+
+O ícone atual continua como padrão. Se a imagem online não carregar, o botão usa o desenho original e continua funcionando. Nenhuma imagem nova foi escolhida nesta atualização.
+
+Configuração administrativa: cliente_config_v1.layout.icone_suporte_url. Utilize uma URL HTTPS pública e direta da imagem. Para substituir um arquivo no mesmo endereço, publique uma URL com versão nova, como ?v=2. Uma URL vazia restaura o desenho original.

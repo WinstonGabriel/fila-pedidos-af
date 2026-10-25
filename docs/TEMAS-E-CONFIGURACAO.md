@@ -1,4 +1,4 @@
-# Temas e configuração online — 6.8.1
+# Temas e configuração online — 6.8.2
 
 ## Catálogo instalado
 
@@ -68,8 +68,11 @@ CSS, JavaScript, HTML, fontes e URLs de imagem não fazem parte do catálogo. Um
 
 A chave `cliente_config_v1` oferece `schema`, `revisao`, `leitura_ms` e `layout`. O cliente valida tamanho e valores em `normalizarCliente()`.
 
+A partir de 6.8.2, `layout.icone_suporte_url` permite trocar a imagem de Para suporte para toda a equipe sem atualizar novamente o pacote. O desenho original permanece quando o campo está vazio ou a imagem falha. Consulte o [procedimento administrativo](../database/updates/ICONE-SUPORTE-ONLINE.md).
+
 | Opção | Limite/opções |
 |---|---|
+| `layout.icone_suporte_url` | URL HTTPS pública e direta, até 2.048 caracteres, sem usuário/senha; vazia restaura o ícone original. Requer 6.8.2 |
 | Leitura | Inteiro de 2.000 a 60.000 ms |
 | Título | Texto não vazio, até 80 caracteres |
 | Fonte | 11–20 px |
