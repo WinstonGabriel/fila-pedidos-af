@@ -251,6 +251,7 @@ async function sincronizar() {
     (d.analistas || []).forEach((a) => (m[a.nome] = a));
     remote.analistas = m;
     remote.atribuicoes = d.atribuicoes || [];
+    remote.automaticos = d.automaticos || [];
     remote.janela = d.janela || {};
     remote.usuarios = d.usuarios || [];
     remote.coord = !!d.coord;
@@ -318,7 +319,7 @@ const reservadosDe = (n) => remote.atribuicoes.filter((a) => a.analista === n &&
 const contatos = () => remote.atribuicoes.filter((a) => a.status === 'contato' && a.destino_apoio !== 'suporte');
 const suportes = () => remote.atribuicoes.filter((a) => a.status === 'contato' && a.destino_apoio === 'suporte');
 const ICONE_SUPORTE = '<svg viewBox="0 0 48 48" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-3px;margin-right:3px"><path d="m20 5 1-3h7l1 7 5 2 5-4 6 6-4 5 2 5 3 1v7l-7 1-2 5-5-4-5 2-1 7h-7l-1-7-5-2-5 4-6-6 4-5-2-5-7-1v-7l7-1 2-5 5 4z" transform="translate(2 3) scale(.83)"/><path d="M28 19a9 9 0 0 0-12-8l6 6-5 5-6-6a9 9 0 0 0 9 12l14 14a6 6 0 0 0 8-8L28 20z"/></svg>';
-const ocupados = () => new Set(remote.atribuicoes.filter((a) => a.status !== 'devolvido').map((a) => a.pedido_id));
+const ocupados = () => new Set([...remote.atribuicoes.filter((a) => a.status !== 'devolvido').map((a) => a.pedido_id), ...(remote.automaticos || []).map(p=>p.pedido_id)]);
 const atrasado = (a) => !!a && Date.now() - new Date(a.criado_em).getTime() >= LIMITE_ATRASO_MS;
 
 /* ---------- lojas de preferência (compartilhadas) ---------- */
@@ -625,6 +626,13 @@ async function aplicarLeitura(r, completa, inicio) {
   const mudou = assinatura !== local.cache?.assinatura;
   local.cache = { hora: new Date().toLocaleTimeString('pt-BR'), pedidos, leitura, paginasLidas, assinatura };
   if (mudou) await saveLocal();
+  // Envia também páginas obtidas pela varredura, não apenas a página visível.
+  if (chrome.runtime?.sendMessage) {
+    const observados = Object.values(r.porPagina || {}).flat();
+    for (let i = 0; i < observados.length; i += 100) {
+      chrome.runtime.sendMessage({ tipo: 'fila-af-captura', pedidos: observados.slice(i, i + 100) }).catch(() => {});
+    }
+  }
 }
 
 async function lerCompleto(tab, contexto) {
@@ -694,7 +702,7 @@ async function destacar(ids, focus) {
 }
 
 function abrir(id) {
-  const p = pedidos.find((x) => x.id === id) || remote.atribuicoes.find((x) => x.pedido_id === id);
+  const p = pedidos.find((x) => x.id === id) || remote.atribuicoes.find((x) => x.pedido_id === id) || (remote.automaticos || []).find(x=>x.pedido_id===id);
   if (p && p.href) chrome.tabs.create({ url: p.href, active: true }); // sempre em nova guia
   else destacar([id], id);
 }
@@ -1054,16 +1062,17 @@ function renderPilha() {
   const saidos = usandoCache || leitura.parcial
     ? []
     : remote.atribuicoes
-        .filter((a) => a.status === 'concluido' && !pedidos.some((p) => p.id === a.pedido_id))
+        .filter((a) => a.status === 'concluido' && !(remote.automaticos || []).some(p=>p.pedido_id===a.pedido_id) && !pedidos.some((p) => p.id === a.pedido_id))
         .sort((a, b) => String(b.atualizado_em).localeCompare(String(a.atualizado_em)))
         .slice(0, 8);
   if (saidos.length) {
     h += `<div class="card"><h3>Saíram da lista</h3><ul>${saidos
       .map((a) => `<li><a href="#" data-open="${esc(a.pedido_id)}">${esc(a.pedido_id)}</a>
-        <span class="meta">saiu da lista — feito por: ${nomeHtml(a.analista)}</span>
+        <span class="meta">conclusão informada por: ${nomeHtml(a.analista)}</span>
         ${a.href ? `<button class="ghost" data-copiar="${esc(a.href)}" title="Copiar link do pedido">⧉</button>` : ''}</li>`)
       .join('')}</ul></div>`;
   }
+  if (remote.automaticos?.length) h += `<div class="card"><h3>Pedidos aprovados automaticamente</h3><ul>${remote.automaticos.slice(0,8).map(a=>`<li><a href="#" data-open="${esc(a.pedido_id)}">${esc(a.pedido_id)}</a><span class="meta">Pedido aprovado automático · confirmado no AF · ${esc(a.valor || 'valor não informado')}</span>${a.href ? `<button class="ghost" data-copiar="${esc(a.href)}" title="Copiar link">⧉</button>` : ''}</li>`).join('')}</ul></div>`;
   $('#painel').innerHTML = h;
 }
 
@@ -1125,7 +1134,7 @@ function renderRanking() {
   }).join('');
   document.querySelectorAll('[data-ranking]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.ranking === periodoRanking)));
   const resumo = $('#rankingResumo');
-  resumo.title = 'Conta uma vez cada pedido concluído, inclusive os exibidos em Saíram da lista. Empates por ordem alfabética. Hoje usa o horário de São Luís.';
+  resumo.title = 'Conta uma vez cada conclusão informada por analista, excluindo aprovações automáticas confirmadas no AF. Empates por ordem alfabética. Hoje usa o horário de São Luís.';
   resumo.textContent = historicoEmCurso && !valido ? 'Carregando ranking…'
     : !valido ? 'Ranking indisponível no momento.'
       : historico.erro ? 'Não foi possível atualizar · exibindo o último ranking.'
@@ -1134,6 +1143,8 @@ function renderRanking() {
 }
 const filtroHist = () => JSON.stringify([local.codigo, local.token, local.coord, $('#histFiltro').value, $('#histAcao').value, $('#histPedido').value.trim()]);
 function tituloHistorico(h) {
+ if(h.acao==='pedido_aprovado_automatico') return 'Pedido aprovado automático <span class="meta">· confirmado no histórico do AF</span>';
+ if(h.acao==='conclusao_reclassificada') return 'Conclusão anterior reclassificada como aprovação automática <span class="meta">· sem crédito ao analista</span>';
  if(h.acao==='recebeu_pedido' && h.analista){
   const origem=h.origem_liberacao;
   if(h.modalidade==='redistribuicao' && origem?.analista && origem.analista!==h.analista)

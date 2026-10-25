@@ -26,3 +26,4 @@ if (temPainelLateral) {
 }
 
 importScripts('painel-global-background.js', 'config.js', 'avisos-background.js', 'efeito-core.js', 'pedido-background.js');
+importScripts('af-evidencias.js', 'af-captura-background.js');

@@ -429,6 +429,7 @@
       });
       const r = ultimoRelatorio;
       el('relatorioResultado').innerHTML =
+        FilaRelatorioProducao.html(r.producao) +
         `<div class="escala-scroll"><table class="escala-tabela"><thead><tr><th>Analista</th><th>Previstos</th><th>Trabalhados<br>confirmados</th><th>Folgas</th><th>Feriados</th><th>Férias</th><th>Pedidos<br>concluídos</th><th>Dias com<br>atividade</th></tr></thead><tbody>${r.resumo.map((x) => `<tr><th>${nomeHtml(x.nome)}</th>${['previstos', 'trabalhados_confirmados', 'folgas', 'feriados', 'ferias', 'concluidos', 'dias_com_atividade'].map((k) => `<td>${Number(x[k] || 0)}</td>`).join('')}</tr>`).join('')}</tbody></table></div><h3>Dias por analista</h3><div class="escala-scroll"><table class="escala-tabela"><thead><tr><th>Analista</th><th>Data</th><th>Situação</th><th>Horário</th><th>Presença</th><th>Observação</th></tr></thead><tbody>${r.dias.map((x) => `<tr><th>${nomeHtml(x.analista)}</th><td>${fmt(x.data)}</td><td class="tipo-${x.tipo}">${esc(tipos[x.tipo])}</td><td>${esc(x.inicio)}${x.fim ? '–' + esc(x.fim) : ''}</td><td>${esc(presencas[x.presenca])}</td><td>${esc(x.observacao)}</td></tr>`).join('') || '<tr><td colspan="6">Sem escala registrada neste período.</td></tr>'}</tbody></table></div>`;
       el('relatorioExportar').disabled = false;
       feedback('escalaFeedback', 'Relatório atualizado.');
@@ -439,6 +440,7 @@
   function exportar() {
     if (!ultimoRelatorio || !remote.coord) return;
     const linhas = [
+      ...FilaRelatorioProducao.csv(ultimoRelatorio.producao),
       ['Analista', 'Data', 'Situação', 'Entrada', 'Saída', 'Presença', 'Observação'],
       ...ultimoRelatorio.dias.map((x) => [
         x.analista,

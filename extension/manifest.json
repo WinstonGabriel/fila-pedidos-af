@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AF Operação",
-  "version": "6.8.3",
+  "version": "6.9.0",
   "description": "AF Operação: fila compartilhada, status, escala, temas e animações pessoais de novos pedidos.",
   "action": {
     "default_title": "AF Operação",
@@ -30,6 +30,8 @@
         "https://af.mateusmais.com.br/*"
       ],
       "js": [
+        "af-evidencias.js",
+        "af-captura.js",
         "efeito-core.js",
         "pedido-animacao.js",
         "baloes.js",

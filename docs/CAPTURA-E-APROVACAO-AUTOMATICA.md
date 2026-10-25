@@ -1,32 +1,35 @@
-# Distribuição e origem da aprovação
+# Captura, recuperação e origem da aprovação — 6.9.0
 
-## Correção 6.8.3
+A inspeção autenticada do AF confirmou no histórico do próprio pedido uma tabela com os cabeçalhos **Status do Pedido**, **Nota** e **Criado por**. O evento **Pedido autorizado** com a nota **Aprovação Automática com status de análise APPROVE** é a evidência usada para classificar um automático. O autor pode conter um login: não é usado para transformar a aprovação em produção humana. A recomendação do motor e as notas do histórico de compras de outros pedidos não são evidência do resultado deste pedido.
 
-A inspeção identificou limitações que podem deixar pedidos sem distribuição: a máquina que coleta precisava estar ON mesmo havendo outros analistas livres; uma lista nova recebida durante uma distribuição em andamento não disparava outra tentativa imediata; o fim da leitura completa aguardava o próximo ciclo; o lote cortava novos candidatos em 500 apesar de o servidor aceitar 1.000. A correção remove esses pontos sem alterar elegibilidade, preferência, exclusividade de lojas, retenções ou limite de um pedido por analista.
+## Captura e recuperação
 
-Sem um ID e a leitura correspondente, essas limitações não comprovam retrospectivamente a causa de um caso específico. O banco anterior guarda atribuições e ações, mas não um registro completo de cada pedido visto e não atribuído pela coleta. Portanto, não permite reconstruir com segurança todos os pedidos que passaram rapidamente pelo painel.
+`af-captura.js` monitora a tabela da lista por MutationObserver, incluindo linhas removidas antes da próxima amostragem, e faz uma amostragem adicional a cada cinco segundos. Funciona sem o painel lateral aberto. A varredura completa do painel também envia suas páginas. `af-captura-background.js` serializa a fila local persistente entre abas e tenta o envio novamente após falha de conexão. Trocas de equipe não transferem pendências entre contextos. Nenhuma credencial é transmitida à página.
 
-A mensagem que atribuía trabalho a um analista apenas porque o pedido desapareceu foi corrigida para “conclusão e origem da saída a confirmar”. Distribuição, recomendação `approve`, desaparecimento e aprovação final são fatos diferentes. O ID do pedido deve ser a unidade de contagem.
+O banco registra cada ID, mesmo sem analista livre. Cada instalação recebe até cinco consultas com comprovante temporário exclusivo, evitando que todas consultem o mesmo lote. A consulta de detalhe é somente leitura, no AF autenticado. Sessão expirada, HTML inesperado, ID divergente ou ausência de decisão mantêm a pendência. As consultas têm prazo, lote e intervalo entre tentativas.
 
-## Conciliação de aprovação automática — pendente de fonte do AF
+Um pedido ausente da leitura periódica só é recuperado para distribuição após confirmar que tanto seu estado atual quanto sua última decisão continuam **Pedido em análise**. Essa confirmação vale por trinta segundos. A distribuição utiliza o mesmo alocador, com registro de nome, ON, capacidade, regras de Força de Vendas, exclusividade de lojas e retenções de contato/suporte.
 
-Para automatizar esse registro, é necessário identificar no detalhe/histórico do AF a decisão final, sua origem (sistema ou operador) e seu momento. A tela de análise ou a recomendação do motor, isoladamente, não comprova aprovação final nem seu autor. O mapeamento da origem no histórico do AF ainda precisa ser validado numa sessão autenticada.
+## Conclusão e auditoria
 
-O desenho proposto após validar a fonte é:
+A tabela privada `af_mobile.pedidos_capturados` tem RLS, acesso direto revogado e chave primária por pedido. Os RPCs públicos são invoker e chamam funções privadas definer com `search_path=''`, permissões explícitas e autenticação por `fila_ator`, mantendo o modelo da equipe existente.
 
-1. Registrar os pedidos observados, inclusive enquanto não houver analista disponível, sem deduplicar por horário.
-2. Capturar mudanças da tabela entre leituras para registrar passagens rápidas; as consultas completas continuam necessárias para outras páginas.
-3. Ao detectar saída, consultar o estado final do mesmo ID no AF. Falha de leitura, filtro, paginação e saída sem origem confirmada ficam pendentes de conciliação.
-4. Quando o AF confirmar aprovação do sistema, registrar “Pedido aprovado automático” no histórico, mesmo se o pedido havia sido distribuído. Guardar a atribuição anterior para auditoria, sem somar à produção desse analista, e liberar sua próxima tarefa de forma transacional.
-5. Manter cancelamentos, recusas e saídas não confirmadas separados de aprovações. Uma retomada da fila ou classificação posterior precisa atualizar o mesmo ID, não criar outra conclusão.
+A confirmação automática e a distribuição usam a mesma trava transacional. O registro muda para origem automática, libera eventual atribuição e cria um único evento **Pedido aprovado automático**. O vínculo anterior fica no histórico original e na descrição da reclassificação. Não há ação de aprovação, cancelamento ou alteração financeira no AF.
 
-## Relatório pretendido
+Triggers registram metadados e a primeira declaração humana de conclusão, inclusive de clientes anteriores. Uma confirmação automática posterior substitui o crédito de produção daquele mesmo ID. O histórico original não é apagado: a projeção mostra a conclusão anterior como reclassificada, e ranking e relatório excluem esse crédito humano. Repetições e resultados de consulta de outra instalação não criam novos créditos.
 
-| Grupo | Quantidade | Valor |
-|---|---|---|
-| Aprovações automáticas confirmadas | IDs únicos confirmados pelo AF | Valor dos mesmos IDs |
-| Produção de cada analista | IDs com conclusão humana confirmada | Valor dos mesmos IDs, por analista |
-| Total conciliado | União sem duplicações dos grupos anteriores | Soma dos mesmos pedidos |
-| Pendentes de conciliação | IDs observados sem decisão/origem suficiente | Valor conhecido, com indicação dos valores ausentes |
+A migração importa conclusões anteriores como **declarações de analistas**, preservando datas e valores recuperáveis, sem presumir sua origem real. Pedidos com links recuperáveis entram na conciliação. Registros antigos sem link ou valor não são reconstruídos por suposição.
 
-O período deve usar America/Fortaleza e o momento da conclusão confirmada, com filtro de analista e exportação. Não atribuir valor zero a um valor desconhecido. O total deve declarar a cobertura da captura: uma extensão não observa pedidos enquanto não há coleta ativa; para garantir o total integral do AF, a origem precisa ser uma API, exportação ou integração de eventos do próprio AF. Dados anteriores só podem ser conciliados quando houver evidência recuperável na fonte.
+## Relatórios
+
+Gestão > Relatório apresenta quantidade e valor dos IDs únicos no período: total da equipe, automáticos confirmados, conclusões humanas informadas e cada analista. O CSV inclui os mesmos totais e a escala. O filtro individual seleciona a linha do analista e seus dias; os totais da equipe permanecem identificados como globais. Períodos usam America/Fortaleza. Valores são guardados em centavos e valores ausentes são destacados, sem convertê-los em zero. Observados sem conclusão e declarações antigas ainda não conferidas ficam explícitos.
+
+## Cobertura e atualização
+
+A captura depende de uma aba autenticada do AF aberta e desta versão do coletor. Atualize os arquivos na mesma pasta, recarregue a extensão e as abas do AF. Configurações declarativas continuam online, mas novos scripts exigem essa atualização inicial. Pedidos que nunca foram renderizados numa aba monitorada nem obtidos pela varredura não podem ser garantidos por uma extensão; cobertura integral do AF exigiria uma API, exportação ou eventos oficiais.
+
+A correção 6.8.3 permanece: um coletor identificado OFF pode distribuir para outros analistas ON; mudanças durante uma requisição provocam nova tentativa; a leitura completa distribui imediatamente e lotes respeitam o teto de mil pedidos.
+
+## Verificação
+
+`tests/conciliacao-af.cjs` usa HTML sintético e PostgreSQL isolado para decisão própria, reabertura, recomendação, autenticação, captura transitória, repetição, comprovante por instalação, recuperação, elegibilidade, reclassificação, ranking, relatório, fuso, valores desconhecidos e RLS. `tests/captura-background.cjs` cobre durabilidade, concorrência entre abas, reinício, troca de contexto e ausência de credenciais nas mensagens ao AF. Fixtures não contêm dados operacionais nem credenciais.

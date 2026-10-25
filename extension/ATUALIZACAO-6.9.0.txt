@@ -1,0 +1,19 @@
+AF OPERAÇÃO 6.9.0 — CAPTURA E APROVAÇÃO AUTOMÁTICA
+
+- Captura mudanças da tabela entre as leituras de 5 segundos, inclusive sem o painel lateral aberto.
+- Guarda pedidos observados no computador e no banco; falhas de rede são tentadas novamente.
+- Consulta o histórico do próprio pedido no AF. A nota explícita de aprovação automática registra "Pedido aprovado automático", mesmo se o pedido já tinha analista.
+- Aprovações automáticas liberam o pedido atual e ficam fora da produção e do ranking dos analistas. A atribuição anterior fica na auditoria.
+- Pedidos capturados que ainda estiverem em análise no AF são recuperados para distribuição, respeitando ON, lojas e Força de Vendas.
+- Gestão > Relatório: quantidades e valores da equipe, automáticos e cada analista; exportação CSV com os mesmos totais. Valores desconhecidos são sinalizados.
+- Sair da lista, recomendação approve ou falha na consulta não comprovam aprovação automática.
+
+COMO ATUALIZAR
+1. Feche o painel da extensão.
+2. Extraia este ZIP e substitua os arquivos NA MESMA PASTA da instalação atual.
+3. Abra chrome://extensions ou opera://extensions e clique em Recarregar na AF Operação.
+4. Atualize as abas do AF e reabra o painel.
+Não desinstale nem carregue uma segunda pasta: preserve a identificação já reservada.
+
+Esta mudança no coletor precisa desta atualização inicial em cada instalação. Temas, imagens e parâmetros online continuam compartilhados.
+Mantenha uma aba do AF autenticada aberta. A extensão contabiliza os pedidos que consegue capturar e os registros anteriores recuperáveis; não garante observar pedidos que nunca chegaram a uma aba monitorada. Conclusões humanas anteriores sem evidência continuam identificadas como declarações, até conferência.
