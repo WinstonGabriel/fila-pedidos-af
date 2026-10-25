@@ -1068,7 +1068,7 @@ function renderPilha() {
   if (saidos.length) {
     h += `<div class="card"><h3>Saíram da lista</h3><ul>${saidos
       .map((a) => `<li><a href="#" data-open="${esc(a.pedido_id)}">${esc(a.pedido_id)}</a>
-        <span class="meta">conclusão informada por: ${nomeHtml(a.analista)}</span>
+        <span class="meta">Pedido concluído por: ${nomeHtml(a.analista)}</span>
         ${a.href ? `<button class="ghost" data-copiar="${esc(a.href)}" title="Copiar link do pedido">⧉</button>` : ''}</li>`)
       .join('')}</ul></div>`;
   }
