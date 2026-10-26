@@ -9,6 +9,7 @@ Referência para manutenção e continuidade do projeto, revisada em 26/10/2026.
 | Pedidos e decisão antifraude | Lista e histórico autenticados do AF; a extensão consulta e organiza a fila |
 | Reservas de nome, disponibilidade, atribuições e retenções | Banco compartilhado, com autorização e transações |
 | Escala, rotas, preferências de loja e avisos | Backend da equipe; edição sujeita às permissões de gestão |
+| Referência de feriados | Cadastro privado e cálculo anual no backend; anotação virtual na consulta, sem definir a escala |
 | Conclusões e produção | Registro privado de captura/conciliação e auditoria; relatórios separam humanos de automáticos confirmados |
 | Catálogo de temas | `extension/catalogo-temas.json` como referência local; revisão online autorizada pode ser posterior |
 | Tema, ocultação e estalo | Preferências por analista neste navegador |
@@ -37,6 +38,7 @@ Os procedimentos estão em [Temas e configuração](TEMAS-E-CONFIGURACAO.md). Pu
 - A lista de saídas mostra **Horário do pedido** a partir da hora original e **Pedido concluído por:**. A projeção operacional é curta; o histórico e os relatórios mantêm a consulta dos registros anteriores.
 - `fila_sincronizar` envia blocos alterados de estado, descansos e avisos. O worker compartilha consultas e uma cópia por até 5 segundos entre superfícies da mesma instalação/contexto. Ações exigem consulta nova.
 - A partir de 27/10/2026, o banco libera as reservas de nome diariamente às 00:00 em America/Fortaleza. A rotina não muda status, pedidos, escala ou sessão de gestão. O analista volta a escolher seu nome em **Eu sou**.
+- A [referência de feriados](FERIADOS-NA-ESCALA.md) usa o calendário oficial de São Luís, exclui pontos facultativos e aparece ao passar o mouse nas células. Dias sem escala continuam `nao_definido`; a informação não vira folga ou presença no banco.
 - No Fullmetal Alchemist, `alquimia` anima apenas o card do pedido próprio novo e visível. Círculo atrás do texto, fogo nas bordas e estalo opcional usam recursos locais; som depende da interação e da política do navegador.
 
 ## Migrações de referência

@@ -9,6 +9,7 @@ A organização técnica segue a [documentação anterior de extração e aprese
 | [Dados e estado compartilhados](DADOS-COMPARTILHADOS.md) | Versão de referência, fontes dos dados, configuração da equipe e regras que devem ser preservadas |
 | [Manual do analista](MANUAL-DO-ANALISTA.md) | Conexão, pedidos, status, descanso, temas, avisos e ocultação |
 | [Manual de gestão](MANUAL-DE-GESTAO.md) | Sessão de gestão, direcionamento, escala, importação e relatórios |
+| [Feriados na escala](FERIADOS-NA-ESCALA.md) | Nome do feriado ao passar o mouse, com dias ainda não definidos e atualização sem ZIP |
 | [Instalação e manutenção](INSTALACAO-E-MANUTENCAO.md) | Instalar, atualizar, diagnosticar e preparar uma entrega |
 | [Arquitetura](ARQUITETURA.md) | Extração, consolidação, distribuição, apresentação e ciclo de vida |
 | [Banco e RPCs](BANCO-E-RPCS.md) | Modelo lógico, contratos, concorrência, migrações e compatibilidade |

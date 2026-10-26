@@ -85,6 +85,8 @@ Escolha um tema no seletor de aparência. A preferência é por analista neste n
 
 Os avisos são acessíveis pelo sino e informam eventos de status/escala conforme o backend. As cores seguem o destinatário. Na página AF há balões de aviso; no painel global a consulta pode continuar pelo painel, mas o script global não injeta o mesmo componente de balões AF em todo site.
 
+Na escala, posicione o mouse sobre a célula de um dia para consultar o nome do feriado, quando houver. A referência inclui feriados nacionais, do Maranhão e de São Luís, sem pontos facultativos. Dias sem preenchimento continuam **Não definido**. Abra a escala ou clique em **Atualizar** para consultar a informação online.
+
 Uma animação temática pode aparecer quando chega um novo pedido para você. Abrir o painel com um pedido que já existia não dispara uma animação retroativa. No Fullmetal Alchemist, o círculo e as chamas aparecem dentro da caixa do seu pedido, com estalo opcional. No menu de temas, use **Ativar e testar estalo** para habilitar o áudio ou silenciar. O efeito não abre o pedido automaticamente. A preferência de movimento reduzido do sistema preserva a mensagem sem animação decorativa. Os ajustes remotos do efeito são administrativos; não existe editor de animações em Gestão nesta versão.
 
 ## 9. Ocultação e uso em outros sites

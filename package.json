@@ -8,7 +8,7 @@
   },
   "scripts": {
     "check": "node scripts/check-extension.cjs",
-    "test": "npm run check && node tests/test-extension.cjs && node tests/catalogo-integration.cjs && node tests/individual-ui.cjs && node tests/notificacoes-tema.cjs && node tests/historico-origem.cjs && node tests/efeito-pedido.cjs && node tests/efeito-pedido-ui.cjs && node tests/painel-global.cjs && node tests/suporte.cjs && node tests/suporte-icone.cjs && node tests/distribuicao-leitor.cjs && node tests/conciliacao-af.cjs && node tests/captura-background.cjs && node tests/sincronizacao-banco.cjs && node tests/sincronizacao-worker.cjs && node tests/liberacao-diaria.cjs && node tests/roy-alquimia.cjs && node tests/triagem-online.cjs",
+    "test": "npm run check && node tests/test-extension.cjs && node tests/catalogo-integration.cjs && node tests/individual-ui.cjs && node tests/notificacoes-tema.cjs && node tests/historico-origem.cjs && node tests/efeito-pedido.cjs && node tests/efeito-pedido-ui.cjs && node tests/painel-global.cjs && node tests/suporte.cjs && node tests/suporte-icone.cjs && node tests/distribuicao-leitor.cjs && node tests/conciliacao-af.cjs && node tests/captura-background.cjs && node tests/sincronizacao-banco.cjs && node tests/sincronizacao-worker.cjs && node tests/liberacao-diaria.cjs && node tests/roy-alquimia.cjs && node tests/triagem-online.cjs && node tests/feriados-tooltip.cjs",
     "prepare": "husky"
   },
   "devDependencies": {

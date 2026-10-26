@@ -19,6 +19,7 @@ O cliente usa PostgREST em `/rest/v1/rpc/<funcao>`, por POST JSON, com a chave p
 | `af_mobile.historico_exibicao` | View privada de apresentação, sem regravar a auditoria original |
 | `af_mobile.pedidos_capturados` | Observações, metadados, comprovantes de consulta, origem e conciliação por ID |
 | `af_mobile.liberacao_nomes_diaria` | Controle privado da liberação de nomes por data, horário, contagem e ativação |
+| `af_mobile.feriados_referencia` | Regras e fonte do calendário local; somente referência, sem vínculo de trabalho/folga |
 | Objetos intermediários de gestão/escala/avisos | Dependências do backend implantado; suas definições completas não estão no repositório |
 
 O schema `af_mobile` contém funções privadas usadas pela extensão. A existência desse schema não concede ao cliente acesso livre a todos os seus objetos.
@@ -73,6 +74,10 @@ Os argumentos abaixo são **adicionais** aos três argumentos comuns. Parâmetro
 `fila_log` é auxiliar interna, não uma API a ser usada pelo cliente. Seu detalhe é texto. Não transmita uma assinatura inventada porque um documento antigo apresentou formato diferente.
 
 ## Contratos recentes
+
+### Referência de feriados na escala
+
+`fila_escala_consultar` acrescenta o nome do feriado na observação de apresentação e o campo informativo `feriado_referencia`, preservando argumentos, filtro e autorização. Linhas sem registro são virtuais, com `tipo=nao_definido`, `versao=0`, horários vazios e presença não informada. A tabela de escala não é preenchida pela consulta. `fila_escala_salvar` retira o metadado `[Calendário AF · 📅 Feriado: ...]` antes da gravação; validação de gestão e controle de versão continuam iguais. Helpers privados invoker e cadastro com RLS não concedem acesso direto ao cliente. Veja [Feriados na escala](FERIADOS-NA-ESCALA.md).
 
 ### Suporte
 

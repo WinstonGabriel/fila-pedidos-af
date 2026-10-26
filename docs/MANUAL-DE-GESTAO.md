@@ -36,6 +36,8 @@ A escala permite consultar período e filtrar analista. A edição de gestão tr
 
 Ao salvar, confira a quantidade de dias alterados. A alteração gera avisos conforme as regras do backend. A escala planejada e o status instantâneo do analista são dados relacionados, mas não devem ser tratados como a mesma informação.
 
+A [referência de feriados](FERIADOS-NA-ESCALA.md) aparece ao passar o mouse sobre cada célula. Ela não preenche folga/trabalho nem presume presença. Dias ainda não registrados continuam **Não definido**. No editor, a linha `[Calendário AF · 📅 Feriado: ...]` é informação temporária; o servidor a remove antes de salvar e preserva sua observação. A referência sozinha não gera aviso de alteração de escala.
+
 ## Importação de escala
 
 1. Selecione mês de referência e arquivo.

@@ -17,6 +17,7 @@ O [índice de documentação](docs/README.md) reúne os manuais de analista e ge
 - Listas **Para contato** e **Para suporte**, compartilhadas entre analistas identificados; pedidos retidos ficam fora da distribuição até remoção explícita.
 - Imagem de **Para suporte** configurável online para a equipe, com desenho original como alternativa se a imagem falhar. Requer a atualização inicial para 6.8.2.
 - Status, escala, gestão, direcionamento por loja, histórico com origem de liberação comprovada e ranking de conclusões.
+- [Referência de feriados na escala](docs/FERIADOS-NA-ESCALA.md): nome ao passar o mouse sobre a célula, sem preencher a escala nem incluir pontos facultativos; atualização online sem outro ZIP.
 - Descanso individual de 20 minutos, até duas vezes por dia, com 20 minutos contínuos em ON entre pausas; regras no banco e retorno automático.
 - Catálogo online com 13 temas, incluindo Fullmetal Alchemist, LoL, Fluminense e Nuvens com volume 3D. No tema LoL, os oito analistas têm campeões distintos.
 - Notificações nas cores do destinatário e animação de novos pedidos do próprio analista, com controles remotos de duração, cor e efeito incluído.
