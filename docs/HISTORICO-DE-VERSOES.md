@@ -20,10 +20,11 @@ Este histórico consolida as notas presentes no pacote; não inventaria cada ver
 | 6.9.0 | Captura de passagens rápidas, recuperação confirmada no AF, classificação de automáticos e relatórios de quantidade/valor separados por origem |
 | 6.10.0 | Resposta de estado compacta, sincronização por blocos e compartilhamento de consultas por instalação/contexto |
 | 6.11.0 | Alquimia das Chamas de Roy Mustang no card próprio, com estalo local opcional, movimento reduzido e consumo único |
+| 6.11.1 | Pino vermelho minimalista no canto da data de feriado; título com o nome, sem alterar a definição da escala |
 
 ## Revisão documental de 26/10/2026
 
-A atualização online de [feriados na escala](FERIADOS-NA-ESCALA.md) acrescenta o nome ao passar o mouse nas células, preservando **Não definido** até o preenchimento da gestão. Usa somente feriados, sem pontos facultativos, e não exige novo ZIP nem altera a versão 6.11.0 do cliente.
+A atualização online de [feriados na escala](FERIADOS-NA-ESCALA.md) acrescenta o nome ao passar o mouse nas células, preservando **Não definido** até o preenchimento da gestão. Usa somente feriados, sem pontos facultativos, e não exige novo ZIP nem altera a versão 6.11.0 do cliente. A revisão 6.11.1 do código acrescenta um pino no cabeçalho da data e exige atualizar os arquivos da instalação; foi publicada no Git sem gerar outro ZIP.
 
 A atualização online de [triagem de pedidos](TRIAGEM-ONLINE.md) acrescenta espera mínima de dez segundos e verificação antes da atribuição, com bloqueio de autorizações conhecidas. Reutiliza os RPCs do coletor instalado, sem novo ZIP nem mudança da versão 6.11.0 do cliente. Aprovações sem origem comprovada não são presumidas automáticas.
 

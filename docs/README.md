@@ -1,6 +1,6 @@
 # Documentação — AF Operação 6.11.0
 
-Referência do código publicado na versão 6.11.0. Revisão documental: 26/10/2026. Exemplos fictícios; nenhuma credencial ou dado operacional é necessário para ler estes documentos.
+Referência da base 6.11.0 e da revisão 6.11.1 de feriados na escala. Revisão documental: 26/10/2026. Exemplos fictícios; nenhuma credencial ou dado operacional é necessário para ler estes documentos.
 
 A organização técnica segue a [documentação anterior de extração e apresentação](ARQUITETURA-5.3.1.md), preservada como referência histórica. A documentação atual substitui suas descrições de comportamento quando houver diferença.
 
@@ -9,7 +9,7 @@ A organização técnica segue a [documentação anterior de extração e aprese
 | [Dados e estado compartilhados](DADOS-COMPARTILHADOS.md) | Versão de referência, fontes dos dados, configuração da equipe e regras que devem ser preservadas |
 | [Manual do analista](MANUAL-DO-ANALISTA.md) | Conexão, pedidos, status, descanso, temas, avisos e ocultação |
 | [Manual de gestão](MANUAL-DE-GESTAO.md) | Sessão de gestão, direcionamento, escala, importação e relatórios |
-| [Feriados na escala](FERIADOS-NA-ESCALA.md) | Nome do feriado ao passar o mouse, com dias ainda não definidos e atualização sem ZIP |
+| [Feriados na escala](FERIADOS-NA-ESCALA.md) | Referência online de texto e pino no cabeçalho a partir da 6.11.1, com atualização dos arquivos |
 | [Instalação e manutenção](INSTALACAO-E-MANUTENCAO.md) | Instalar, atualizar, diagnosticar e preparar uma entrega |
 | [Arquitetura](ARQUITETURA.md) | Extração, consolidação, distribuição, apresentação e ciclo de vida |
 | [Banco e RPCs](BANCO-E-RPCS.md) | Modelo lógico, contratos, concorrência, migrações e compatibilidade |
@@ -21,7 +21,7 @@ A organização técnica segue a [documentação anterior de extração e aprese
 | [Economia de transferência](ECONOMIA-DE-TRANSFERENCIA.md) | Sincronização por blocos, cache por instalação e compatibilidade |
 | [Liberação diária](LIBERACAO-DIARIA.md) | Liberação das reservas de nome às 00:00 em America/Fortaleza |
 | [Alquimia das Chamas](ALQUIMIA-DAS-CHAMAS.md) | Animação pessoal do Roy Mustang e controle do estalo |
-| [Histórico de versões](HISTORICO-DE-VERSOES.md) | Evolução documentada até 6.11.0 e atualizações do banco |
+| [Histórico de versões](HISTORICO-DE-VERSOES.md) | Evolução documentada até 6.11.1 e atualizações do banco |
 | [Publicação e colaboração](PUBLICAR_NO_GITHUB.md) | Repositório existente, branches, revisão e entrega |
 
 ## Escopo e limites

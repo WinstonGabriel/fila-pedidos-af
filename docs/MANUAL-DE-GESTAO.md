@@ -38,6 +38,8 @@ Ao salvar, confira a quantidade de dias alterados. A alteração gera avisos con
 
 A [referência de feriados](FERIADOS-NA-ESCALA.md) aparece ao passar o mouse sobre cada célula. Ela não preenche folga/trabalho nem presume presença. Dias ainda não registrados continuam **Não definido**. No editor, a linha `[Calendário AF · 📅 Feriado: ...]` é informação temporária; o servidor a remove antes de salvar e preserva sua observação. A referência sozinha não gera aviso de alteração de escala.
 
+Na versão 6.11.1, o cabeçalho de cada data de feriado também exibe um pino vermelho discreto no canto superior direito. Passe o mouse sobre o pino para ler o nome. Ele permanece nas visões semanal/mensal e no filtro individual. Exige atualizar os arquivos da instalação; não exige nova migration.
+
 ## Importação de escala
 
 1. Selecione mês de referência e arquivo.

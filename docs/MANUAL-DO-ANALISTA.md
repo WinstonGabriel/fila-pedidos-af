@@ -87,6 +87,8 @@ Os avisos são acessíveis pelo sino e informam eventos de status/escala conform
 
 Na escala, posicione o mouse sobre a célula de um dia para consultar o nome do feriado, quando houver. A referência inclui feriados nacionais, do Maranhão e de São Luís, sem pontos facultativos. Dias sem preenchimento continuam **Não definido**. Abra a escala ou clique em **Atualizar** para consultar a informação online.
 
+Na versão 6.11.1, há também um pequeno pino vermelho no canto superior direito da data. Passe o mouse sobre ele para ler o nome do feriado. Esse pino exige atualizar os arquivos e recarregar a extensão existente; a publicação no Git não o instala automaticamente.
+
 Uma animação temática pode aparecer quando chega um novo pedido para você. Abrir o painel com um pedido que já existia não dispara uma animação retroativa. No Fullmetal Alchemist, o círculo e as chamas aparecem dentro da caixa do seu pedido, com estalo opcional. No menu de temas, use **Ativar e testar estalo** para habilitar o áudio ou silenciar. O efeito não abre o pedido automaticamente. A preferência de movimento reduzido do sistema preserva a mensagem sem animação decorativa. Os ajustes remotos do efeito são administrativos; não existe editor de animações em Gestão nesta versão.
 
 ## 9. Ocultação e uso em outros sites

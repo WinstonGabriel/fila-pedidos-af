@@ -128,6 +128,25 @@ dialog::backdrop {
 .escala-tabela thead .fixo {
   z-index: 3;
 }
+.escala-feriado-pino {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  cursor: help;
+}
+.escala-feriado-pino svg {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.escala-feriado-pino:focus-visible {
+  outline: 2px solid var(--cor-texto, #1f2937);
+  outline-offset: 2px;
+}
 .escala-dia {
   display: block;
   width: 100%;

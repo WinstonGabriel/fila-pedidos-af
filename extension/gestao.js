@@ -309,10 +309,24 @@
     const dias = [];
     for (let d = periodo.inicio; d <= periodo.fim; d = somar(d, 1)) dias.push(d);
     const analistas = valor('escalaAnalista') ? [valor('escalaAnalista')] : ANALISTAS;
+    const feriados = new Map();
+    for (const e of rows.values()) {
+      if (typeof e.feriado_referencia === 'string' && e.feriado_referencia.trim())
+        feriados.set(e.data, e.feriado_referencia.trim());
+    }
     el('escalaPeriodo').textContent =
       `${fmt(periodo.inicio)} a ${fmt(periodo.fim)} · ${remote.coord ? 'edição pela gestão' : 'somente consulta'}`;
     el('escalaGrade').innerHTML =
-      `<table class="escala-tabela"><thead><tr><th class="fixo">Analista</th>${dias.map((d) => `<th scope="col">${date(d).toLocaleDateString('pt-BR', { weekday: 'short' })}<br>${fmt(d).slice(0, 5)}</th>`).join('')}</tr></thead><tbody>${analistas
+      `<table class="escala-tabela"><thead><tr><th class="fixo">Analista</th>${dias
+        .map((d) => {
+          const feriado = feriados.get(d);
+          const titulo = feriado ? esc('Feriado: ' + feriado) : '';
+          const pino = feriado
+            ? `<span class="escala-feriado-pino" role="img" tabindex="0" title="${titulo}" aria-label="${titulo}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(30 12 12)"><path d="M12 15v7" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round"/><path d="M8 5v5l-2 3v2h12v-2l-2-3V5Z" fill="#dc2626" stroke="#991b1b" stroke-width="1.2" stroke-linejoin="round"/><rect x="6" y="2" width="12" height="4" rx="2" fill="#ef4444"/><path d="M8 3.5h7" stroke="#fca5a5" stroke-linecap="round"/></g></svg></span>`
+            : '';
+          return `<th scope="col" data-escala-data="${d}">${date(d).toLocaleDateString('pt-BR', { weekday: 'short' })}<br>${fmt(d).slice(0, 5)}${pino}</th>`;
+        })
+        .join('')}</tr></thead><tbody>${analistas
         .map(
           (n) =>
             `<tr><th class="fixo" scope="row">${nomeHtml(n)}</th>${dias

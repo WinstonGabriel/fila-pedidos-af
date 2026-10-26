@@ -33,7 +33,7 @@ Use Node.js 24. `npm test` executa `npm run check` e as suítes declaradas em `p
 | `tests/liberacao-diaria.cjs` | Ativação, fuso, liberação por data, escolhas após a virada, rollback e permissões em PostgreSQL isolado |
 | `tests/roy-alquimia.cjs` | Card próprio, consumo adiado, camadas, limpeza, áudio único/opcional, redesenho e encerramento |
 | `tests/triagem-online.cjs` | Prazo antes da atribuição, prova da decisão, compatibilidade, fila individual/global, produção, repetição, falhas posteriores e permissões |
-| `tests/feriados-tooltip.cjs` | Calendário sem pontos facultativos, linhas virtuais, renderização instalada, preservação de notas/versões, gravação e permissões |
+| `tests/feriados-tooltip.cjs` | Calendário sem pontos facultativos, pino/título no cabeçalho, semana/mês e filtros, linhas virtuais, escape de título, preservação de notas/versões, gravação e permissões |
 | `tests/dom-harness.cjs` | Suporte de simulação DOM usado por testes atuais |
 
 `test-ui-510.cjs`, `test-ui-530.cjs` e `test-contato-compartilhado.cjs` permanecem como referência da interface antiga; não fazem parte do comando principal. Não afirme que toda a pasta foi executada só porque `npm test` passou.

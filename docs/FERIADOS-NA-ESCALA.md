@@ -1,12 +1,16 @@
-# Feriados ao passar o mouse na escala
+# Feriados na escala
 
 Atualização online do backend de 26/10/2026, compatível com a tela de escala já instalada. Não exige outro ZIP, alteração dos arquivos da extensão ou nova permissão. Para receber a informação, abra a escala ou use **Atualizar** dentro dela.
+
+O código 6.11.1 acrescenta o pino de feriado descrito abaixo. Esse elemento novo exige atualizar os arquivos da extensão e recarregar a instalação existente; não é ativado somente pelo banco. Nenhum novo ZIP foi gerado para esta mudança.
 
 ## Apresentação
 
 Ao posicionar o mouse sobre a célula de um analista num dia de feriado, o título existente mostra **📅 Feriado: nome do feriado** na linha de referência do calendário. Um dia sem registro continua **Não definido**, com horários vazios e sem presença presumida. Horários, folgas, férias, presença e observações já preenchidos pela gestão continuam valendo.
 
-A referência aparece também nas células já preenchidas, junto da observação existente. O indicador está na informação ao passar o mouse sobre as células; não acrescenta ícone permanente, sombreado ou controle novo no cabeçalho da coluna. Não inclui solicitações para trabalhar no feriado nem altera quem pode editar a escala.
+A partir da 6.11.1, cada data de feriado tem apenas um pequeno pino vermelho de 14 px no canto superior direito do cabeçalho, sem sombreado adicional. Passe o mouse sobre o pino para ler **Feriado: nome do feriado**. O indicador também pode receber foco pelo teclado e tem nome acessível. Aparece uma vez por data, tanto na visão semanal quanto na mensal, inclusive ao filtrar um único analista.
+
+A referência aparece também nas células já preenchidas, junto da observação existente. Na 6.11.0, continua somente na informação ao passar o mouse sobre as células, sem pino no cabeçalho. Não inclui solicitações para trabalhar no feriado nem altera quem pode editar a escala.
 
 ## Calendário
 
@@ -39,8 +43,8 @@ Dias de feriado ainda sem escala são linhas virtuais na resposta, com `tipo=nao
 
 No editor instalado, a linha `[Calendário AF · 📅 Feriado: ...]` pode aparecer no campo de observação. Ela é metadado temporário: o servidor a remove antes de gravar, inclusive em edições de período. O restante do texto é preservado. Abrir e salvar um registro sem mudança não cria aviso apenas por causa dessa linha. A gestão continua usando a versão real para detectar edições concorrentes; o primeiro preenchimento de uma linha virtual usa a versão zero e gera somente os eventos normais da decisão de escala.
 
-Os argumentos, permissões e a sessão de gestão dos RPCs existentes são preservados. O cliente continua na versão 6.11.0. A atualização não executa aprovações no AF, não interfere nas atribuições de pedidos e não altera a liberação diária de nomes.
+Os argumentos, permissões e a sessão de gestão dos RPCs existentes são preservados. O pino da 6.11.1 usa o campo `feriado_referencia` já recebido na mesma consulta; não faz consultas extras nem exige outra migration. A atualização não executa aprovações no AF, não interfere nas atribuições de pedidos e não altera a liberação diária de nomes.
 
 ## Validação
 
-`tests/feriados-tooltip.cjs` usa PostgreSQL isolado, dados fictícios e a renderização real de `gestao.js` em DOM simulado. Verifica calendário, exclusão de pontos facultativos, datas móveis, virada do ano, filtros, linhas virtuais, observações de 500 caracteres, gravação, conflitos de versão, ausência de avisos indevidos e permissões. Não acessa produção nem exige credenciais para testar.
+`tests/feriados-tooltip.cjs` usa PostgreSQL isolado, dados fictícios e a renderização real de `gestao.js` em DOM simulado. Verifica calendário, exclusão de pontos facultativos, datas móveis, virada do ano, pino e título no cabeçalho, troca entre semana/mês, filtro individual sem consulta adicional, escape do título, linhas virtuais, observações de 500 caracteres, gravação, conflitos de versão, ausência de avisos indevidos e permissões. Não acessa produção nem exige credenciais para testar. A conferência visual e o balão nativo do navegador devem ser validados na instalação.

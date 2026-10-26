@@ -1,6 +1,6 @@
-# Dados e estado compartilhados — AF Operação 6.11.0
+# Dados e estado compartilhados — AF Operação 6.11.1
 
-Referência para manutenção e continuidade do projeto, revisada em 26/10/2026. O repositório `WinstonGabriel/fila-pedidos-af`, branch `main`, reúne o código, contratos, testes, catálogo de referência e migrations. A versão do cliente é 6.11.0 em `package.json`, `package-lock.json` e `extension/manifest.json`.
+Referência para manutenção e continuidade do projeto, revisada em 26/10/2026. O repositório `WinstonGabriel/fila-pedidos-af`, branch `main`, reúne o código, contratos, testes, catálogo de referência e migrations. A versão do cliente é 6.11.1 em `package.json`, `package-lock.json` e `extension/manifest.json`. O pino no cabeçalho de feriado é código novo desta versão; instalações 6.11.0 conservam a referência online ao passar o mouse nas células até atualizarem seus arquivos.
 
 ## Fontes e alcance
 

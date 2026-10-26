@@ -1,0 +1,20 @@
+AF OPERAÇÃO 6.11.1 — PINO DE FERIADO NA ESCALA
+
+As datas de feriado têm um pino vermelho discreto no canto superior direito.
+Passe o mouse sobre o pino para consultar o nome do feriado.
+Funciona na escala semanal, mensal e no filtro individual.
+
+Somente feriados nacionais, do Maranhão e de São Luís, sem pontos facultativos.
+Dias ainda não preenchidos continuam Não definido. A referência não marca
+trabalho, folga, presença ou férias e não altera permissões de edição.
+
+ATUALIZAÇÃO SEM REINSTALAR
+Esta revisão foi publicada no Git sem gerar outro ZIP. Atualize os arquivos
+da mesma pasta já instalada, preservando config.js, e clique em Recarregar
+na extensão existente em chrome://extensions ou opera://extensions.
+Recarregue as abas do AF. Não é necessário remover a extensão.
+
+O pino é código novo: a publicação no Git não atualiza automaticamente os
+arquivos dos outros computadores. Instalações 6.11.0 mantêm o nome ao passar
+o mouse sobre a célula, recebido online, mas não mostram o pino no cabeçalho.
+Não há nova migration, permissão ou consulta ao banco nesta revisão.

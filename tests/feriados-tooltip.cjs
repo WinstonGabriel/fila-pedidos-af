@@ -76,15 +76,25 @@ const marcador='[Calendário AF · 📅 Feriado: Dia Nacional de Zumbi e da Cons
    assert.ok((await q("select p.prosecdef from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='af_mobile' and p.proname in ('pascoa_referencia','feriados_periodo','limpar_feriado_exibicao')")).every(x=>x.prosecdef===false));
    assert.equal((await q("select relrowsecurity rls from pg_class where oid='af_mobile.feriados_referencia'::regclass"))[0].rls,true);
   });
-  await test('interface instalada mostra o título no mouse e mantém edição apenas para gestão',async()=>{
+  await test('pino identifica o feriado no cabeçalho, preserva filtros e edição apenas para gestão',async()=>{
    await reset();const dom=new JSDOM(fs.readFileSync(path.join(__dirname,'../extension/popup.html'),'utf8'),{runScripts:'outside-only',url:'https://extensao.invalid/'}),w=dom.window;
    try{
     w.esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));w.nomeHtml=n=>w.esc(n);w.ANALISTAS=['Gabriel','Rayla'];w.remote={coord:false};w.contextoCliente=()=> 'teste';w.hoje=()=> '2026-11-01';
-    w.rpc=async(fn,p)=>{assert.equal(fn,'fila_escala_consultar');return consulta(p.p_inicio,p.p_fim,p.p_analista);};
+    let consultas=0;
+    w.rpc=async(fn,p)=>{consultas++;assert.equal(fn,'fila_escala_consultar');return consulta(p.p_inicio,p.p_fim,p.p_analista);};
     w.document.getElementById('escalaReferencia').value='2026-11-01';w.document.getElementById('escalaModo').value='mes';w.document.getElementById('editarAnalista').innerHTML='<option>Gabriel</option><option>Rayla</option>';
     w.eval(fs.readFileSync(path.join(__dirname,'../extension/gestao.js'),'utf8'));await w.FilaGestao.carregarEscala();
+    const pinos=()=>w.document.querySelectorAll('#escalaGrade thead .escala-feriado-pino');
+    assert.equal(pinos().length,3);assert.equal(consultas,1);
+    const pino=w.document.querySelector('[data-escala-data="2026-11-20"] .escala-feriado-pino');
+    assert.equal(pino.title,'Feriado: Dia Nacional de Zumbi e da Consciência Negra');assert.equal(pino.getAttribute('aria-label'),pino.title);assert.equal(pino.tabIndex,0);assert.ok(pino.querySelector('svg'));assert.equal(pino.textContent,'');
+    assert.equal(w.document.querySelector('[data-escala-data="2026-11-19"] .escala-feriado-pino'),null);
+    w.document.getElementById('escalaAnalista').innerHTML='<option value="">Todos</option><option>Rayla</option>';w.document.getElementById('escalaAnalista').value='Rayla';w.FilaGestao.renderEscala();assert.equal(pinos().length,3);assert.equal(w.document.querySelectorAll('#escalaGrade tbody tr').length,1);assert.equal(consultas,1);
     let linha=[...w.document.querySelectorAll('#escalaGrade tbody tr')].find(r=>r.firstElementChild.textContent==='Rayla'),celula=linha.querySelectorAll('.escala-dia')[19];assert.equal(celula.textContent,'Não definido');assert.equal(celula.tagName,'SPAN');assert.ok(celula.title.includes('📅 Feriado: Dia Nacional de Zumbi'));
     w.remote.coord=true;w.FilaGestao.renderEscala();w.FilaGestao.editor('Rayla','2026-11-20');assert.equal(w.document.getElementById('editarTipo').value,'nao_definido');assert.equal(w.document.getElementById('editarObservacao').value,marcador);
+    w.document.getElementById('escalaModo').value='semana';w.document.getElementById('escalaReferencia').value='2026-11-20';await w.FilaGestao.carregarEscala();assert.equal(pinos().length,1);assert.equal(consultas,2);
+    w.document.getElementById('escalaModo').value='mes';w.document.getElementById('escalaReferencia').value='2026-12-01';await w.FilaGestao.carregarEscala();assert.equal(pinos().length,2);assert.equal(w.document.querySelector('[data-escala-data="2026-11-20"]'),null);assert.ok(w.document.querySelector('[data-escala-data="2026-12-08"] .escala-feriado-pino').title.includes('Nossa Senhora da Conceição'));assert.equal(consultas,3);
+    w.rpc=async()=>({itens:[{analista:'Rayla',data:'2026-12-08',feriado_referencia:'Feriado com "aspas" e <img src=x onerror=alert(1)>'}]});await w.FilaGestao.carregarEscala();assert.equal(pinos().length,1);assert.ok(pinos()[0].title.includes('<img src=x'));assert.equal(w.document.querySelector('#escalaGrade img'),null);
    }finally{dom.window.close();}
   });
   console.log(`${passou} verificações de feriados no tooltip passaram.`);
