@@ -4,9 +4,9 @@ const COR = { Natalie: '#db2777', Cássio: '#ea580c', Evangela: '#7c3aed', Gabri
 const PREF_PADRAO = ['Mateus Express', 'Mix Toureiro Farma'];
 const LIMITE_ATRASO_MS = 30 * 60 * 1000; // 30 min com o mesmo pedido
 const ORIGEM_PAINEL = 'https://af.mateusmais.com.br';
-const INTERVALO_LEITURA_MS = 3000;
+const INTERVALO_LEITURA_MS = 5000;
 const INTERVALO_COMPLETA_MS = 60000;
-const INTERVALO_SYNC_MS = 2000;
+const INTERVALO_SYNC_MS = 5000;
 const TEMPO_BANCO_MS = 35 * 1000;
 const RASPAGEM = { esperaTelaMs: 30000, tempoPaginaMs: 60000, tempoTotalMs: 180000, concorrencia: 2, maxPaginas: 40, esperaRetryMs: 1500 };
 
@@ -230,13 +230,17 @@ async function rpc(fn, args = {}) {
   }
 }
 
-async function sync() {
-  if (syncEmCurso) return syncEmCurso;
-  syncEmCurso = sincronizar();
+async function sync(forcar = true) {
+  if (syncEmCurso) {
+    if (!forcar) return syncEmCurso;
+    await syncEmCurso;
+    return sync(true);
+  }
+  syncEmCurso = sincronizar(forcar);
   try { return await syncEmCurso; } finally { syncEmCurso = null; }
 }
 
-async function sincronizar() {
+async function sincronizar(forcar = true) {
   prepararCliente();
   if (!local.codigo) {
     rede = { ok: false, msg: 'Informe o código da equipe em "Conexão".' };
@@ -244,7 +248,12 @@ async function sincronizar() {
   }
   try {
     const contexto = JSON.stringify([local.codigo, local.token, credencialCoord()]);
-    const d = await rpc('fila_estado', { p_token: local.token });
+    let d;
+    if (chrome.runtime?.sendMessage) {
+      const r = await chrome.runtime.sendMessage({tipo:'fila-sincronizar',contexto:JSON.stringify([SUPABASE_URL,local.codigo,local.token,credencialCoord()]),coord:credencialCoord(),forcar});
+      if (!r?.ok) throw Error(r?.mensagem || 'Recarregue a extensão para atualizar a sincronização.');
+      d = r.dados;
+    } else d = await rpc('fila_estado', { p_token: local.token });
     if (contexto !== JSON.stringify([local.codigo, local.token, credencialCoord()])) return false;
     if (!d || typeof d !== 'object' || Array.isArray(d)) throw new Error('O banco retornou uma resposta inválida.');
     const m = {};
@@ -252,10 +261,11 @@ async function sincronizar() {
     remote.analistas = m;
     remote.atribuicoes = d.atribuicoes || [];
     remote.automaticos = d.automaticos || [];
+    remote.concluidos_ids = d.concluidos_ids || [];
     remote.janela = d.janela || {};
     remote.usuarios = d.usuarios || [];
     remote.coord = !!d.coord;
-    try { const r = await rpc('fila_descanso'); descansos = r; descansoRelogio = Date.parse(r.servidor_em) - Date.now(); } catch { descansos = { analistas: {} }; }
+    try { const r = d.descansos || await rpc('fila_descanso'); descansos = r; descansoRelogio = Date.parse(d.servidor_em || r.servidor_em) - Date.now(); } catch { descansos = { analistas: {} }; }
     await publicarOcultacao();
     // A consulta do catálogo não bloqueia a fila nem a distribuição de pedidos.
     sincronizarCatalogo(remote.janela.temas_catalogo_revisao).catch(() => {});
@@ -319,7 +329,7 @@ const reservadosDe = (n) => remote.atribuicoes.filter((a) => a.analista === n &&
 const contatos = () => remote.atribuicoes.filter((a) => a.status === 'contato' && a.destino_apoio !== 'suporte');
 const suportes = () => remote.atribuicoes.filter((a) => a.status === 'contato' && a.destino_apoio === 'suporte');
 const ICONE_SUPORTE = '<svg viewBox="0 0 48 48" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-3px;margin-right:3px"><path d="m20 5 1-3h7l1 7 5 2 5-4 6 6-4 5 2 5 3 1v7l-7 1-2 5-5-4-5 2-1 7h-7l-1-7-5-2-5 4-6-6 4-5-2-5-7-1v-7l7-1 2-5 5 4z" transform="translate(2 3) scale(.83)"/><path d="M28 19a9 9 0 0 0-12-8l6 6-5 5-6-6a9 9 0 0 0 9 12l14 14a6 6 0 0 0 8-8L28 20z"/></svg>';
-const ocupados = () => new Set([...remote.atribuicoes.filter((a) => a.status !== 'devolvido').map((a) => a.pedido_id), ...(remote.automaticos || []).map(p=>p.pedido_id)]);
+const ocupados = () => new Set([...remote.atribuicoes.filter((a) => a.status !== 'devolvido').map((a) => a.pedido_id), ...(remote.automaticos || []).map(p=>p.pedido_id), ...(remote.concluidos_ids || [])]);
 const atrasado = (a) => !!a && Date.now() - new Date(a.criado_em).getTime() >= LIMITE_ATRASO_MS;
 
 /* ---------- lojas de preferência (compartilhadas) ---------- */
@@ -339,7 +349,7 @@ async function scrapeFn(opcoes = {}) {
   const chave = opcoes.somenteTela ? '__filaPedidosTela510' : '__filaPedidosLeitura501';
   if (window[chave]) return window[chave];
   const executar = async () => {
-    const cfg = { esperaTelaMs: 30000, tempoPaginaMs: 60000, tempoTotalMs: 180000, concorrencia: 2, maxPaginas: 40, esperaRetryMs: 1500, cadenciaMs: 3000, ...opcoes };
+    const cfg = { esperaTelaMs: 30000, tempoPaginaMs: 60000, tempoTotalMs: 180000, concorrencia: 2, maxPaginas: 40, esperaRetryMs: 1500, cadenciaMs: 5000, ...opcoes };
     const novaLeitura = `Nova leitura em ${(cfg.cadenciaMs / 1000).toLocaleString('pt-BR')} s.`;
     const controleTotal = new AbortController();
     const prazo = Date.now() + cfg.tempoTotalMs;
@@ -1412,7 +1422,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const atualizar = async () => {
     try {
       const antes = JSON.stringify([remote.analistas, remote.janela, descansos.analistas]);
-      if (!acaoEmCurso && await sync()) {
+      if (!acaoEmCurso && await sync(false)) {
         await distribuirAutomatico();
         if (JSON.stringify([remote.analistas, remote.janela, descansos.analistas]) !== antes && !$('#cfgBody').contains(document.activeElement)) renderCfg();
         renderEu();

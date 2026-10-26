@@ -1,0 +1,18 @@
+AF OPERAÇÃO 6.10.0 — ECONOMIA DE TRANSFERÊNCIA
+
+- O banco envia todos os pedidos ativos, de contato, suporte, reserva e devolução, mas somente os oito pedidos humanos concluídos mais recentes.
+- O histórico completo e os relatórios permanecem salvos e disponíveis. IDs concluídos continuam protegidos contra redistribuição.
+- Uma sincronização compartilhada por instalação atende os painéis e os avisos. Janelas do Chrome e painéis flutuantes do mesmo perfil reaproveitam a mesma consulta.
+- O banco envia novamente apenas os blocos que mudaram. A resposta sem mudanças fica próxima de 218 bytes no cenário medido.
+- Status, descanso e notificações usam uma única chamada. Ações do usuário forçam uma atualização imediata.
+- A leitura do AF permanece em 5 segundos, incluindo a captura de linhas de passagem rápida.
+
+COMO ATUALIZAR
+1. Feche os painéis da extensão.
+2. Extraia este ZIP e substitua os arquivos NA MESMA PASTA da instalação atual.
+3. Abra chrome://extensions ou opera://extensions e clique em Recarregar na AF Operação.
+4. Atualize as abas do AF e reabra o painel.
+Não desinstale nem carregue uma segunda pasta: preserve sua identificação.
+
+A redução da resposta antiga já foi aplicada no banco para todas as instalações. Para compartilhar consultas e usar os blocos sem mudanças, cada instalação precisa desta atualização inicial.
+A economia afeta o consumo futuro. O uso já acumulado no ciclo do Supabase não é apagado.

@@ -32,16 +32,17 @@ async function publicarAvisosBackground(d, s) {
   if (chaveAvisos(atual.local) !== chaveAvisos(s))
     throw Error('A identificação mudou. Abra a extensão para consultar seus avisos.');
   const contexto = await contextoPublicoAvisos(s);
-  await chrome.storage.local.set({
-    filaNotificacoesUI: {
+  const projecao = {
       contexto,
       analista: d.analista,
+      destinatario: d.destinatario,
       itens: d.itens || [],
       lido_ate: d.lido_ate || 0,
       nao_lidos: d.nao_lidos || 0,
       ultimo_id: d.ultimo_id || 0,
-    },
-  });
+    };
+  const anterior=(await chrome.storage.local.get('filaNotificacoesUI')).filaNotificacoesUI;
+  if(JSON.stringify(anterior)!==JSON.stringify(projecao))await chrome.storage.local.set({filaNotificacoesUI:projecao});
   ultimoContextoAvisos = chaveAvisos(s);
   ultimoAvisosEm = Date.now();
 }
@@ -68,7 +69,8 @@ function atualizarAvisosBackground(forcar = false) {
       return;
     }
     if (!forcar && contexto === ultimoContextoAvisos && Date.now() - ultimoAvisosEm < 8000) return;
-    await publicarAvisosBackground(await rpcAvisosBackground('fila_avisos', s), s);
+    const d=globalThis.FilaSincronizacao ? (await FilaSincronizacao.obter({forcar,coord:null})).avisos : await rpcAvisosBackground('fila_avisos', s);
+    await publicarAvisosBackground(d, s);
   });
 }
 function confirmarAvisosBackground(msg) {
@@ -87,6 +89,7 @@ function confirmarAvisosBackground(msg) {
       await rpcAvisosBackground('fila_aviso_confirmar', s, { p_ids: msg.ids }),
       s,
     );
+    globalThis.FilaSincronizacao?.invalidar();
   });
 }
 async function abrirAvisosBackground(sender, msg) {

@@ -7,3 +7,5 @@ Esta pasta não é um bootstrap. As migrações dependem da infraestrutura da fi
 Os testes de `tests/distribuicao-leitor.cjs` executam a reprodução anterior e a correção em PostgreSQL isolado, com dados fictícios. Não execute os fixtures contra produção.
 
 `20261025183807_captura_e_conciliacao_af.sql` acrescenta o registro privado de observações e conclusões, consultas exclusivas por instalação, conciliação explícita no histórico do AF e relatório de quantidades/valores. Preserva a auditoria original e as declarações anteriores; não infere automáticos de desaparecimento ou recomendação. Os patches dos RPCs existentes recusam definições incompatíveis. Veja `docs/CAPTURA-E-APROVACAO-AUTOMATICA.md` e os testes isolados de conciliação antes de reutilizar esta migração.
+
+`20261026025317_sincronizacao_economica.sql` compacta a resposta de `fila_estado` sem excluir o histórico e cria `fila_sincronizar`, que valida o ator a cada consulta e envia apenas blocos alterados. O teste isolado de banco verifica a compatibilidade com clientes anteriores e as permissões.

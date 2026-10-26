@@ -608,29 +608,29 @@
       feedback('escalaFeedback', e.message, true);
     }
   }
+  async function receberAvisos(d,ctx=contextoCliente()) {
+    if(ctx!==contextoCliente())return;
+    avisos=d;ultimoAvisoCheck=Date.now();renderAvisos();
+    if(d.analista){
+      const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(local.codigo+'|'+local.token));
+      if(ctx===contextoCliente())await FilaBaloes.receber({...d,contexto:Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('')});
+    }
+  }
   async function carregarAvisos(force = false) {
     if (avisosPendente) return avisosPendente;
     if (!force && Date.now() - ultimoAvisoCheck < 8000) return;
     const ctx = contextoCliente();
     avisosPendente = (async () => {
       try {
-        const d = await rpc('fila_avisos');
-        if (ctx !== contextoCliente()) return;
-        avisos = d;
-        ultimoAvisoCheck = Date.now();
-        renderAvisos();
-        // Atualiza o AF pelo worker, mantendo a projeção sem segredos.
-        chrome.runtime?.sendMessage?.({ tipo: 'fila-atualizar-avisos' }).catch(() => {});
-        if (d.analista) {
-          const digest = await crypto.subtle.digest(
-            'SHA-256',
-            new TextEncoder().encode(local.codigo + '|' + local.token),
-          );
-          await FilaBaloes.receber({
-            ...d,
-            contexto: Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, '0')).join(''),
-          });
-        }
+        let d;
+        if(chrome.runtime?.sendMessage){
+          const r=await chrome.runtime.sendMessage({tipo:'fila-atualizar-avisos',forcar:force});
+          if(!r?.ok)throw Error(r?.mensagem||'Não foi possível atualizar os avisos.');
+          d=(await chrome.storage.local.get('filaNotificacoesUI')).filaNotificacoesUI;
+          const hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(local.codigo+'|'+local.token));
+          if(!d||d.contexto!==Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join(''))return;
+        }else d=await rpc('fila_avisos');
+        await receberAvisos(d,ctx);
       } catch (e) {
         if (el('avisosDialogo').open) el('avisosResumo').textContent = e.message;
       } finally {
@@ -685,7 +685,8 @@
     }
     render();
     if (el('escalaDialogo').open) renderEscala();
-    carregarAvisos();
+    if(d.avisos)receberAvisos(d.avisos).catch(()=>{});
+    else carregarAvisos();
   }
   function iniciar() {
     if (iniciado) return;
@@ -917,6 +918,7 @@
       try {
         avisos = await rpc('fila_avisos', { p_ultimo: avisos?.ultimo_id || 0 });
         renderAvisos();
+        chrome.runtime?.sendMessage?.({tipo:'fila-atualizar-avisos',forcar:true}).catch(()=>{});
       } catch (e) {
         el('avisosResumo').textContent = e.message;
       }
