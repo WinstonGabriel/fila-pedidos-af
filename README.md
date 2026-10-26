@@ -1,6 +1,8 @@
 # AF Operação
 
-Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.11.1.**
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.11.2.**
+
+A versão 6.11.2 identifica o descanso regulamentado nas notificações como **Pausa 20min**. O intervalo comum mantém o nome **Intervalo**. O novo texto exige atualizar os arquivos instalados, além do metadado de pausa emitido pelo backend; não há novo ZIP nesta revisão.
 
 A versão 6.11.1 acrescenta um pino vermelho discreto no canto da data de feriado na escala. Passe o mouse sobre ele para consultar o nome. O pino exige atualizar os arquivos instalados; publicar no Git não atualiza os navegadores automaticamente.
 

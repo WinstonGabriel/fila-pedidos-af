@@ -1,0 +1,15 @@
+AF OPERAÇÃO 6.11.2 — NOTIFICAÇÃO PAUSA 20min
+
+Ao iniciar o descanso de vinte minutos, o novo aviso mostra "Pausa 20min"
+no balão e na central do sino. O intervalo comum mantém o nome "Intervalo".
+O retorno automático continua mostrando ON. Duração, limite diário,
+disponibilidade e regras de edição permanecem os mesmos.
+
+O backend identifica a pausa nos novos eventos. Avisos antigos sem essa
+identificação conservam a apresentação anterior.
+
+Publicação no Git sem gerar outro ZIP. Atualize os arquivos na mesma pasta
+da instalação, preserve config.js e clique em Recarregar na extensão em
+chrome://extensions ou opera://extensions. Recarregue as abas do AF.
+Não é necessário remover a extensão. A publicação no Git não atualiza
+automaticamente os arquivos nos computadores da equipe.

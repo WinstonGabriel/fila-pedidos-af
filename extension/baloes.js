@@ -24,7 +24,9 @@
       escala = e.tipo === 'escala',
       novo = escala ? d.depois || {} : d;
     const titulo = `${escala ? 'Escala atualizada' : 'Status atualizado'}: ${e.analista}`;
-    const status = rotulos[escala ? novo.tipo : d.depois] || (escala ? 'Atualizada' : 'Atualizado');
+    const status = !escala && d.depois === 'intervalo' && d.pausa_20min === true
+      ? 'Pausa 20min'
+      : rotulos[escala ? novo.tipo : d.depois] || (escala ? 'Atualizada' : 'Atualizado');
     let texto =
       escala && novo.tipo === 'trabalho'
         ? `Turno: ${novo.inicio || 'horário não informado'}${novo.fim ? ' – ' + novo.fim : ''}`

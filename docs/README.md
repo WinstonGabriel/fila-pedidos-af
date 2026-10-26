@@ -1,6 +1,6 @@
 # Documentação — AF Operação 6.11.0
 
-Referência da base 6.11.0 e da revisão 6.11.1 de feriados na escala. Revisão documental: 26/10/2026. Exemplos fictícios; nenhuma credencial ou dado operacional é necessário para ler estes documentos.
+Referência da base 6.11.0 e das revisões 6.11.1 de feriados na escala e 6.11.2 de nomenclatura das notificações de pausa. Revisão documental: 26/10/2026. Exemplos fictícios; nenhuma credencial ou dado operacional é necessário para ler estes documentos.
 
 A organização técnica segue a [documentação anterior de extração e apresentação](ARQUITETURA-5.3.1.md), preservada como referência histórica. A documentação atual substitui suas descrições de comportamento quando houver diferença.
 
@@ -21,7 +21,7 @@ A organização técnica segue a [documentação anterior de extração e aprese
 | [Economia de transferência](ECONOMIA-DE-TRANSFERENCIA.md) | Sincronização por blocos, cache por instalação e compatibilidade |
 | [Liberação diária](LIBERACAO-DIARIA.md) | Liberação das reservas de nome às 00:00 em America/Fortaleza |
 | [Alquimia das Chamas](ALQUIMIA-DAS-CHAMAS.md) | Animação pessoal do Roy Mustang e controle do estalo |
-| [Histórico de versões](HISTORICO-DE-VERSOES.md) | Evolução documentada até 6.11.1 e atualizações do banco |
+| [Histórico de versões](HISTORICO-DE-VERSOES.md) | Evolução documentada até 6.11.2 e atualizações do banco |
 | [Publicação e colaboração](PUBLICAR_NO_GITHUB.md) | Repositório existente, branches, revisão e entrega |
 
 ## Escopo e limites

@@ -21,6 +21,7 @@ Este histórico consolida as notas presentes no pacote; não inventaria cada ver
 | 6.10.0 | Resposta de estado compacta, sincronização por blocos e compartilhamento de consultas por instalação/contexto |
 | 6.11.0 | Alquimia das Chamas de Roy Mustang no card próprio, com estalo local opcional, movimento reduzido e consumo único |
 | 6.11.1 | Pino vermelho minimalista no canto da data de feriado; título com o nome, sem alterar a definição da escala |
+| 6.11.2 | Notificações do descanso identificado mostram Pausa 20min; intervalo comum preservado |
 
 ## Revisão documental de 26/10/2026
 

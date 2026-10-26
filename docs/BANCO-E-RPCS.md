@@ -89,6 +89,8 @@ Valida o ator e o pedido, aceita no máximo 1.000 candidatos e mantém retençã
 
 `fila_descanso(p_codigo text, p_token text, p_coord text=null, p_nome text=null, p_iniciar boolean=false)` delega para `af_mobile.descanso_executar`.
 
+O trigger `fila_atividade_evento` acrescenta `detalhe.pausa_20min=true` ao novo aviso quando o status interno é `intervalo` e `descanso_ate` indica uma pausa ativa. O cliente 6.11.2 usa essa identificação para exibir **Pausa 20min** no balão e na central. Um intervalo comum, mesmo com duração de vinte minutos, mantém **Intervalo**. O status interno, as permissões, os avisos anteriores e as regras de descanso permanecem preservados.
+
 O retorno usado pela interface contém `servidor_em` e mapa `analistas`, com `usados`, `ate`, `on_desde`, `proximo_em`. A UI calcula diferença entre relógio do servidor e navegador para o contador. A regra diária usa `America/Fortaleza`; horário visual e data local de outras telas podem depender do navegador.
 
 O início exige identidade real igual ao alvo, ON, ausência de pedido e limite diário. Uma segunda pausa exige ON contínuo após o fim anterior; mudar o dia não permite emendar pausas. O trigger `af_mobile.descanso_proteger` protege atualizações feitas por diferentes clientes. `af_mobile.descanso_encerrar()` encerra as pausas vencidas; o agendamento periódico é dependência operacional e deve ser verificado separadamente da existência da função.

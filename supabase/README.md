@@ -2,7 +2,9 @@
 
 Esta pasta não é um bootstrap. As migrações dependem da infraestrutura da fila já implantada e recusam definições incompatíveis.
 
-Referência do cliente: **6.11.0**, revisão documental de 26/10/2026. Os [dados e regras compartilhados](../docs/DADOS-COMPARTILHADOS.md) e os [contratos RPC](../docs/BANCO-E-RPCS.md) consolidam o uso atual. O efeito visual 6.11.0 não acrescenta migration.
+Referência do cliente: **6.11.2**, revisão documental de 26/10/2026. Os [dados e regras compartilhados](../docs/DADOS-COMPARTILHADOS.md) e os [contratos RPC](../docs/BANCO-E-RPCS.md) consolidam o uso atual. O efeito visual 6.11.0 não acrescenta migration.
+
+`20261026205118_pausa_20min_notificacao.sql` identifica novos eventos de status com `pausa_20min` quando existe um descanso ativo. O status interno continua `intervalo`; o cliente 6.11.2 apresenta **Pausa 20min** no balão e na central. Não altera registros anteriores, duração, limites, permissões ou devolução de pedidos. O novo rótulo exige atualizar os arquivos da extensão; esta revisão não gerou ZIP.
 
 As cinco migrations `20261026193505_feriados_tooltip_estrutura.sql` a `20261026193514_feriados_tooltip_consulta.sql` implantam a [referência de feriados na escala](../docs/FERIADOS-NA-ESCALA.md): estrutura privada, dados oficiais, helpers, limpeza no salvamento e ativação da consulta. Aplique na ordem dos arquivos. A referência é virtual, não grava folgas ou horários e não exige outro ZIP.
 
