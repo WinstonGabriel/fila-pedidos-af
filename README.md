@@ -11,6 +11,7 @@ O [índice de documentação](docs/README.md) reúne os manuais de analista e ge
 ## Funcionalidades
 
 - Fila compartilhada, distribuição automática, reserva exclusiva de nome e confirmação pelo ID do pedido.
+- [Liberação automática dos nomes às 00:00](docs/LIBERACAO-DIARIA.md), no horário de São Luís, sem precisar manter a extensão aberta.
 - Listas **Para contato** e **Para suporte**, compartilhadas entre analistas identificados; pedidos retidos ficam fora da distribuição até remoção explícita.
 - Imagem de **Para suporte** configurável online para a equipe, com desenho original como alternativa se a imagem falhar. Requer a atualização inicial para 6.8.2.
 - Status, escala, gestão, direcionamento por loja, histórico com origem de liberação comprovada e ranking de conclusões.
