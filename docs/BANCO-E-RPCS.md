@@ -100,6 +100,8 @@ O cliente só declara automático após conferir o ID e a decisão explícita no
 
 `fila_gestao_relatorio` incorpora `producao`, com `totais`, `automaticos`, `manuais`, `analistas`, `sem_conclusao`, `legados_sem_conferencia` e `cobertura`. Contagens e valores são separados por origem; `valor_centavos` é inteiro e `sem_valor` indica registros sem valor conhecido. O período usa a data da conclusão em America/Fortaleza; o filtro de analista restringe a lista individual, preservando os totais gerais da equipe.
 
+A [triagem online](TRIAGEM-ONLINE.md) acrescenta `triagem_ate`, `triagem_consultas`, `aprovacao_af_em` e o helper privado invoker `af_mobile.triar_candidatos(jsonb)`. O alocador global e `fila_puxar` filtram candidatos antes de atribuir. `fila_pedidos_pendentes` prioriza novos não atribuídos, em lotes de dois, com comprovante por 45 segundos. Os contratos públicos e argumentos permanecem iguais. O relatório acrescenta `producao.aprovados_origem_pendente`; o estado legado `autorizado_manual` não é prova de autoria humana. Veja o guia para o comportamento dos clientes sem histórico e os limites de contabilização na interface instalada.
+
 ### Sincronização econômica
 
 `fila_sincronizar(p_codigo text, p_token text, p_coord text=null, p_versoes jsonb={})` delega para `af_mobile.sincronizar`. Aceita objeto de versões de até 512 bytes, autentica a cada chamada, encerra descansos vencidos e consulta estado/avisos. Retorna `versoes`, `dados` e `servidor_em`; `dados` contém apenas os blocos alterados `estado`, `descansos` e `avisos`. Uma resposta sem mudanças pode ter `dados={}`. Hashes são controle de transporte e não autorização.

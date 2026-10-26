@@ -16,6 +16,7 @@ A organização técnica segue a [documentação anterior de extração e aprese
 | [Segurança e privacidade](SEGURANCA-E-PRIVACIDADE.md) | Identidades, permissões, isolamento e dados locais |
 | [Testes e validação](TESTES-E-VALIDACAO.md) | Suítes, cobertura, testes manuais e limites da evidência |
 | [Captura e aprovação automática](CAPTURA-E-APROVACAO-AUTOMATICA.md) | Captura de passagens rápidas, recuperação, origem e contabilização |
+| [Triagem online](TRIAGEM-ONLINE.md) | Espera antes da distribuição, verificação de autorizações e compatibilidade sem outro ZIP |
 | [Economia de transferência](ECONOMIA-DE-TRANSFERENCIA.md) | Sincronização por blocos, cache por instalação e compatibilidade |
 | [Liberação diária](LIBERACAO-DIARIA.md) | Liberação das reservas de nome às 00:00 em America/Fortaleza |
 | [Alquimia das Chamas](ALQUIMIA-DAS-CHAMAS.md) | Animação pessoal do Roy Mustang e controle do estalo |

@@ -23,6 +23,8 @@ Este histórico consolida as notas presentes no pacote; não inventaria cada ver
 
 ## Revisão documental de 26/10/2026
 
+A atualização online de [triagem de pedidos](TRIAGEM-ONLINE.md) acrescenta espera mínima de dez segundos e verificação antes da atribuição, com bloqueio de autorizações conhecidas. Reutiliza os RPCs do coletor instalado, sem novo ZIP nem mudança da versão 6.11.0 do cliente. Aprovações sem origem comprovada não são presumidas automáticas.
+
 Manuais, arquitetura, contratos, índice de testes e referência de dados compartilhados foram alinhados à versão 6.11.0. A leitura AF e a sincronização periódica usam 5 segundos como padrão. A lista de saídas informa a hora original do pedido e **Pedido concluído por:**; automáticos confirmados têm apresentação e contabilização próprias.
 
 A atualização de banco `20261026031910_liberar_nomes_meia_noite.sql`, independente da versão instalada, programa a liberação diária das reservas de nome às 00:00 em America/Fortaleza, a partir de 27/10/2026. Preserva status, pedidos, escala e sessões de gestão. Veja [Liberação diária](LIBERACAO-DIARIA.md).

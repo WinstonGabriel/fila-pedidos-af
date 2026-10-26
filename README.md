@@ -12,6 +12,7 @@ O [índice de documentação](docs/README.md) reúne os manuais de analista e ge
 
 - Fila compartilhada, distribuição automática, reserva exclusiva de nome e confirmação pelo ID do pedido.
 - Captura de pedidos que passam rapidamente pela lista, recuperação após confirmação no AF e separação de aprovações automáticas nos relatórios e no ranking.
+- [Triagem online antes da distribuição](docs/TRIAGEM-ONLINE.md): janela mínima de 10 segundos e consulta ao AF nas instalações com coletor 6.9+, sem outro ZIP; decisões já autorizadas ficam fora da fila.
 - [Liberação automática dos nomes às 00:00](docs/LIBERACAO-DIARIA.md), no horário de São Luís, sem precisar manter a extensão aberta.
 - Listas **Para contato** e **Para suporte**, compartilhadas entre analistas identificados; pedidos retidos ficam fora da distribuição até remoção explícita.
 - Imagem de **Para suporte** configurável online para a equipe, com desenho original como alternativa se a imagem falhar. Requer a atualização inicial para 6.8.2.

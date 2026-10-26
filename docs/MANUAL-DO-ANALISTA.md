@@ -19,6 +19,8 @@ Os status exibidos são ON, OFF, Intervalo, Férias, Contato tel, Em call, Miss�
 
 Ao voltar para ON, a interface seleciona Pilha e tenta distribuir quando há pedidos e leitura válida. Não é necessário um colega “enviar” o pedido: a alocação pode ocorrer automaticamente durante a sincronização. A equipe deve acompanhar status e eventuais pedidos em andamento ao sair da operação.
 
+Pedidos novos passam por uma triagem no servidor, com espera mínima de 10 segundos e consulta ao AF. Autorizações já reconhecidas ficam fora da fila; o tempo de resposta e a cadência do coletor podem aumentar a espera. Essa proteção chega online às versões com o coletor 6.9 ou posterior, sem novo ZIP.
+
 ## 3. Operar um pedido
 
 | Controle/ação | Resultado |

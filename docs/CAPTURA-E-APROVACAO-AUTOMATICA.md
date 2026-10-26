@@ -10,6 +10,8 @@ O banco registra cada ID, mesmo sem analista livre. Cada instalação recebe at�
 
 Um pedido ausente da leitura periódica só é recuperado para distribuição após confirmar que tanto seu estado atual quanto sua última decisão continuam **Pedido em análise**. Essa confirmação vale por trinta segundos. A distribuição utiliza o mesmo alocador, com registro de nome, ON, capacidade, regras de Força de Vendas, exclusividade de lojas e retenções de contato/suporte.
 
+A [triagem online de 26/10/2026](TRIAGEM-ONLINE.md) acrescenta uma espera mínima de dez segundos antes de atribuir candidatos novos, seguida de consulta ao AF. Bloqueia autorizações já conhecidas, inclusive quando o leitor não fornece prova da origem. A compatibilidade com detalhes sem histórico, o lote prioritário e os limites de evidência estão descritos no guia; a atualização funciona no backend sem outro ZIP.
+
 ## Conclusão e auditoria
 
 A tabela privada `af_mobile.pedidos_capturados` tem RLS, acesso direto revogado e chave primária por pedido. Os RPCs públicos são invoker e chamam funções privadas definer com `search_path=''`, permissões explícitas e autenticação por `fila_ator`, mantendo o modelo da equipe existente.

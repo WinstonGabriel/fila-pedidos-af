@@ -4,6 +4,8 @@ Esta pasta não é um bootstrap. As migrações dependem da infraestrutura da fi
 
 Referência do cliente: **6.11.0**, revisão documental de 26/10/2026. Os [dados e regras compartilhados](../docs/DADOS-COMPARTILHADOS.md) e os [contratos RPC](../docs/BANCO-E-RPCS.md) consolidam o uso atual. O efeito visual 6.11.0 não acrescenta migration.
 
+As nove migrations `20261026185310_triagem_online_estrutura.sql` a `20261026185644_triagem_online_pedidos.sql` implantam a [triagem online](../docs/TRIAGEM-ONLINE.md), na ordem dos arquivos: estrutura, helper privado, consultas, conciliação, estado, relatório, histórico, obtenção individual e ativação no alocador global. A versão dos arquivos da extensão permanece 6.11.0, sem outro ZIP. Use todas as etapas em desenvolvimento ao reproduzir a atualização.
+
 `20261025175646_distribuicao_por_leitor_identificado.sql` permite que um coletor identificado OFF solicite a distribuição global. O alocador continua escolhendo somente destinatários ON, registrados e elegíveis. O patch remove somente a condição antiga sobre o coletor, preserva a validação do ator e os grants, e pode ser reaplicado sem duplicar alterações. Não altera pedidos, histórico, classificações ou dados de gestão.
 
 Os testes de `tests/distribuicao-leitor.cjs` executam a reprodução anterior e a correção em PostgreSQL isolado, com dados fictícios. Não execute os fixtures contra produção.
