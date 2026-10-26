@@ -1452,6 +1452,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
   leituraContinua();
   atualizar();
+
+  // Persistência do estado dos menus details (conn, cfg e gestao).
+  ['conn', 'cfg', 'gestao'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    chrome.storage.local.get([id]).then((resultado) => {
+      const padrao = id === 'cfg'; // cfg inicia aberto por padrão, os demais fechados.
+      if (resultado[id] !== undefined ? resultado[id] : padrao) el.setAttribute('open', '');
+      else el.removeAttribute('open');
+    });
+    el.addEventListener('toggle', () => chrome.storage.local.set({ [id]: el.open }));
+  });
 });
 
 /* Preferências por analista, sem credenciais compartilhadas com a página AF. */
