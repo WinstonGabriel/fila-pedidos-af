@@ -2,7 +2,7 @@
 
 Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.11.0.**
 
-A versão 6.11.0 acrescenta a [Alquimia das Chamas](docs/ALQUIMIA-DAS-CHAMAS.md) ao tema Fullmetal Alchemist: círculo, fogo nas bordas do pedido e estalo com controle de som. A [sincronização econômica](docs/ECONOMIA-DE-TRANSFERENCIA.md) e a [captura e conciliação de automáticos](docs/CAPTURA-E-APROVACAO-AUTOMATICA.md) permanecem disponíveis.
+A versão 6.11.0 Acrescenta som ao chegar notificação . A [sincronização econômica](docs/ECONOMIA-DE-TRANSFERENCIA.md) e a [captura e conciliação de automáticos](docs/CAPTURA-E-APROVACAO-AUTOMATICA.md) permanecem disponíveis.
 
 ## Documentação completa
 
