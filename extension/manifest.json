@@ -24,6 +24,15 @@
   "side_panel": {
     "default_path": "popup.html"
   },
+  "sidebar_action": {
+    "default_title": "AF Operação",
+    "default_panel": "popup.html",
+    "default_icon": {
+      "19": "icons/sidebar-19.png",
+      "38": "icons/sidebar-38.png"
+    },
+    "panel_width": 400
+  },
   "content_scripts": [
     {
       "matches": [
@@ -37,6 +46,20 @@
         "baloes.js",
         "af-notificacoes.js",
         "painel-flutuante.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false,
+      "world": "ISOLATED"
+    },
+    {
+      "matches": [
+        "https://af.mateusmais.com.br/*"
+      ],
+      "css": [
+        "sidebar-injetada.css"
+      ],
+      "js": [
+        "sidebar-injetada.js"
       ],
       "run_at": "document_idle",
       "all_frames": false,
