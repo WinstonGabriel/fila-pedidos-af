@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="temas.css">
   <link rel="stylesheet" href="cliente.css">
   <link rel="stylesheet" href="gestao.css">
+  <link rel="stylesheet" href="roy-alquimia.css">
 </head>
 <body>
   <header data-bloco="cabecalho">
@@ -115,6 +116,7 @@
     <div class="hist-cabecalho"><h2 id="temaTitulo">Seu tema</h2><button id="temaFechar" class="ghost" aria-label="Fechar temas">×</button></div>
     <p id="temaDescricao" class="meta">Escolha a aparência desta extensão neste computador.</p>
     <div class="tema-catalogo-barra"><span id="temaCatalogoStatus" class="meta" role="status">Temas disponíveis offline</span><button id="temaAtualizar" type="button">Atualizar temas</button></div>
+    <div id="roySomLinha" class="roy-som-linha" hidden><button id="roySom" type="button" aria-pressed="false">Ativar e testar estalo</button><small id="roySomEstado" class="meta" role="status">O círculo e as chamas funcionam também sem som.</small></div>
     <div id="temaOpcoes" class="tema-opcoes" role="group" aria-label="Temas disponíveis"></div>
     <p id="temaFeedback" class="meta" role="status" aria-live="polite">A escolha é salva automaticamente só aqui.</p>
   </dialog>
@@ -155,6 +157,7 @@
   <dialog id="avisosDialogo" aria-labelledby="avisosTitulo"><div class="hist-cabecalho"><h2 id="avisosTitulo">Notificações</h2><button id="avisosFechar" aria-label="Fechar avisos">×</button></div><div class="gestao-acoes"><button id="avisosAtualizar">Atualizar</button><button id="avisosLidos">Marcar como lidos</button></div><p id="avisosResumo" class="meta" role="status"></p><div id="avisosLista"></div></dialog>
 
   <script src="efeito-core.js"></script>
+  <script src="roy-alquimia.js"></script>
   <script src="pedido-animacao.js"></script>
   <script src="aparencia.js"></script>
   <script src="catalogo-temas.js"></script>

@@ -1,8 +1,8 @@
 # AF Operação
 
-Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.10.0.**
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.11.0.**
 
-A versão 6.10.0 reduz a transferência de dados com uma resposta compacta, sincronização por blocos e consultas compartilhadas entre os painéis. Veja [economia de transferência](docs/ECONOMIA-DE-TRANSFERENCIA.md). A [captura e conciliação de automáticos](docs/CAPTURA-E-APROVACAO-AUTOMATICA.md) permanece disponível.
+A versão 6.11.0 acrescenta a [Alquimia das Chamas](docs/ALQUIMIA-DAS-CHAMAS.md) ao tema Fullmetal Alchemist: círculo, fogo nas bordas do pedido e estalo com controle de som. A [sincronização econômica](docs/ECONOMIA-DE-TRANSFERENCIA.md) e a [captura e conciliação de automáticos](docs/CAPTURA-E-APROVACAO-AUTOMATICA.md) permanecem disponíveis.
 
 ## Documentação completa
 

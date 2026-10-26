@@ -1,0 +1,6 @@
+/* Decoração limitada ao card do próprio pedido. O texto e os controles ficam acima. */
+.card[data-card-analista].roy-transmutando{position:relative;isolation:isolate;overflow:hidden}
+.card[data-card-analista].roy-transmutando>:not([data-roy-efeito]){position:relative;z-index:1}
+.roy-som-linha{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:10px 0 14px;padding:10px 12px;border:1px solid var(--borda,#74634e);border-radius:10px;background:var(--fundo-cartao,#252b35)}
+.roy-som-linha[hidden]{display:none}.roy-som-linha small{flex:1;min-width:130px}.roy-som-linha button{white-space:normal}
+.roy-anuncio{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important}

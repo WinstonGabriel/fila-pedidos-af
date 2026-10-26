@@ -31,7 +31,7 @@
   let iframe;
   function montarFrame(){
    if(geracao!==versaoDoPainel||iframe||document.visibilityState==='hidden')return;
-   const novo=document.createElement('iframe');iframe=novo;novo.title=`AF Operação · ${p.nome}`;box.append(novo);
+   const novo=document.createElement('iframe');iframe=novo;novo.title=`AF Operação · ${p.nome}`;novo.allow='autoplay';box.append(novo);
    if(globalThis.__afModoGlobal){const versao=geracao;AF_MontarPainelURL().then(url=>{if(geracao===versao&&iframe===novo)novo.src=url;}).catch(()=>{novo.remove();if(iframe===novo)iframe=null;});}
    else novo.src=chrome.runtime.getURL('popup.html');
   }

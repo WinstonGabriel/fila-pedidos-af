@@ -110,7 +110,7 @@ Efeito, cor e duração: opção do analista prevalece sobre tema, depois padrã
 
 O worker consulta com intervalo mínimo de 2 s por contexto; superfícies visíveis disparam a consulta. O painel usa a sincronização normal e o motor de página usa cadência de 5 s. A primeira consulta estabelece baseline sem animar pedido existente. Eventos com mais de 90 s são descartados; um aviso pendente vence em 30 s. Consumo é único por evento no navegador, serializado entre superfícies; instalações distintas são independentes. Um iframe recolhido não deve consumir o efeito visível.
 
-Não há editor dessa configuração em Gestão, som, abertura automática de pedido ou garantia de push com navegador/telas fechados. Movimento reduzido preserva texto estático. OFF remoto encerra o efeito após a próxima consulta e não reproduz eventos antigos ao reativar.
+No Fullmetal Alchemist, o preset `alquimia` usa o [efeito de Roy Mustang](ALQUIMIA-DAS-CHAMAS.md) dentro da caixa do pedido, com estalo local opcional e controle no menu de temas. Não há editor dessa configuração em Gestão, abertura automática de pedido ou garantia de push com navegador/telas fechados. Movimento reduzido preserva texto estático. OFF remoto encerra o efeito após a próxima consulta e não reproduz eventos antigos ao reativar.
 
 ## O que pode chegar sem outro ZIP
 

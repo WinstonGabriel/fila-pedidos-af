@@ -1,0 +1,23 @@
+AF OPERAÇÃO 6.11.0 — ALQUIMIA DAS CHAMAS
+
+No tema Fullmetal Alchemist, a chegada de um pedido para o próprio analista cria:
+- Um clarão breve de ignição e um círculo de transmutação que surge e gira ao fundo.
+- Labaredas nas quatro bordas, faíscas e um contorno de fogo.
+- Um estalo curto e suave, sintetizado localmente.
+
+O efeito acontece dentro da caixa do pedido. Os dados e botões continuam acima da decoração e podem ser usados durante a animação. O efeito desaparece automaticamente, respeitando a duração configurada (aproximadamente 3 segundos no padrão).
+
+SOM
+No menu de temas, com Fullmetal Alchemist selecionado, use "Ativar e testar estalo". Depois, o mesmo controle permite silenciar. A escolha fica salva para o analista neste navegador. O navegador precisa permitir áudio após uma interação. Mesmo sem áudio disponível, a animação continua funcionando.
+
+Um evento toca apenas uma vez por navegador. Abrir com pedido antigo não repete o efeito. Atualizações da caixa durante a animação preservam o tempo restante e não repetem o estalo. Movimento reduzido mostra um contorno suave, sem rotação, labaredas ou clarão.
+
+COMO ATUALIZAR
+1. Feche os painéis da extensão.
+2. Extraia este ZIP e substitua os arquivos NA MESMA PASTA da instalação atual.
+3. Em chrome://extensions ou opera://extensions, clique em Recarregar na AF Operação.
+4. Atualize as abas do AF e reabra o painel.
+5. Escolha Fullmetal Alchemist e habilite/teste o estalo no menu de temas.
+Preserve a pasta e a identificação existentes. Não é preciso reinstalar do zero.
+
+O novo efeito usa SVG, CSS e áudio locais. Não baixa mídia do banco e não altera pedidos, status, escala ou relatórios.

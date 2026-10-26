@@ -2,7 +2,7 @@
 (() => {
  'use strict';
  if(globalThis.FilaPedidoEfeito)return;
- let host,timer,lendo=false,ultimaChave='',rodando=null;
+ let host,timer,lendo=false,ultimaChave='',rodando=null,pendente=null;
  let superficieVisivel=typeof IntersectionObserver!=='function';
  const visivel=()=>document.visibilityState!=='hidden'&&superficieVisivel;
  if(typeof IntersectionObserver==='function'){const observer=new IntersectionObserver(es=>{superficieVisivel=es.some(e=>e.isIntersecting);if(superficieVisivel)atualizar();});observer.observe(document.documentElement);}
@@ -18,7 +18,7 @@
   pulso:'<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="39" fill="none" stroke="currentColor" stroke-width="3"/><path d="m39 60 14 14 29-30" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
  };
  const css=`:host{all:initial!important;position:fixed!important;top:18px!important;right:18px!important;z-index:2147483647!important;width:min(360px,calc(100vw - 36px))!important;pointer-events:none!important;font:14px/1.45 system-ui,sans-serif!important}*{box-sizing:border-box}.aviso{position:relative;border:1px solid var(--efeito-cor);border-radius:18px;padding:17px 105px 17px 18px;color:var(--efeito-texto);background:var(--efeito-fundo);box-shadow:0 10px 36px #0004;isolation:isolate;animation:chegada 380ms ease-out}strong{display:block;font-size:17px;margin-bottom:4px}.pedido{display:block;font-weight:700;overflow-wrap:anywhere}.meta{opacity:.8;font-size:12px}.arte{position:absolute;right:7px;top:50%;width:90px;height:90px;margin-top:-45px;color:var(--efeito-cor);filter:drop-shadow(0 0 6px var(--efeito-cor));animation:respirar 1500ms ease-in-out 2}.arte svg,.arte img{width:100%;height:100%;display:block}.alquimia .arte{animation:girar 3000ms ease-out 1}.nuvens .arte{filter:drop-shadow(0 6px 6px #316b8d44);animation:flutuar 1500ms ease-in-out 2}.hextech .arte{animation:cristal 1500ms ease-in-out 2}.tricolor .arte{animation:bandeira 1500ms ease-in-out 2}.aurora .arte{animation:flutuar 1500ms ease-in-out 2}.teia .arte{animation:tecer 800ms ease-out 1}.chamas .arte{transform-origin:bottom;animation:respirar 1500ms ease-in-out 2}.particula{position:absolute;left:var(--x);top:80%;height:5px;width:5px;border-radius:50%;background:var(--efeito-cor);opacity:0;animation:subir 2200ms ease-out 1;animation-delay:var(--delay);z-index:-1}@keyframes chegada{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}@keyframes respirar{0%,100%{opacity:.7;transform:scale(.94)}50%{opacity:1;transform:scale(1.06)}}@keyframes girar{from{opacity:0;transform:rotate(-150deg) scale(.6)}to{opacity:1;transform:none}}@keyframes flutuar{0%,100%{transform:translateY(4px)}50%{transform:translateY(-6px)}}@keyframes cristal{0%,100%{transform:rotate(-5deg) scale(.95)}50%{transform:rotate(5deg) scale(1.05)}}@keyframes bandeira{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}@keyframes tecer{from{opacity:0;transform:scale(.25) rotate(-20deg)}to{opacity:1;transform:none}}@keyframes subir{0%{opacity:0;transform:translateY(0)}20%{opacity:.6}100%{opacity:0;transform:translateY(-85px)}}@media(prefers-reduced-motion:reduce){.aviso,.arte,.particula{animation:none!important}.particula,.arte{display:none}.aviso{padding-right:18px}}`;
- function fechar(){clearTimeout(timer);host?.remove();host=null;rodando=null;}
+ function fechar(){clearTimeout(timer);host?.remove();host=null;rodando=null;globalThis.FilaRoyAlquimia?.parar();}
  function mostrar(p,o,tema){
   fechar();if(!document.body)return;
   host=document.createElement('div');const r=host.attachShadow({mode:'closed'}),style=document.createElement('style');style.textContent=css;
@@ -34,16 +34,24 @@
   r.append(style,box);document.body.append(host);rodando={p,o,tema};timer=setTimeout(fechar,o.duracao);
  }
  async function receber(p){
+  if(p?.consumido&&pendente?.chave===p.chave)pendente=null;
   if(lendo||!p||p.consumido||p.chave===ultimaChave||!visivel()||Date.now()-p.criado_em>30000)return;
   lendo=true;
   try{
    const {local:s}=await chrome.storage.local.get('local');if(!s?.me||p.nome!==s.me)return;
    const {afTemaNotificacoes:t}=await chrome.storage.local.get('afTemaNotificacoes');
    const {afEfeitoConfig:c}=await chrome.storage.local.get('afEfeitoConfig');
-   const o=FilaEfeitoCore.normalizar(c||p.config,t?.nome===p.nome?t.tema:null,p.nome);
+   const tema=t?.nome===p.nome?t.tema:null;
+   const o=FilaEfeitoCore.normalizar(c||p.config,tema,p.nome);
+   const roy=tema?.id==='fullmetal-alchemist'&&o.efeito==='alquimia';
+   // A página AF não disputa o evento com a caixa real do pedido na extensão.
+   if(roy&&o.ativo&&(!globalThis.FilaRoyAlquimia||!await FilaRoyAlquimia.preparar(p))){pendente=p;return;}
    const resposta=await chrome.runtime.sendMessage({tipo:'fila-consumir-pedido-efeito',chave:p.chave});
-   ultimaChave=p.chave;
-   if(resposta?.ok&&o.ativo&&visivel())mostrar(p,o,t?.nome===p.nome?t.tema:null);
+   ultimaChave=p.chave;pendente=null;
+   if(resposta?.ok&&o.ativo&&visivel()){
+    if(roy){fechar();if(FilaRoyAlquimia.mostrar(p,o)){rodando={p,o,tema,roy:true};timer=setTimeout(fechar,o.duracao);}}
+    else mostrar(p,o,tema);
+   }
   }catch{}finally{lendo=false;}
  }
  async function atualizar(){
@@ -55,9 +63,11 @@
   if(c.afPedidoEfeitoUI)receber(c.afPedidoEfeitoUI.newValue);
   if(c.local&&rodando&&(c.local.newValue?.me!==rodando.p.nome||c.local.oldValue?.token!==c.local.newValue?.token||c.local.oldValue?.codigo!==c.local.newValue?.codigo))fechar();
   if(c.afEfeitoConfig&&rodando){const x=FilaEfeitoCore.normalizar(c.afEfeitoConfig.newValue,rodando.tema,rodando.p.nome);if(!x.ativo)fechar();}
+  if(c.afTemaNotificacoes&&rodando?.roy&&c.afTemaNotificacoes.newValue?.tema?.id!=='fullmetal-alchemist')fechar();
  });
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')fechar();else atualizar();});
- globalThis.FilaPedidoEfeito=Object.freeze({atualizar,receber});
+ function aposRender(){globalThis.FilaRoyAlquimia?.atualizar();if(pendente&&Date.now()-pendente.criado_em>30000)pendente=null;if(pendente)receber(pendente);}
+ globalThis.FilaPedidoEfeito=Object.freeze({atualizar,receber,aposRender});
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',atualizar,{once:true});else atualizar();
  setInterval(atualizar,5000);
 })();

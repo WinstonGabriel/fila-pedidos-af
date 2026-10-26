@@ -1012,7 +1012,7 @@ function renderIntervalo() {
   let h = `<div class="linha"><span class="meta">Pedidos de ${nomeHtml(local.me)}</span>
     <button class="primario" id="btnProximo" ${lista.length ? '' : 'disabled'}>Abrir 1º pedido</button>
     <button id="btnDestacar" ${lista.length ? '' : 'disabled'}>Destacar</button></div>
-    <div class="card">
+    <div class="card" data-card-analista data-analista="${esc(local.me)}" data-pedido-atual="${esc(atualDe(local.me)?.pedido_id || '')}">
     ${lista.length ? `<ul>${lista.map((p) => item(p)).join('')}</ul>` : '<div class="vazio">Nenhum pedido neste intervalo.</div>'}</div>
     <div class="meta">${ANALISTAS.filter((n) => map[n].length).map((n) => `${nomeHtml(n)}: ${map[n].length}`).join(' · ')}</div>`;
   if (sem.length) h += `<div class="card sem"><h3>Sem analista (${sem.length})</h3><ul>${sem.map((p) => item(p)).join('')}</ul></div>`;
@@ -1038,7 +1038,7 @@ function renderPilha() {
     const destinoLoja = p && window.FilaGestao?.destinoLoja(p.estab);
     const saiu = a && !noPainel && !usandoCache && !leitura.parcial;
     const atr = atrasado(a); // cronômetro oculto: só aparece como animação vermelha
-    h += `<div data-card-analista data-analista="${esc(n)}" class="card ${n === local.me ? 'voce' : ''} ${atr ? 'atraso' : ''}"><h3>${nomeHtml(n)}${n === local.me ? ' (você)' : ''}</h3>${
+    h += `<div data-card-analista data-analista="${esc(n)}" data-pedido-atual="${esc(a?.pedido_id || '')}" class="card ${n === local.me ? 'voce' : ''} ${atr ? 'atraso' : ''}"><h3>${nomeHtml(n)}${n === local.me ? ' (você)' : ''}</h3>${
       p
         ? `<ul>${item(p, { atraso: atr })}</ul>${destinoLoja ? `<div class="meta">Loja direcionada para ${nomeHtml(destinoLoja)}</div>` : ''}${saiu ? '<div class="tag">Saiu da lista do AF · conclusão e origem da saída a confirmar</div>' : ''}
            <div class="linha">${podeAgirEm(n) ? `<button data-concluir="${n}" data-pedido="${esc(a.pedido_id)}" class="primario">✔ Concluí → próximo</button>` : ''}
@@ -1089,6 +1089,7 @@ function renderPilha() {
 function renderPainel() {
   local.mode === 'intervalo' ? renderIntervalo() : renderPilha();
   if (acaoEmCurso) $('#painel').querySelectorAll('button:not([data-loc]):not([data-copiar])').forEach((b) => { b.disabled = true; });
+  window.FilaPedidoEfeito?.aposRender?.();
 }
 
 function renderTudo() {
