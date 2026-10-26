@@ -1,11 +1,12 @@
-# Documentação — AF Operação 6.8.1
+# Documentação — AF Operação 6.11.0
 
-Referência do código publicado na série 6.8.1. Revisão documental: 24/10/2026. Exemplos fictícios; nenhuma credencial ou dado operacional é necessário para ler estes documentos.
+Referência do código publicado na versão 6.11.0. Revisão documental: 26/10/2026. Exemplos fictícios; nenhuma credencial ou dado operacional é necessário para ler estes documentos.
 
 A organização técnica segue a [documentação anterior de extração e apresentação](ARQUITETURA-5.3.1.md), preservada como referência histórica. A documentação atual substitui suas descrições de comportamento quando houver diferença.
 
 | Documento | Público e finalidade |
 |---|---|
+| [Dados e estado compartilhados](DADOS-COMPARTILHADOS.md) | Versão de referência, fontes dos dados, configuração da equipe e regras que devem ser preservadas |
 | [Manual do analista](MANUAL-DO-ANALISTA.md) | Conexão, pedidos, status, descanso, temas, avisos e ocultação |
 | [Manual de gestão](MANUAL-DE-GESTAO.md) | Sessão de gestão, direcionamento, escala, importação e relatórios |
 | [Instalação e manutenção](INSTALACAO-E-MANUTENCAO.md) | Instalar, atualizar, diagnosticar e preparar uma entrega |
@@ -14,7 +15,11 @@ A organização técnica segue a [documentação anterior de extração e aprese
 | [Temas e configuração online](TEMAS-E-CONFIGURACAO.md) | Catálogo, preferências, layout e animações declarativas |
 | [Segurança e privacidade](SEGURANCA-E-PRIVACIDADE.md) | Identidades, permissões, isolamento e dados locais |
 | [Testes e validação](TESTES-E-VALIDACAO.md) | Suítes, cobertura, testes manuais e limites da evidência |
-| [Histórico de versões](HISTORICO-DE-VERSOES.md) | Evolução documentada até 6.8.1 |
+| [Captura e aprovação automática](CAPTURA-E-APROVACAO-AUTOMATICA.md) | Captura de passagens rápidas, recuperação, origem e contabilização |
+| [Economia de transferência](ECONOMIA-DE-TRANSFERENCIA.md) | Sincronização por blocos, cache por instalação e compatibilidade |
+| [Liberação diária](LIBERACAO-DIARIA.md) | Liberação das reservas de nome às 00:00 em America/Fortaleza |
+| [Alquimia das Chamas](ALQUIMIA-DAS-CHAMAS.md) | Animação pessoal do Roy Mustang e controle do estalo |
+| [Histórico de versões](HISTORICO-DE-VERSOES.md) | Evolução documentada até 6.11.0 e atualizações do banco |
 | [Publicação e colaboração](PUBLICAR_NO_GITHUB.md) | Repositório existente, branches, revisão e entrega |
 
 ## Escopo e limites
@@ -30,6 +35,9 @@ O repositório contém a extensão, seus recursos locais, testes e atualizaçõe
 | Atribuição | Estado compartilhado de um pedido e do analista relacionado |
 | Reserva de nome | Vínculo exclusivo entre um nome e o token da instalação |
 | Reserva de pedido | Pedido separado para um analista; não é reserva de identidade |
+| Aprovação automática confirmada | Decisão explícita no histórico do próprio pedido AF; não equivale a desaparecer da lista |
+| Conclusão humana declarada | Conclusão registrada na extensão, sujeita à conciliação posterior com o AF |
+| Bloco de sincronização | Estado, descansos ou avisos, reenviado somente quando sua versão muda |
 | RPC | Função do banco chamada por HTTP pela extensão |
 | Cache | Última leitura local; não confirma disponibilidade atual no banco |
 | Coordenação/Gestão | Acesso privilegiado validado pelo backend |

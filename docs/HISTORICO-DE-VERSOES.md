@@ -17,6 +17,15 @@ Este histórico consolida as notas presentes no pacote; não inventaria cada ver
 | 6.8.1 | Oito retratos distintos de campeões no tema LoL, empacotados localmente |
 | 6.8.2 | Imagem de Para suporte configurável online para a equipe, com validação de URL e alternativa local |
 | 6.8.3 | Distribuição por leitor identificado, nova tentativa para listas recebidas em paralelo e mensagem de saída sem atribuição indevida de conclusão |
+| 6.9.0 | Captura de passagens rápidas, recuperação confirmada no AF, classificação de automáticos e relatórios de quantidade/valor separados por origem |
+| 6.10.0 | Resposta de estado compacta, sincronização por blocos e compartilhamento de consultas por instalação/contexto |
+| 6.11.0 | Alquimia das Chamas de Roy Mustang no card próprio, com estalo local opcional, movimento reduzido e consumo único |
+
+## Revisão documental de 26/10/2026
+
+Manuais, arquitetura, contratos, índice de testes e referência de dados compartilhados foram alinhados à versão 6.11.0. A leitura AF e a sincronização periódica usam 5 segundos como padrão. A lista de saídas informa a hora original do pedido e **Pedido concluído por:**; automáticos confirmados têm apresentação e contabilização próprias.
+
+A atualização de banco `20261026031910_liberar_nomes_meia_noite.sql`, independente da versão instalada, programa a liberação diária das reservas de nome às 00:00 em America/Fortaleza, a partir de 27/10/2026. Preserva status, pedidos, escala e sessões de gestão. Veja [Liberação diária](LIBERACAO-DIARIA.md).
 
 ## Revisão documental de 24/10/2026
 
@@ -24,4 +33,4 @@ A documentação 6.8.1 foi ampliada a partir da arquitetura 5.3.1, com manual do
 
 As notificações de equipe, gestão, escala e rotas também dependem de infraestrutura de versões intermediárias implantada fora do conjunto de migrations completo deste repositório. Não deduza uma ordem de instalação total apenas pela tabela acima.
 
-Para o texto das notas originais, consulte `extension/ATUALIZACAO-6.3.txt` até `ATUALIZACAO-6.8.1.txt`. Notas antigas descrevem a entrega de seu momento; os manuais atuais resolvem diferenças de caminhos e limites da versão atual.
+Para o texto das notas originais, consulte `extension/ATUALIZACAO-6.3.txt` até `ATUALIZACAO-6.11.0.txt`, conforme os arquivos disponíveis. Notas antigas descrevem a entrega de seu momento; os manuais atuais resolvem diferenças de caminhos e limites da versão atual.

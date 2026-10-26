@@ -1,4 +1,4 @@
-# Temas e configuração online — 6.8.2
+# Temas e configuração online — 6.11.0
 
 ## Catálogo instalado
 
@@ -73,7 +73,7 @@ A partir de 6.8.2, `layout.icone_suporte_url` permite trocar a imagem de Para su
 | Opção | Limite/opções |
 |---|---|
 | `layout.icone_suporte_url` | URL HTTPS pública e direta, até 2.048 caracteres, sem usuário/senha; vazia restaura o ícone original. Requer 6.8.2 |
-| Leitura | Inteiro de 2.000 a 60.000 ms |
+| Leitura | `leitura_ms`: inteiro de 2.000 a 60.000 ms; padrão de 5.000 ms |
 | Título | Texto não vazio, até 80 caracteres |
 | Fonte | 11–20 px |
 | Espaçamento | 4–20 px |
@@ -120,8 +120,11 @@ No Fullmetal Alchemist, o preset `alquimia` usa o [efeito de Roy Mustang](ALQUIM
 | Novo tema que combina estilos locais existentes | Sim, respeitando normalizador e versão dos clientes |
 | Duração/cor/ativação de efeito instalado | Sim |
 | Título, espaçamento e ordem de blocos suportados | Sim |
+| Imagem de Para suporte por URL HTTPS válida | Sim, com motor 6.8.2 ou posterior |
 | Nova imagem, campeão ou animação inexistente | Não; atualizar recursos/código |
 | Nova permissão ou comportamento de navegador | Não; atualizar manifesto/código |
 | Nova RPC exigida pelo fluxo | Backend precisa ser implantado e cliente precisa já saber chamá-la |
 
 A publicação no GitHub é versionamento do projeto; não instala a extensão nos computadores dos analistas.
+
+A referência de [dados compartilhados](DADOS-COMPARTILHADOS.md) distingue as configurações comuns da equipe das preferências locais. O estalo do Fullmetal fica em `filaRoySom`, por analista neste navegador, e não é uma configuração de som universal da equipe.

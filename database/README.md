@@ -34,4 +34,4 @@ A operação de suporte mantém pedidos retidos em `status='contato'`, com `dest
 
 ## Referência técnica atual
 
-Veja [Banco e RPCs — 6.8.1](../docs/BANCO-E-RPCS.md) para o inventário de contratos, identidade, locks, regras recentes e dependências por script. O [guia de manutenção](../docs/INSTALACAO-E-MANUTENCAO.md) descreve atualização e diagnóstico. Essas referências não substituem a inspeção das definições do ambiente antes de aplicar patches.
+Veja [Banco e RPCs — 6.11.0](../docs/BANCO-E-RPCS.md) para o inventário de contratos, identidade, locks, regras recentes e dependências por script. As migrations de distribuição, captura/conciliação, sincronização econômica e liberação diária estão em [supabase/migrations](../supabase/migrations/), com resumo em [supabase/README.md](../supabase/README.md). O [guia de manutenção](../docs/INSTALACAO-E-MANUTENCAO.md) descreve atualização e diagnóstico. Essas referências não substituem a inspeção das definições do ambiente antes de aplicar patches.

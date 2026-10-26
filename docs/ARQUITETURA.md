@@ -1,6 +1,6 @@
 # Arquitetura de extração, distribuição e apresentação
 
-## AF Operação — versão 6.8.1
+## AF Operação — versão 6.11.0
 
 Este documento atualiza o modelo da versão 5.3.1: arquitetura, extração, consolidação, apresentação, ciclo de vida, decisões e referências. As referências usam arquivos e símbolos, sem números de linha que envelhecem a cada edição. A leitura do código desta versão é a fonte para os detalhes do cliente; o SQL incluído é incremental e não representa sozinho todo o backend implantado.
 
@@ -10,12 +10,15 @@ A extensão lê a lista autenticada do AF Mateus Mais, envia candidatos a RPCs e
 
 ```mermaid
 flowchart TD
-  AF["Lista autenticada do AF"] --> X["Extração no contexto da aba"]
+  AF["Lista e histórico autenticados do AF"] --> X["Extração e captura no contexto da aba"]
   X --> P["Painel: consolidação e candidatos"]
+  X --> C["Worker: observações e conciliação"]
+  C --> R["RPCs: autorização e transação"]
   P --> R["RPCs: autorização e transação"]
   R --> DB["PostgreSQL: fila e auditoria"]
   DB --> R
-  R --> P
+  R --> S["Worker: sincronização por blocos"]
+  S --> P
   P --> V["Fila, escala, histórico e gestão"]
   W["Service worker"] --> N["Avisos e efeitos pessoais"]
   R --> W
@@ -27,9 +30,9 @@ flowchart TD
 
 | Contexto | Responsabilidade | Persistência |
 |---|---|---|
-| Service worker | Abertura, mensagens, consulta de avisos/efeitos e autorização global | Pode ser suspenso pelo navegador; dados duráveis ficam no storage/banco |
+| Service worker | Abertura, sincronização compartilhada, fila de captura/conciliação, avisos/efeitos e autorização global | Pode ser suspenso pelo navegador; dados duráveis ficam no storage/banco |
 | Documento da extensão | Estado da tela, raspagem solicitada, RPCs, gestão e renderização | Ciclos ativos enquanto a instância está carregada |
-| Script injetado no AF | Leitura/destaque no DOM, com sessão existente | Ligado à aba e ao documento AF |
+| Script injetado no AF | Captura de linhas, leitura/destaque e consulta de detalhes conhecidos, com sessão existente | Ligado à aba e ao documento AF |
 | Scripts em outros sites | Ícone, host flutuante e efeitos permitidos | Não extraem os pedidos desses sites |
 | Backend | Autorização, distribuição, retenção, descanso e auditoria | Compartilhado entre instalações |
 
@@ -39,11 +42,16 @@ flowchart TD
 |---|---|
 | `manifest.json`, `background.js` | Entradas Manifest V3, permissões, painel lateral e janela alternativa |
 | `popup.html`, `popup.js`, `popup.css`, `cliente.css` | Interface, extração, cache, candidatos e operações |
+| `af-evidencias.js`, `af-captura.js`, `af-captura-background.js` | Reconhecimento de evidências, observações duráveis e conciliação de detalhes AF |
+| `sincronizacao-background.js` | Consulta única por contexto, blocos alterados e cache de sessão por até 5 segundos |
 | `gestao.js`, `gestao.css` | Gestão, status, rotas, escala, importação, avisos e relatórios |
+| `relatorio-producao.js` | Quantidades e valores por origem/analista e exportação CSV |
 | `escala-importar.js`, `vendor/` | Reconhecimento local de XLS/XLSX/CSV/PDF e OCR |
 | `aparencia.js`, `catalogo-temas.js`, `temas.js`, `temas.css` | Paletas, validação, catálogo, preferência e estilos locais |
 | `avisos-background.js`, `af-notificacoes.js`, `baloes.js` | Consulta autenticada e projeção de avisos sem credenciais nas páginas |
 | `efeito-core.js`, `pedido-background.js`, `pedido-animacao.js` | Seleção, consumo único e renderização de efeitos pessoais |
+| `roy-alquimia.js`, `roy-alquimia.css` | Círculo, fogo e estalo opcional no card do pedido próprio |
+| `suporte-icone.js` | Imagem declarativa de suporte, validação e alternativa local |
 | `painel-flutuante.js` | Hover, recolhimento e restauração após atualização/redesenho |
 | `painel-global-background.js`, `painel-global-host.js`, `painel-global.html`, `painel-global.js` | Registro opcional e entrada protegida do painel em outros sites |
 | `sidebar-injetada.js`, `sidebar-injetada.css` | Recursos auxiliares de sidebar; não são uma nova fonte de pedidos |
@@ -78,9 +86,11 @@ Os seletores e posições de coluna dependem da estrutura do AF. Uma mudança no
 
 ### 2.3 Leitura rápida e varredura completa
 
-| Parâmetro | Valor no cliente 6.8.1 |
+| Parâmetro | Valor no cliente 6.11.0 |
 |---|---|
-| Cadência padrão da tela | 3 s; configuração válida permite 2–60 s |
+| Cadência padrão da tela | 5 s; configuração válida permite 2–60 s |
+| Captura de passagens rápidas | MutationObserver da tabela, complementado por amostragem a cada 5 s |
+| Sincronização periódica do banco | 5 s, consulta compartilhada no worker; ações forçam nova leitura |
 | Tentativa rápida de tabela | Espera até 1,5 s; execução externa limitada a 2 s |
 | Varredura completa | Acionada por contexto novo ou após 60 s desde a última conclusão |
 | Concorrência na paginação | 2 requisições |
@@ -90,6 +100,12 @@ Os seletores e posições de coluna dependem da estrutura do AF. Uma mudança no
 | Nova tentativa por página | Até duas tentativas; espera padrão de 1,5 s quando aplicável |
 
 `scrapeFn()` compartilha uma promessa por tipo de leitura na aba para evitar varreduras repetidas em paralelo. Paginação preserva os filtros; o contexto exclui o parâmetro `page` e o fragmento da URL. Respostas parciais são sinalizadas. Login expirado, tabela carregando e falhas de busca mantêm a última leitura válida.
+
+### 2.4 Captura e conciliação
+
+`af-captura.js` observa linhas adicionadas e removidas da tabela mesmo sem painel aberto, com amostragem complementar. O worker mantém uma fila local persistente e envia observações ao banco. As páginas da varredura completa também alimentam esse registro. Até cinco detalhes conhecidos são consultados por lote, com comprovante temporário exclusivo por instalação e somente na mesma origem AF autenticada.
+
+A classificação automática exige ID correspondente e decisão explícita **Pedido autorizado**, com nota **Aprovação Automática com status de análise APPROVE**, na linha de decisão relevante do próprio pedido. Recomendação `approve` e desaparecimento da lista não bastam. A recuperação para distribuição exige estado atual e última decisão **Pedido em análise**, verificados há no máximo 30 segundos. Veja [Captura e aprovação automática](CAPTURA-E-APROVACAO-AUTOMATICA.md).
 
 ## 3. Consolidação e distribuição
 
@@ -101,9 +117,9 @@ Os seletores e posições de coluna dependem da estrutura do AF. Uma mudança no
 
 ### 3.2 Candidatos e elegibilidade
 
-`candidatosAuto()` prioriza a lista de lojas preferenciais, inclui até 500 entradas disponíveis e detalhes de pedidos essenciais em andamento/reservados/devolvidos, deduplica e limita o envio a 1.000 itens. `candidatos(n)` limita o fluxo individual a 25. A triagem local de Força de Vendas contempla Cássio e Gabriel, e as validações do banco continuam necessárias.
+`candidatosAuto()` prioriza a lista de lojas preferenciais e os detalhes de pedidos essenciais em andamento/reservados/devolvidos, preenche o espaço restante com disponíveis, deduplica e limita o envio a 1.000 itens. `candidatos(n)` limita o fluxo individual a 25. A triagem local de Força de Vendas contempla Cássio e Gabriel, e as validações do banco continuam necessárias.
 
-`distribuirAutomatico()` só inicia com rede válida, nome identificado, analista ligado, leitura válida e oportunidade de alocação. Uma ação ou escolha de nome em andamento bloqueia o disparo concorrente local. O servidor decide quem recebe e registra o resultado. Regras de preferência por analista e direcionamento por loja são compartilhadas e exigem as funções intermediárias do backend.
+`distribuirAutomatico()` inicia com rede válida, leitor identificado ou gestão autorizada, leitura válida e oportunidade de alocação. O leitor pode estar OFF; os destinatários precisam estar ON, com nome reservado e capacidade disponível. Uma ação ou escolha de nome em andamento bloqueia o disparo concorrente local. O servidor decide quem recebe e registra o resultado. Uma mudança de candidatos durante uma distribuição agenda nova tentativa após a consulta em curso. Regras de preferência por analista e direcionamento por loja são compartilhadas e exigem as funções intermediárias do backend.
 
 As reservas do próprio analista têm prioridade no fluxo de alocação. Pedidos devolvidos aguardam destino elegível; a regra original exclui o antigo responsável. A ordenação de disponibilidade e rotas depende da definição efetivamente implantada de `fila_auto_alocar`: o SQL histórico 5.3.1 contém sorteio e não deve ser usado para restaurar cegamente o alocador mais recente.
 
@@ -139,6 +155,8 @@ stateDiagram-v2
 
 O histórico original mantém o ator técnico. `af_mobile.historico_exibicao` normaliza a apresentação: só há “após liberação de X” quando a entrada imediatamente anterior do mesmo pedido, por ID do histórico, é `liberou_pedido` de outro analista. OFF e devolução não comprovam essa origem; uma liberação antiga não é reutilizada.
 
+A confirmação de aprovação automática usa a mesma trava da distribuição, libera eventual atribuição e registra o automático uma única vez. A auditoria original e a declaração humana anterior são preservadas; a projeção do histórico, o ranking e o relatório passam a considerar a origem conciliada.
+
 ## 4. Apresentação
 
 ### 4.1 Abertura e hover
@@ -153,22 +171,30 @@ Em outros sites o registro dinâmico depende de permissão opcional HTTP/HTTPS. 
 
 `carregarHist()` usa cursor e filtros de analista, ação e pedido, solicitando 100 itens por página. O ranking deriva de conclusões, não da identidade técnica que disparou sincronização. Erros são exibidos e podem manter a última informação válida, sem afirmar sucesso de uma operação pendente.
 
+A projeção de `fila_estado` mantém todos os não concluídos, até oito conclusões humanas recentes, até oito automáticos recentes e `concluidos_ids` para excluir IDs concluídos dos candidatos. Isso limita a tela operacional, sem truncar histórico ou relatórios. A lista de saídas apresenta **Horário do pedido** a partir de `a.hora` e **Pedido concluído por:**. O relatório de gestão separa total analisado, automáticos e produção por analista, com valores em centavos e contagem de valores desconhecidos.
+
 ### 4.3 Personalização, avisos e efeitos
 
 O catálogo é um conjunto limitado de dados. CSS, desenhos, PNGs e efeitos permanecem locais. A escolha é por analista neste navegador e pode ser sobreposta por tema fixo de equipe. Avisos usam o tema do destinatário em Shadow DOM. Os efeitos de novo pedido têm consulta e consumo serializados no worker, baseline inicial e validade curta, impedindo reprodução ao abrir a tela com um pedido antigo.
+
+No Fullmetal Alchemist, `FilaRoyAlquimia` confere nome, ID e link do card antes de consumir o evento. Após redesenho, reanexa a decoração pelo tempo restante sem repetir o estalo. Tema, identidade, ocultação e OFF remoto encerram o efeito. Movimento reduzido mantém contorno suave. O áudio é síntese Web Audio local e depende de interação/autorização do navegador. Consulte [Alquimia das Chamas](ALQUIMIA-DAS-CHAMAS.md).
 
 ## 5. Ciclo de vida
 
 1. Restaurar configuração e cache; gerar token de instalação se ausente.
 2. Consultar o banco e reconciliar o nome reservado; nome liberado exige nova escolha.
 3. Aplicar configuração declarativa e consultar catálogo se necessário.
-4. Iniciar leitura AF e sincronização em ciclos separados; a sincronização espera 2 s após concluir a anterior.
+4. Iniciar leitura AF e sincronização em ciclos separados de 5 s por padrão; o worker compartilha chamadas e blocos por contexto.
 5. Produzir candidatos e solicitar alocação quando houver disponibilidade.
 6. Renderizar atribuições, avisos, efeitos e cronômetros, preservando campos sob edição.
 7. Ao executar ação, bloquear repetição local, validar no banco e sincronizar novamente.
 8. Fechar/reabrir restaura dados locais, mas consulta o banco antes de tratá-los como atuais.
 
-O worker não é um processo permanente. Sem documento operacional ativo não há garantia de raspagem/distribuição contínua. Para ler novos pedidos, mantenha a lista AF autenticada aberta e uma superfície da extensão em funcionamento. O encerramento de descanso possui execução periódica no backend, independente de telas abertas.
+O worker não é um processo permanente. A captura observa a aba AF autenticada mesmo sem painel aberto; a varredura completa e o ciclo de distribuição do painel dependem de uma superfície operacional carregada. Sem aba autenticada disponível, não há garantia de capturar novos pedidos ou consultar suas decisões. O encerramento de descanso e a liberação diária de nomes possuem execução periódica no backend, independente de telas abertas.
+
+`fila_sincronizar` autentica cada consulta e retorna `servidor_em`, versões e somente blocos alterados de estado, descansos e avisos. O worker recompõe os demais blocos a partir do cache, separado por equipe/token/credencial de gestão, com validade de até 5 segundos. Mudanças de contexto descartam respostas atrasadas; ações forçam uma leitura após a chamada em curso. Veja [Economia de transferência](ECONOMIA-DE-TRANSFERENCIA.md).
+
+Às 00:00 em America/Fortaleza, `af_mobile.liberar_nomes_diario()` libera reservas anteriores à virada, registra auditoria e controla a execução por data. Não altera status, pedidos, escala ou sessões de gestão. Escolhas feitas após a virada são preservadas. A rotina é privada e executada pelo agendador, sem depender da instalação do cliente. Veja [Liberação diária](LIBERACAO-DIARIA.md).
 
 ## 6. Decisões de projeto e limites
 
@@ -180,6 +206,9 @@ O worker não é um processo permanente. Sem documento operacional ativo não h�
 | Retenção compatível no status contato | Clientes anteriores excluem suporte, mas não o separam visualmente |
 | Descanso no servidor | Reinstalação não reinicia o limite; requer funções/cron existentes |
 | Catálogo declarativo | Paletas chegam online; comportamento novo exige código novo |
+| Captura e conciliação duráveis | Passagens rápidas podem ser verificadas depois; ausência não comprova aprovação |
+| Sincronização por blocos | Reduz repetição de dados sem remover auditoria; cache separado por autorização |
+| Liberação diária no banco | Nomes são liberados com telas fechadas, sem alterar o estado operacional |
 | Autorização por aba/origem | O painel global não expõe diretamente a tela operacional a qualquer iframe |
 | Cache e última cópia válida | Consulta sobrevive a falhas; cache não é confirmação de mutação |
 | Dependências locais | Importação não depende de CDN em tempo de uso; pacote é maior |
@@ -190,11 +219,13 @@ O worker não é um processo permanente. Sem documento operacional ativo não h�
 |---|---|
 | Extração | `popup.js`: `scrapeFn`, `abaPainel`, `injetarLeitura`, `executarLeitura`, `lerCompleto` |
 | Consolidação | `aplicarLeitura`, `candidatosAuto`, `livresPara` |
+| Captura/conciliação | `af-evidencias.js`, `af-captura.js`, `af-captura-background.js` |
+| Sincronização | `sincronizacao-background.js`: `FilaSincronizacao.obter`, `invalidar` |
 | Operações | `rpc`, `acao`, `distribuirAutomatico`, `avancarPedido`, `tituloHistorico` |
 | Descanso | `estadoDescanso`, `descansoHtml`; `database/updates/descanso.sql` |
 | Gestão | `gestao.js`: `entrar`, `salvarRota`, `salvarEscala`, `reconhecer`, `aplicarImportacao` |
 | Temas | `catalogo-temas.js`, `aparencia.js`, `temas.js`, `temas.css` |
-| Eventos pessoais | `pedido-background.js`, `efeito-core.js`, `pedido-animacao.js` |
+| Eventos pessoais | `pedido-background.js`, `efeito-core.js`, `pedido-animacao.js`, `roy-alquimia.js` |
 | Painel global | `AFOrigemPermitida`, `emitirTokenPainel`, `validarTokenPainel` |
-| Backend recente | `database/updates/` e [Banco e RPCs](BANCO-E-RPCS.md) |
+| Backend recente | `database/updates/`, `supabase/migrations/` e [Banco e RPCs](BANCO-E-RPCS.md) |
 | Validação | `package.json`, `scripts/check-extension.cjs`, `tests/` |

@@ -11,7 +11,7 @@
 - Ao alterar contato, confira também as permissões de conclusão, devolução e reserva.
 - Para mudanças nos seletores do AF, registre um exemplo fictício do HTML e teste a extração.
 - Para mudanças nas RPCs, documente os parâmetros e a compatibilidade com clientes anteriores.
-- Atualize o documento de arquitetura quando mudar o fluxo ou o contrato entre cliente e banco.
+- Atualize a arquitetura, os contratos e a referência de [dados compartilhados](docs/DADOS-COMPARTILHADOS.md) quando mudar o fluxo, uma regra de equipe ou a compatibilidade entre cliente e banco.
 
 ## Arquivos locais
 

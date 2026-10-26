@@ -6,11 +6,12 @@ A versão 6.11.0 acrescenta a [Alquimia das Chamas](docs/ALQUIMIA-DAS-CHAMAS.md)
 
 ## Documentação completa
 
-O [índice de documentação](docs/README.md) reúne os manuais de analista e gestão, arquitetura atualizada a partir do modelo 5.3.1, banco/RPCs, temas, segurança, manutenção e testes. Comece pelo [manual do analista](docs/MANUAL-DO-ANALISTA.md) para usar a extensão ou pela [arquitetura](docs/ARQUITETURA.md) para desenvolver.
+O [índice de documentação](docs/README.md) reúne os manuais de analista e gestão, arquitetura atualizada a partir do modelo 5.3.1, banco/RPCs, temas, segurança, manutenção e testes. A referência de [dados e estado compartilhados](docs/DADOS-COMPARTILHADOS.md) consolida a versão, fontes de dados, configurações e regras atuais. Comece pelo [manual do analista](docs/MANUAL-DO-ANALISTA.md) para usar a extensão ou pela [arquitetura](docs/ARQUITETURA.md) para desenvolver.
 
 ## Funcionalidades
 
 - Fila compartilhada, distribuição automática, reserva exclusiva de nome e confirmação pelo ID do pedido.
+- Captura de pedidos que passam rapidamente pela lista, recuperação após confirmação no AF e separação de aprovações automáticas nos relatórios e no ranking.
 - [Liberação automática dos nomes às 00:00](docs/LIBERACAO-DIARIA.md), no horário de São Luís, sem precisar manter a extensão aberta.
 - Listas **Para contato** e **Para suporte**, compartilhadas entre analistas identificados; pedidos retidos ficam fora da distribuição até remoção explícita.
 - Imagem de **Para suporte** configurável online para a equipe, com desenho original como alternativa se a imagem falhar. Requer a atualização inicial para 6.8.2.
@@ -39,6 +40,7 @@ O mouse abre o painel pelo ícone flutuante da página; o ícone nativo da barra
 | `extension/` | Extensão completa, recursos locais, bibliotecas OCR e notas das atualizações |
 | `tests/` | Testes atuais e testes legados preservados |
 | `database/updates/` | Atualizações de banco das funcionalidades recentes |
+| `supabase/migrations/` | Migrações incrementais de distribuição, conciliação, sincronização e liberação diária |
 | `database/tests/` | Testes SQL separados, com dados simulados e rollback |
 | `docs/` | Arquitetura e documentação histórica |
 | `scripts/check-extension.cjs` | Verificação de sintaxe, manifesto e recursos |
@@ -52,7 +54,7 @@ npm ci
 npm test
 ```
 
-A suíte executa o extrator original e os testes atuais de catálogo, identidade, notificações, histórico, animações, painel global e suporte. Usa dados fictícios e serviços simulados, sem acessar o banco de produção. Os arquivos `test-ui-510.cjs`, `test-ui-530.cjs` e `test-contato-compartilhado.cjs` permanecem como referência da interface 5.x e foram substituídos na suíte pelos testes atuais.
+A suíte executa o extrator original e os testes atuais de catálogo, identidade, notificações, histórico, animações, painel global, suporte, distribuição, captura, conciliação, sincronização econômica e liberação diária. Usa dados fictícios, serviços simulados e PostgreSQL isolado, sem acessar o banco de produção. Os arquivos `test-ui-510.cjs`, `test-ui-530.cjs` e `test-contato-compartilhado.cjs` permanecem como referência da interface 5.x e foram substituídos na suíte pelos testes atuais.
 
 ## Banco e atualização
 

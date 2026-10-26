@@ -1,4 +1,4 @@
-# Instalação, atualização e manutenção — 6.8.1
+# Instalação, atualização e manutenção — 6.11.0
 
 ## Pré-requisitos
 
@@ -43,16 +43,25 @@ Abra o painel, identifique-se, clique em **Permitir painel em outros sites**, ac
 | Extensão não carrega | Manifesto, pasta escolhida, arquivos ausentes e tela de erros do navegador |
 | Painel abre sem conexão | `config.js`, código da equipe, endpoint acessível e mensagem de erro RPC |
 | Nome indisponível | Reserva por token no banco; distinguir identidade de pedido atual |
+| Nome liberado à meia-noite | Comportamento diário esperado; selecionar novamente em Eu sou |
 | Lista não lê | Aba AF correta, login, tabela carregada, filtros, seletores e indicação parcial/cache |
 | Banco sincroniza, sem novos pedidos | Verificar leitura AF e existência de superfície operacional carregada |
+| Pedido passou e sumiu | Conferir captura/conciliação; desaparecer não prova automático nem conclusão humana |
+| Produção divergente | Conferir período, origem confirmada, pendências e valores desconhecidos; consultar histórico |
+| Transferência elevada | Conferir versão instalada, fila_sincronizar e blocos/cache; consumo já acumulado não é apagado |
 | Cliques lentos | Aguardar timeout/sincronização; conferir estado remoto antes de repetir |
 | Descanso não encerra | Função de encerramento, trigger, execução periódica e relógio do servidor |
 | Tema não atualiza | Revisão, normalização, contexto do cache e compatibilidade do renderer |
 | Ícone global ausente | Permissão HTTP/HTTPS, ON, aba protegida, injeção e recarga |
 | Animação ausente | Baseline, idade do evento, consumo anterior, visibilidade e OFF remoto |
+| Estalo ausente | Fullmetal ativo, controle Ativar e testar estalo, preferência local e política de áudio do navegador |
 | Escala conflita | Reconsultar versões e revisar a prévia antes de salvar |
 
-O painel usa timeout de banco de 35 s; o worker de avisos usa 15 s. Timeout é ausência de resposta no prazo, não uma confirmação de rollback da operação. Preserve a última informação válida e compare o estado após reconectar.
+O painel e a sincronização compartilhada usam timeout de banco de 35 s. Captura e chamadas legadas de avisos têm limites próprios, de 15 s. Timeout é ausência de resposta no prazo, não uma confirmação de rollback da operação. Preserve a última informação válida e compare o estado após reconectar.
+
+A leitura AF e a sincronização periódica têm padrão de 5 s; são ciclos distintos. O worker compartilha consultas por contexto e envia as versões recebidas para obter apenas blocos alterados. Depois de ações, a tela consulta novamente o banco. A captura de linhas rápidas continua ativa na aba AF autenticada mesmo com o painel fechado.
+
+A liberação diária de nomes roda no banco às 00:00 em America/Fortaleza e não exige atualização de pacote. Confira o job e o registro por data se ela falhar; não use a função com datas inventadas para testar produção. Veja [Liberação diária](LIBERACAO-DIARIA.md).
 
 ## Reversão e compatibilidade
 
@@ -64,7 +73,7 @@ A base SQL não é autossuficiente. Veja [Banco e RPCs](BANCO-E-RPCS.md) antes d
 
 1. Trabalhe em branch própria e confira alterações não relacionadas.
 2. Atualize código, documentação e versão quando houver mudança de software.
-3. Rode `npm ci`, `npm test` e validação da mensagem de commit.
+3. Para código ou dependências, rode `npm ci`, `npm test` e validação da mensagem de commit. Em mudanças exclusivamente documentais, confira links, referências, versão e exemplos.
 4. Para mudanças visuais/comportamentais, execute as verificações manuais pertinentes.
 5. Revise segredos, configurações e dados de exemplo; não empacote `.git` ou `node_modules`.
 6. Se gerar pacote operacional, use a pasta da extensão e configuração autorizada, sem PIN/código/token embutido; documente como preservar os dados locais.

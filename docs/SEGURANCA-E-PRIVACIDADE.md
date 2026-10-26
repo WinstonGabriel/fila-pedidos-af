@@ -1,4 +1,4 @@
-# Segurança e privacidade — 6.8.1
+# Segurança e privacidade — 6.11.0
 
 ## Fronteiras de confiança
 
@@ -11,7 +11,9 @@ A extensão executa código empacotado. A lista AF é lida na origem autorizada 
 | Nome, modo, data e cache de pedidos | Armazenamento local e estado da interface |
 | Sessão de gestão | Preferencialmente `chrome.storage.session`, vinculada ao contexto |
 | Atribuições, pausas e auditoria | Banco compartilhado com controles de acesso |
-| Preferências de tema/ocultação | Localmente por analista no navegador |
+| Observações e evidências operacionais de pedidos | Fila local persistente e registro privado no banco; não são exportação da página AF inteira |
+| Blocos/versões de sincronização | Memória e storage de sessão, separados pelo hash do contexto autenticado |
+| Preferências de tema/ocultação/estalo | Localmente por analista no navegador |
 | Projeções de aviso/efeito | Storage local com contexto derivado por hash; sem os valores brutos de credenciais |
 
 O cache contém dados da lista de pedidos. Proteja o perfil do navegador e a sessão do computador. Armazenamento local da extensão não deve ser descrito como cofre criptográfico ou defesa contra alguém com controle do dispositivo.
@@ -43,7 +45,13 @@ Este mecanismo reduz o risco de incorporação indevida; não é uma garantia de
 
 Mantenha RLS e grants restritos. Wrappers públicos não devem dar acesso direto ao schema privado. Funções privilegiadas devem validar entradas e fixar resolução de nomes; valide as definições implantadas ao alterar migrations. Nenhuma chave `service_role` deve ser incluída na extensão.
 
-Catálogo/layout aceitam campos limitados e cores hexadecimais, sem CSS/HTML/scripts/URLs arbitrários. Texto apresentado em HTML é escapado com `esc()`. Links de pedidos da raspagem são limitados à origem AF. Exemplos e testes usam dados fictícios.
+Catálogo/layout aceitam campos limitados e cores hexadecimais, sem CSS/HTML/scripts remotos. A exceção declarativa de imagem é `layout.icone_suporte_url`: HTTPS, até 2.048 caracteres, sem credenciais, com carregamento sem referer e alternativa local em falha. O catálogo de temas não aceita URLs de imagem. Texto apresentado em HTML é escapado com `esc()`. Links de pedidos da raspagem são limitados à origem AF. Exemplos e testes usam dados fictícios.
+
+`fila_sincronizar` valida o contexto em cada chamada; hashes de blocos não são credenciais. O worker aceita o pedido de estado completo somente de páginas internas da própria extensão. Ao mudar equipe/token/gestão, invalida a cópia e descarta respostas atrasadas. A página AF recebe a projeção permitida de avisos, sem acesso ao estado completo por essa mensagem.
+
+A captura envia metadados operacionais mínimos e consulta somente detalhes conhecidos na mesma origem autenticada. A conciliação verifica ID e decisão do próprio pedido, com comprovante temporário associado à instalação. A tabela privada tem RLS e acesso direto revogado; a consulta da extensão passa pelas RPCs autorizadas.
+
+A liberação diária de nomes é uma rotina privada, sem EXECUTE para PUBLIC/anon/authenticated/service_role e sem endpoint público novo. O agendador proprietário a executa; controle por data e auditoria são atômicos. O efeito Roy usa SVG/CSS locais e síntese Web Audio, sem gravação, microfone, câmera ou amostra de áudio remota.
 
 ## Práticas de colaboração
 

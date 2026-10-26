@@ -1,8 +1,8 @@
-# Banco de dados e contratos RPC — 6.8.1
+# Banco de dados e contratos RPC — 6.11.0
 
 ## Escopo das definições
 
-O cliente usa PostgREST em `/rest/v1/rpc/<funcao>`, por POST JSON, com a chave pública de API nos cabeçalhos e credenciais de equipe/instalação no corpo. `popup.js:rpc()` acrescenta `p_codigo`, `p_token` e `p_coord`; `p_coord` recebe a sessão de gestão ou credencial compatível. O worker de avisos/efeitos usa o mesmo padrão com `p_coord=null`.
+O cliente usa PostgREST em `/rest/v1/rpc/<funcao>`, por POST JSON, com a chave pública de API nos cabeçalhos e credenciais de equipe/instalação no corpo. `popup.js:rpc()` acrescenta `p_codigo`, `p_token` e `p_coord`; `p_coord` recebe a sessão de gestão ou credencial compatível. A sincronização periódica usa `fila_sincronizar` pelo worker, separada por contexto de autorização. O fluxo pessoal de efeitos usa `p_coord=null`.
 
 **Esta é uma referência dos contratos usados pelo cliente e dos SQLs presentes, não uma especificação completa reconstruída do banco de produção.** Não foram consultados ou exportados dados operacionais para esta revisão documental. Para funções ausentes do pacote, confira a definição autorizada no ambiente de desenvolvimento antes de alterar parâmetros ou permissões.
 
@@ -17,6 +17,8 @@ O cliente usa PostgREST em `/rest/v1/rpc/<funcao>`, por POST JSON, com a chave p
 | `public.fila_historico` | Eventos originais: ID, momento, ator, coordenação, ação, analista, pedido e detalhe |
 | `af_mobile.descansos` | Pausas por analista/dia/número, início e fim; chave composta e limite 1–2 |
 | `af_mobile.historico_exibicao` | View privada de apresentação, sem regravar a auditoria original |
+| `af_mobile.pedidos_capturados` | Observações, metadados, comprovantes de consulta, origem e conciliação por ID |
+| `af_mobile.liberacao_nomes_diaria` | Controle privado da liberação de nomes por data, horário, contagem e ativação |
 | Objetos intermediários de gestão/escala/avisos | Dependências do backend implantado; suas definições completas não estão no repositório |
 
 O schema `af_mobile` contém funções privadas usadas pela extensão. A existência desse schema não concede ao cliente acesso livre a todos os seus objetos.
@@ -36,6 +38,10 @@ Os argumentos abaixo são **adicionais** aos três argumentos comuns. Parâmetro
 | RPC | Argumentos do fluxo atual | Finalidade |
 |---|---|---|
 | `fila_estado` | — | Estado compartilhado, usuários, atribuições, configuração e dados de gestão disponíveis |
+| `fila_sincronizar` | `p_versoes` como objeto JSON, padrão `{}` | Estado, descansos e avisos por blocos alterados, versões e relógio |
+| `fila_pedidos_observar` | `p_pedidos` como array JSON, até 100 itens | Persistir IDs e metadados observados no AF |
+| `fila_pedidos_pendentes` | — | Obter até cinco detalhes com comprovante exclusivo temporário |
+| `fila_pedidos_conciliar` | `p_resultados` como array JSON, até cinco itens | Registrar verificação e conciliar origem/situação com comprovante válido |
 | `fila_escolher_nome` / `fila_liberar_nome` | `p_nome` | Reservar ou liberar a identidade |
 | `fila_distribuir_auto` | `p_candidatos` | Solicitar distribuição transacional |
 | `fila_puxar` | `p_analista`, `p_candidatos` | Solicitar pedido para o alvo autorizado |
@@ -84,7 +90,27 @@ O início exige identidade real igual ao alvo, ON, ausência de pedido e limite 
 
 ### Histórico
 
-A view privada `af_mobile.historico_exibicao` acrescenta `ator_tecnico`, `modalidade` e `origem_liberacao`. Para recebimento, só relaciona outro analista quando o evento anterior do **mesmo pedido**, ordenado por ID, é `liberou_pedido`. O índice parcial `fila_historico_pedido_id_idx` apoia a busca. Eventos originais não são regravados; filtros usam a projeção corrigida, enquanto contagem de conclusões preserva sua origem auditada.
+A view privada `af_mobile.historico_exibicao` acrescenta `ator_tecnico`, `modalidade` e `origem_liberacao`. Para recebimento, só relaciona outro analista quando o evento anterior do **mesmo pedido**, ordenado por ID, é `liberou_pedido`. O índice parcial `fila_historico_pedido_id_idx` apoia a busca. Eventos originais não são regravados. A conciliação acrescenta apresentação própria para automático confirmado, preservando o vínculo anterior na auditoria e excluindo sua contagem como produção humana.
+
+### Captura, conciliação e produção
+
+As três RPCs `fila_pedidos_*` são invoker e delegam a helpers privados definer com autorização por `fila_ator` e `search_path=''`. Observar aceita no máximo 100 IDs com URL AF válida. Pendentes usa bloqueio de linha e `SKIP LOCKED`, atribui UUID de consulta e instalação, e adia nova seleção por dois minutos. Conciliar aceita até cinco resultados, verifica o comprovante e usa a trava `(802153,530)` da distribuição.
+
+O cliente só declara automático após conferir o ID e a decisão explícita no histórico do próprio pedido. Uma confirmação gera uma conclusão automática única e libera a atribuição; conclusões humanas declaradas anteriormente continuam na auditoria. Pedidos ainda em análise só entram no pool de recuperação com verificação recente de até 30 segundos. Veja [Captura e aprovação automática](CAPTURA-E-APROVACAO-AUTOMATICA.md).
+
+`fila_gestao_relatorio` incorpora `producao`, com `totais`, `automaticos`, `manuais`, `analistas`, `sem_conclusao`, `legados_sem_conferencia` e `cobertura`. Contagens e valores são separados por origem; `valor_centavos` é inteiro e `sem_valor` indica registros sem valor conhecido. O período usa a data da conclusão em America/Fortaleza; o filtro de analista restringe a lista individual, preservando os totais gerais da equipe.
+
+### Sincronização econômica
+
+`fila_sincronizar(p_codigo text, p_token text, p_coord text=null, p_versoes jsonb={})` delega para `af_mobile.sincronizar`. Aceita objeto de versões de até 512 bytes, autentica a cada chamada, encerra descansos vencidos e consulta estado/avisos. Retorna `versoes`, `dados` e `servidor_em`; `dados` contém apenas os blocos alterados `estado`, `descansos` e `avisos`. Uma resposta sem mudanças pode ter `dados={}`. Hashes são controle de transporte e não autorização.
+
+`fila_estado` mantém todos os não concluídos, oito conclusões humanas recentes e oito automáticos recentes. `concluidos_ids` contém os IDs das atribuições concluídas para filtragem compacta no cliente. A mudança não exclui histórico nem registros de produção. O worker compartilha a consulta por contexto e mantém cache por até 5 segundos, forçando nova leitura após ações. Veja [Economia de transferência](ECONOMIA-DE-TRANSFERENCIA.md).
+
+### Liberação diária de nomes
+
+`af_mobile.liberar_nomes_diario(p_agora timestamptz=clock_timestamp())` é rotina privada invoker, com `search_path=''`, executável somente pelo proprietário do banco. O job `af-liberar-nomes-meia-noite` executa a chamada sem argumentos em `0 3 * * *` GMT, equivalente a 00:00 em America/Fortaleza. Não há RPC pública para essa operação.
+
+A trava `(802153,510)` serializa a rotina com escolha/liberação manual. O controle por data impede repetição; somente reservas anteriores à meia-noite são removidas. Auditoria e controle diário pertencem à mesma transação. A ativação marca o dia corrente sem liberar usuários imediatamente. Pedidos, status, escala e sessões de gestão são preservados. Veja [Liberação diária](LIBERACAO-DIARIA.md).
 
 ### Efeito de pedido
 
@@ -103,6 +129,12 @@ A view privada `af_mobile.historico_exibicao` acrescenta `ator_tecnico`, `modali
 | `updates/historico-6.6.sql` | View de apresentação e patch das leituras | Depende das assinaturas e trechos atuais das funções |
 | `updates/efeito-pedido-6.7.sql` | Consulta privada de evento e configuração | Backend AF existente e schema privado |
 | `updates/suporte.sql` | Destino de retenção, RPC e patches de histórico/alocador | Inspecionar definições atuais antes de aplicar |
+| `supabase/migrations/20261025175646_distribuicao_por_leitor_identificado.sql` | Distribuição por leitor identificado, inclusive OFF | Preserva destinatários ON, registrados e elegíveis |
+| `supabase/migrations/20261025183807_captura_e_conciliacao_af.sql` | Captura, conciliação e produção por origem | Depende do alocador, histórico, relatórios e autorização atuais |
+| `supabase/migrations/20261026025317_sincronizacao_economica.sql` | Estado compacto e blocos alterados | Exige captura/conciliação e RPCs de estado/descanso/avisos |
+| `supabase/migrations/20261026031910_liberar_nomes_meia_noite.sql` | Liberação diária privada e agendamento | Exige cron e infraestrutura atual de reserva/auditoria |
+
+Os nomes `banco-5.3.1.sql` e `updates/` da tabela são relativos a `database/`; os caminhos `supabase/migrations/` são relativos à raiz do repositório. A entrega visual 6.11.0 reutiliza o contrato de efeito e não exige migração nova.
 
 Não execute a pasta em lote nem use o SQL 5.3.1 para “atualizar tudo”. Os patches por `pg_get_functiondef` dependem de trechos específicos e podem recusar versões divergentes. Prepare backup e ambiente de desenvolvimento, compare definições, revise dependências, aplique somente a migração necessária e teste a operação e os grants. Rollback de código e rollback de dados são trabalhos distintos: não apague descansos, histórico ou retenções para voltar uma interface.
 

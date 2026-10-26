@@ -1,4 +1,4 @@
-# Manual do analista — AF Operação 6.8.1
+# Manual do analista — AF Operação 6.11.0
 
 ## 1. Entrar e escolher sua identidade
 
@@ -8,6 +8,8 @@
 4. Confira a mensagem de sincronização antes de operar pedidos.
 
 A escolha reserva seu nome para esta instalação. Fechar o painel não libera o nome. Se o banco liberar sua reserva, selecione-o novamente. Não escolha o nome de um colega para contornar uma indisponibilidade; peça ao responsável para verificar a reserva.
+
+A partir de 27/10/2026, os nomes reservados antes da virada são liberados todos os dias às **00:00, horário de São Luís**. Escolha seu nome novamente em **Eu sou** para continuar. Essa liberação não muda seu status nem conclui ou devolve seu pedido.
 
 Os oito nomes configurados são Natalie, Cássio, Evangela, Gabriel, Kazaf, Rayla, Abigail e Alisson. Uma nova instalação pode gerar outro token; preserve a instalação atual ao atualizar.
 
@@ -60,9 +62,15 @@ A linha mostra uso do dia, contador ou motivo de bloqueio: outro usuário, banco
 
 Pilha apresenta atribuições e retenções. A aba Intervalo divide os pedidos da data selecionada por faixas de horário automáticas ou configuradas. A aba não inicia uma pausa. Confira a data, a leitura parcial e a indicação de cache quando a lista parecer incompleta. O destaque de 30 minutos indica tempo no mesmo pedido; não libera o pedido automaticamente.
 
+A leitura padrão é de **5 segundos**, com captura adicional de linhas que entram e saem rapidamente da tabela. A seção **Saíram da lista** mostra **Horário do pedido** com a hora original e **Pedido concluído por:**. A lista recente é limitada; consulte o histórico para registros anteriores.
+
+Quando a decisão automática é confirmada no histórico do próprio pedido AF, ela aparece como **Pedido aprovado automático** e deixa de contar como conclusão do analista. Apenas desaparecer da lista não comprova uma aprovação automática; a verificação pode depender do próximo acesso autenticado ao detalhe do pedido.
+
 ## 7. Histórico e ranking
 
 Abra o histórico pelo controle da interface e filtre por analista, ação ou pedido. **Carregar mais** busca as páginas anteriores. Ranking é contagem de conclusões do período oferecido, não contagem de avisos nem prova de produtividade completa fora da extensão.
+
+Automáticos confirmados ficam separados e não entram no ranking de conclusões humanas. Uma confirmação posterior pode corrigir a classificação exibida sem apagar o registro original de recebimento/conclusão.
 
 Exemplos de apresentação:
 
@@ -86,7 +94,7 @@ Uma animação temática pode aparecer quando chega um novo pedido para você. A
 
 A preferência é individual no navegador. OFF remove o ícone; o clique no ícone da barra continua disponível. O navegador não oferece hover sobre o ícone nativo da barra para esta função. Páginas internas, lojas e visualizadores protegidos podem impedir a injeção.
 
-Mantenha a **lista AF autenticada aberta**, mesmo em segundo plano, para que um painel carregado consiga ler novos pedidos. O estado compartilhado continua vindo do banco em outras páginas. O recurso não flutua sobre a área de trabalho ou outros aplicativos.
+Mantenha a **lista AF autenticada aberta**, mesmo em segundo plano, para capturar novos pedidos. A captura funciona sem o painel aberto; mantenha uma superfície da extensão carregada para o ciclo normal de varredura e distribuição. O estado compartilhado continua vindo do banco em outras páginas. O recurso não flutua sobre a área de trabalho ou outros aplicativos.
 
 ## 10. Problemas frequentes
 

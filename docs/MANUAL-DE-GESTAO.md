@@ -1,4 +1,4 @@
-# Manual de gestão — AF Operação 6.8.1
+# Manual de gestão — AF Operação 6.11.0
 
 ## Acesso e separação de identidades
 
@@ -11,6 +11,8 @@ O código da equipe permite conexão; o PIN/sessão permite gestão; o token com
 Selecione o analista alvo para consultar status, pedido atual, reservas e controles de vínculo. As operações de gestão passam pelas RPCs autenticadas; ocultar controles na tela não é a barreira de autorização.
 
 Antes de liberar um nome, confira a instalação que o utiliza. Liberar a identidade resolve a seleção exclusiva, mas não deve ser tratado como exclusão do cadastro do analista. OFF e liberação de nome são ações distintas. O fluxo de gestão que reúne ambas as operações deve ser lido e confirmado na interface, pois pode afetar a disponibilidade e o pedido atual.
+
+A liberação diária de nomes ocorre às **00:00 em America/Fortaleza**, a partir de 27/10/2026, mesmo com extensões fechadas. Libera somente reservas anteriores à virada; preserva status, pedidos, escala e sessões de gestão. O analista precisa escolher seu nome novamente. Consulte [Liberação diária](LIBERACAO-DIARIA.md).
 
 Vincular/transferir pedidos e zerar o estado são intervenções operacionais: confira o alvo e a intenção antes de usar. Não execute uma operação destrutiva de fila como forma genérica de corrigir conexão ou aparência.
 
@@ -58,5 +60,9 @@ Planilhas são lidas com SheetJS. PDF com texto usa PDF.js; página com pouco te
 ## Relatórios e avisos
 
 A interface consulta `fila_gestao_relatorio` para o período e permite exportar o resultado oferecido. O relatório não substitui o histórico auditado nem dados que existem apenas no AF. Revise o período antes de compartilhar uma exportação.
+
+O quadro de produção separa **total analisado**, **aprovações automáticas confirmadas**, **conclusões humanas** e **quantidade/valor por analista**, com exportação CSV. Datas de conclusão usam o horário de São Luís. O filtro individual restringe os analistas apresentados; os totais gerais da equipe continuam separados. Valores ausentes são indicados como desconhecidos, sem tratá-los como compras de valor zero.
+
+Automáticos exigem a decisão explícita no histórico do próprio pedido AF. Desaparecimento da lista e recomendação do motor não bastam. Uma confirmação posterior retira o crédito humano daquele pedido e preserva a auditoria anterior. O relatório informa pendências sem conclusão e registros legados ainda sem conferência; não garante cobertura de pedidos que a extensão nunca capturou.
 
 O sino permite consultar e confirmar avisos. Confirmação de leitura é individual; não muda a situação do pedido. A distribuição de avisos para a equipe depende da infraestrutura implantada, cuja instalação completa não está incluída neste repositório.
