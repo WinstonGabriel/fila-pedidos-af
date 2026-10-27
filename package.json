@@ -1,6 +1,6 @@
 {
   "name": "fila-pedidos-af",
-  "version": "6.12.2",
+  "version": "6.12.3",
   "private": true,
   "description": "AF Operação: extensão Manifest V3 com fila, gestão, temas e painel flutuante.",
   "engines": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "check": "node scripts/check-extension.cjs",
-    "test": "npm run check && node tests/test-extension.cjs && node tests/catalogo-integration.cjs && node tests/individual-ui.cjs && node tests/notificacoes-tema.cjs && node tests/historico-origem.cjs && node tests/efeito-pedido.cjs && node tests/efeito-pedido-ui.cjs && node tests/painel-global.cjs && node tests/suporte.cjs && node tests/suporte-icone.cjs && node tests/distribuicao-leitor.cjs && node tests/conciliacao-af.cjs && node tests/captura-background.cjs && node tests/sincronizacao-banco.cjs && node tests/sincronizacao-worker.cjs && node tests/liberacao-diaria.cjs && node tests/roy-alquimia.cjs && node tests/triagem-online.cjs && node tests/feriados-tooltip.cjs && node tests/pausa-notificacoes.cjs && node tests/preferencia-feriados.cjs && node tests/background-bootstrap.cjs",
+    "test": "npm run check && node tests/test-extension.cjs && node tests/catalogo-integration.cjs && node tests/individual-ui.cjs && node tests/notificacoes-tema.cjs && node tests/historico-origem.cjs && node tests/efeito-pedido.cjs && node tests/efeito-pedido-ui.cjs && node tests/painel-global.cjs && node tests/suporte.cjs && node tests/suporte-icone.cjs && node tests/distribuicao-leitor.cjs && node tests/conciliacao-af.cjs && node tests/captura-background.cjs && node tests/sincronizacao-banco.cjs && node tests/sincronizacao-worker.cjs && node tests/liberacao-diaria.cjs && node tests/roy-alquimia.cjs && node tests/triagem-online.cjs && node tests/feriados-tooltip.cjs && node tests/pausa-notificacoes.cjs && node tests/preferencia-feriados.cjs && node tests/background-bootstrap.cjs && node tests/status-pausa.cjs",
     "package:chrome": "python3 scripts/empacotar-extensao.py --saida dist/af-operacao-chrome.zip",
     "package:opera": "python3 scripts/empacotar-extensao.py --navegador opera --saida dist/af-operacao-opera.zip",
     "prepare": "husky"

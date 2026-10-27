@@ -1045,7 +1045,7 @@ function renderPilha() {
            ${podeEditarContato() ? `<button data-contato="${n}" data-pedido="${esc(a.pedido_id)}" title="Marcar para contato e buscar o próximo para ${esc(n)}">📞 Para contato</button>` : ''}
            ${podeEditarContato() ? `<button data-suporte="${esc(n)}" data-pedido="${esc(a.pedido_id)}" title="Reter em suporte e buscar o próximo pedido">${FilaIconeSuporte.html(ICONE_SUPORTE)}Para suporte</button>` : ''}
            ${podeAgirEm(n) ? `<button data-liberar="${n}" data-pedido="${esc(a.pedido_id)}" ${destinoLoja === n ? 'disabled title="Solicite à gestão outro destino para esta loja ou pedido"' : 'title="Devolver à fila para redistribuir a outro analista ON"'}>↩ Liberar</button>` : ''}</div>`
-        : `<div class="vazio">${cfg(n).ligado ? 'Aguardando pedido disponível…' : esc(window.FilaGestao?.rotuloStatus(cfg(n).atividade || 'off') || 'OFF') + ' · sem pedido atual'}</div>`
+        : `<div class="vazio">${cfg(n).ligado ? 'Aguardando pedido disponível…' : esc(window.FilaGestao?.rotuloStatus(cfg(n).atividade || 'off', n) || 'OFF') + ' · sem pedido atual'}</div>`
     }${reservadosDe(n).length ? `<div class="meta">Reservados${n === local.me ? ' para você' : ''} (próximos):</div><ul>${reservadosDe(n)
       .map((r) => `<li><a href="#" data-open="${esc(r.pedido_id)}">${esc(r.pedido_id)}</a>
         <span class="meta">${esc(r.hora)} ${esc(r.valor)} ${esc(r.estab)}</span>

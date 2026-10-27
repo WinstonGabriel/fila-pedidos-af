@@ -1,4 +1,4 @@
-ATUALIZAÇÃO ATUAL: 6.12.2 — leia ATUALIZACAO-6.12.2.txt primeiro.
+ATUALIZAÇÃO ATUAL: 6.12.3 — leia ATUALIZACAO-6.12.3.txt primeiro.
 
 NOTAS ANTERIORES (histórico):
 FILA DE PEDIDOS AF — 6.2.0

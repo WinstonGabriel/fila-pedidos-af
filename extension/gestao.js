@@ -65,15 +65,26 @@
       lista.map((n) => `<option value="${esc(n)}">${esc(n)}</option>`).join('')
     );
   }
+  function rotuloStatus(atividade, n, c) {
+    if (atividade === 'intervalo' && n) {
+      c = c || (typeof cfg === 'function' ? cfg(n) : {});
+      const ate = Object.hasOwn(c, 'descanso_ate') ? c.descanso_ate
+        : typeof descansos !== 'undefined' ? descansos.analistas?.[n]?.ate : null;
+      const diferenca = typeof descansoRelogio === 'number' && Number.isFinite(descansoRelogio) ? descansoRelogio : 0;
+      if (Date.parse(ate) > Date.now() + diferenca) return 'Pausa 20min';
+    }
+    return estados[atividade] || atividade;
+  }
   function celulaStatus(n, c) {
     const atividade = c.atividade || (c.ligado ? 'on' : 'off');
+    const rotulo = rotuloStatus(atividade, n, c);
     return `<td><select class="status-analista" data-atividade="${esc(n)}" aria-label="Status de ${esc(n)}" ${podeAgirEm(n) ? '' : 'disabled'}>${Object.entries(
       estados,
     )
-      .map(([v, t]) => `<option value="${v}" ${v === atividade ? 'selected' : ''}>${t}</option>`)
+      .map(([v, t]) => `<option value="${v}" ${v === atividade ? 'selected' : ''}>${v === atividade ? rotulo : t}</option>`)
       .join(
         '',
-      )}</select>${atividade === 'intervalo' ? `<div class="status-periodo"><input type="time" data-atividade-hora="${esc(n)}" data-campo="inicio" value="${esc(c.atividade_inicio || '')}" aria-label="Início de ${esc(estados[atividade])} de ${esc(n)}" ${podeAgirEm(n) ? '' : 'disabled'}><input type="time" data-atividade-hora="${esc(n)}" data-campo="fim" value="${esc(c.atividade_fim || '')}" aria-label="Fim de ${esc(estados[atividade])} de ${esc(n)}" ${podeAgirEm(n) ? '' : 'disabled'}></div>` : ''}</td>`;
+      )}</select>${atividade === 'intervalo' ? `<div class="status-periodo"><input type="time" data-atividade-hora="${esc(n)}" data-campo="inicio" value="${esc(c.atividade_inicio || '')}" aria-label="Início de ${esc(rotulo)} de ${esc(n)}" ${podeAgirEm(n) ? '' : 'disabled'}><input type="time" data-atividade-hora="${esc(n)}" data-campo="fim" value="${esc(c.atividade_fim || '')}" aria-label="Fim de ${esc(rotulo)} de ${esc(n)}" ${podeAgirEm(n) ? '' : 'disabled'}></div>` : ''}</td>`;
   }
   async function alterarStatus(t) {
     const n = t.dataset.atividade || t.dataset.atividadeHora,
@@ -978,7 +989,7 @@
       (remote.direcionamentos_lojas || []).find((r) => r.loja_chave === normalizarLoja(loja))?.analista,
     abrirAvisos,
     confirmarAvisos,
-    rotuloStatus: (v) => estados[v] || v,
+    rotuloStatus,
     iniciar,
     receber,
     render,

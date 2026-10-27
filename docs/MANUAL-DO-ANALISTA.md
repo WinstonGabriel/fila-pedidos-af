@@ -66,6 +66,8 @@ A linha mostra uso do dia, contador ou motivo de bloqueio: outro usuário, banco
 
 Na versão 6.11.2, iniciar esse descanso gera a notificação **Status: Pausa 20min**, com início e fim, tanto no balão quanto na central do sino. O intervalo comum continua aparecendo como **Intervalo**; o retorno automático continua **ON**. O novo nome exige atualizar os arquivos instalados e o metadado do backend nos novos avisos. Avisos antigos sem essa identificação conservam sua apresentação anterior. A duração e os limites da pausa não mudam.
 
+Desde a 6.12.3, o seletor de **Status / horário** também mostra **Pausa 20min** durante o descanso regulamentado, na própria linha e na visão da gestão. O intervalo comum continua **Intervalo**, mesmo que seus horários tenham duração de vinte minutos. A indicação permanece amarela e volta ao rótulo do status recebido após o encerramento. É necessário atualizar os arquivos instalados para receber essa apresentação.
+
 ## 6. Pilha e aba Intervalo
 
 Pilha apresenta atribuições e retenções. A aba Intervalo divide os pedidos da data selecionada por faixas de horário automáticas ou configuradas. A aba não inicia uma pausa. Confira a data, a leitura parcial e a indicação de cache quando a lista parecer incompleta. O destaque de 30 minutos indica tempo no mesmo pedido; não libera o pedido automaticamente.

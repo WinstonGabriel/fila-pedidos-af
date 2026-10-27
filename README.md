@@ -1,6 +1,8 @@
 # AF Operação
 
-Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.12.2.**
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.12.3.**
+
+A versão 6.12.3 mostra **Pausa 20min** no campo de status quando o descanso regulamentado está ativo, também na gestão e no card. O intervalo comum continua **Intervalo**; o indicador amarelo, as regras e o retorno automático para ON permanecem. A nova apresentação exige atualizar os arquivos instalados.
 
 A versão 6.12.2 corrige a entrega operacional: o ZIP configurado inclui `config.js`, obrigatório para iniciar o worker. O empacotador verifica a configuração pública e executa a cadeia de imports extraída do próprio ZIP em VM isolada. O código-fonte continua sem configuração de produção no Git; prepare a configuração local e use `npm run package:chrome` ou `npm run package:opera` para gerar uma distribuição.
 

@@ -1,0 +1,18 @@
+AF OPERAÇÃO 6.12.3 — PAUSA 20min NO CAMPO STATUS
+
+Ao iniciar o descanso regulamentado de vinte minutos, o seletor de status
+passa a mostrar Pausa 20min. A indicação também aparece na visão da gestão
+e no texto do card sem pedido. O intervalo comum conserva o nome Intervalo.
+
+A pausa mantém o indicador amarelo. O status interno continua intervalo,
+sem mudar duração, limites, distribuição ou retorno automático para ON.
+As notificações continuam mostrando Pausa 20min como nas versões anteriores.
+
+ATUALIZAR NO CHROME
+1. Feche o painel e extraia este ZIP na MESMA PASTA já instalada.
+2. Substitua os arquivos, incluindo config.js fornecido no pacote configurado AF.
+3. Clique em Recarregar em chrome://extensions.
+4. Atualize as abas do AF e reabra a extensão.
+
+Mantenha a instalação e perfil existentes para conservar sua identificação.
+O pacote pronto inclui a configuração pública obrigatória do worker.

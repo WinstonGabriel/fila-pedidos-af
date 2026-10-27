@@ -26,6 +26,7 @@ Este histórico consolida as notas presentes no pacote; não inventaria cada ver
 | 6.12.0 | Preferência para folgar no feriado, prazo no servidor, ordem sem duplicidade e três primeiras solicitações para decisão da gestão |
 | 6.12.1 | Manifesto padrão compatível com Chrome; configuração Opera separada, preservando preferências e demais funções |
 | 6.12.2 | ZIP operacional inclui configuração pública obrigatória e verifica o bootstrap completo do worker a partir dos arquivos extraídos |
+| 6.12.3 | Campo status mostra Pausa 20min durante o descanso regulamentado; intervalo comum e indicador amarelo preservados |
 
 ## Revisão documental de 26/10/2026
 
