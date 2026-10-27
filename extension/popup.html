@@ -131,6 +131,7 @@
       <p id="escalaPeriodo" class="meta"></p><div id="escalaGrade" class="escala-scroll"></div>
       <div class="escala-legenda"><span class="tipo-trabalho">Trabalho</span><span class="tipo-folga">Folga</span><span class="tipo-feriado">Feriado</span><span class="tipo-ferias">Férias</span><span class="tipo-atestado">Atestado</span><span>— Não definido</span></div>
       <p class="meta">Todos podem consultar. Somente Coordenação/Gestão altera horários, folgas e feriados. Horários sem saída mostram apenas a entrada informada.</p>
+      <section id="feriadoPreferencias" class="feriado-preferencias" aria-label="Preferências para folgar no feriado" hidden></section>
     </section>
     <section id="relatorioSecao" hidden>
       <div class="escala-barra"><label>De <input id="relatorioInicio" type="date"></label><label>Até <input id="relatorioFim" type="date"></label><select id="relatorioAnalista" aria-label="Filtrar relatório por analista"></select><button id="relatorioGerar">Consultar</button><button id="relatorioExportar" disabled>Exportar CSV</button></div>
@@ -169,6 +170,7 @@
   <script src="baloes.js"></script>
   <script src="relatorio-producao.js"></script>
   <script src="gestao.js"></script>
+  <script src="feriados-preferencias.js"></script>
   <script src="suporte-icone.js"></script>
   <script src="popup.js"></script>
 </body>

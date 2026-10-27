@@ -1,6 +1,6 @@
 # Feriados na escala
 
-Atualização online do backend de 26/10/2026, compatível com a tela de escala já instalada. Não exige outro ZIP, alteração dos arquivos da extensão ou nova permissão. Para receber a informação, abra a escala ou use **Atualizar** dentro dela.
+A referência de texto do backend de 26/10/2026 é compatível com a tela de escala anterior e chega online. O pino exige cliente 6.11.1 ou posterior; as preferências de folga descritas abaixo exigem cliente 6.12.0 e a migration correspondente. Para receber a informação, abra a escala ou use **Atualizar** dentro dela.
 
 O código 6.11.1 acrescenta o pino de feriado descrito abaixo. Esse elemento novo exige atualizar os arquivos da extensão e recarregar a instalação existente; não é ativado somente pelo banco. Nenhum novo ZIP foi gerado para esta mudança.
 
@@ -10,7 +10,17 @@ Ao posicionar o mouse sobre a célula de um analista num dia de feriado, o títu
 
 A partir da 6.11.1, cada data de feriado tem apenas um pequeno pino vermelho de 14 px no canto superior direito do cabeçalho, sem sombreado adicional. Passe o mouse sobre o pino para ler **Feriado: nome do feriado**. O indicador também pode receber foco pelo teclado e tem nome acessível. Aparece uma vez por data, tanto na visão semanal quanto na mensal, inclusive ao filtrar um único analista.
 
-A referência aparece também nas células já preenchidas, junto da observação existente. Na 6.11.0, continua somente na informação ao passar o mouse sobre as células, sem pino no cabeçalho. Não inclui solicitações para trabalhar no feriado nem altera quem pode editar a escala.
+A referência aparece também nas células já preenchidas, junto da observação existente. Na 6.11.0, continua somente na informação ao passar o mouse sobre as células, sem pino no cabeçalho.
+
+## Preferência para folgar — 6.12.0
+
+Abra **Escala**, selecione a semana ou mês do feriado e localize **Preferência para folgar no feriado** abaixo da tabela. Cada analista identificado tem o botão **Quero folgar**. Após enviar, aparece **Preferência enviada**, com horário e posição. Uma repetição mantém o envio original, sem alterar a prioridade. As solicitações além da terceira são registradas e o analista é informado de que ficaram fora das três primeiras; elas não aparecem na lista da gestão.
+
+O prazo termina às **23h59 do terceiro dia anterior ao feriado**, em `America/Fortaleza`. Para **20/11**, é possível enviar até **17/11 às 23h59**; a partir de **18/11 às 00h00**, o servidor rejeita novos pedidos. O relógio do computador não define o prazo. Não há uma data adicional de abertura: feriados futuros do período podem receber solicitações enquanto o prazo estiver aberto.
+
+Coordenação/Gestão vê somente as **três primeiras solicitações por feriado**, com nome e horário do servidor. **Definir escala** abre o editor já existente para o analista e a data escolhidos. A gestão seleciona a situação e salva sua decisão. Solicitar preferência não confirma folga, não cria linha de escala, não presume presença e não envia aviso de alteração de escala. Uma decisão salva pela gestão usa as notificações e o controle de versão normais.
+
+A ordem é persistida no banco, com trava transacional por feriado e unicidade por data/analista e data/posição. Não há cancelamento ou reordenação de solicitações nesta versão. O servidor deriva o analista da identidade da instalação; o formulário não permite solicitar no nome de um colega. A lista é consultada ao abrir/atualizar a escala e aproximadamente a cada 30 segundos enquanto ela permanece aberta. Instalações antigas continuam consultando a escala; os novos botões exigem atualizar os arquivos.
 
 ## Calendário
 

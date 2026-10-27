@@ -24,6 +24,8 @@ Use nomes de loja consistentes com a lista AF. O cliente normaliza acentos, caix
 
 ## Consulta e edição da escala
 
+Desde a 6.12.0, a área **Preferência para folgar no feriado**, abaixo da escala, mostra somente as três primeiras solicitações de cada feriado do período, com nome e horário do servidor. Clique em **Definir escala** para abrir o editor e salvar sua decisão. O envio do analista não confirma folga nem preenche a escala. O prazo de envio termina às 23h59 do terceiro dia anterior, no horário de São Luís. A ordem não é editável e a repetição de um envio não altera sua prioridade. Veja [Feriados na escala](FERIADOS-NA-ESCALA.md).
+
 A escala permite consultar período e filtrar analista. A edição de gestão trabalha com nome, data, tipo, horários, presença, observação e versão.
 
 | Campo | Opções/uso |

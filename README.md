@@ -1,6 +1,8 @@
 # AF Operação
 
-Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.11.3.**
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.12.0.**
+
+A versão 6.12.0 acrescenta **Quero folgar** nos feriados da escala. O servidor aceita a preferência até 23h59 do terceiro dia anterior, registra a ordem sem duplicidade e entrega à gestão somente as três primeiras solicitações. A definição da escala continua manual e exclusiva da gestão. Consulte [Feriados na escala](docs/FERIADOS-NA-ESCALA.md). Atualize os arquivos instalados para exibir os novos controles.
 
 A versão 6.11.3 apresenta os status dos analistas com indicador LED e brilho discreto: **ON em verde neon**, **OFF em vermelho** e **Intervalo em amarelo**, em todos os temas e na visão da gestão. As cores acompanham a seleção e a sincronização. Atualize os arquivos instalados e recarregue a extensão para aplicar o novo visual.
 

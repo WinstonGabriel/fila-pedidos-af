@@ -100,6 +100,7 @@
   }
   function render() {
     if (!iniciado) return;
+    window.FilaFeriadosPreferencias?.atualizar(periodo);
     renderRotas();
     el('gestaoLogin').hidden = !!remote.coord;
     el('gestaoSessao').hidden = !remote.coord;
@@ -294,6 +295,7 @@
       periodo = p;
       versao = Number(d.versao || versao);
       renderEscala();
+      window.FilaFeriadosPreferencias?.carregar(p);
       feedback(
         'escalaFeedback',
         remote.coord
@@ -679,6 +681,7 @@
     if (contexto !== ctx) {
       contexto = ctx;
       rows.clear();
+      window.FilaFeriadosPreferencias?.limpar();
       periodo = null;
       versao = 0;
       avisos = null;

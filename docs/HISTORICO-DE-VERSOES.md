@@ -23,6 +23,7 @@ Este histórico consolida as notas presentes no pacote; não inventaria cada ver
 | 6.11.1 | Pino vermelho minimalista no canto da data de feriado; título com o nome, sem alterar a definição da escala |
 | 6.11.2 | Notificações do descanso identificado mostram Pausa 20min; intervalo comum preservado |
 | 6.11.3 | Status com LED e brilho discreto: ON verde neon, OFF vermelho e Intervalo amarelo, em todos os temas e na gestão |
+| 6.12.0 | Preferência para folgar no feriado, prazo no servidor, ordem sem duplicidade e três primeiras solicitações para decisão da gestão |
 
 ## Revisão documental de 26/10/2026
 

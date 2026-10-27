@@ -23,6 +23,8 @@ Ao voltar para ON, a interface seleciona Pilha e tenta distribuir quando há ped
 
 Pedidos novos passam por uma triagem no servidor, com espera mínima de 10 segundos e consulta ao AF. Autorizações já reconhecidas ficam fora da fila; o tempo de resposta e a cadência do coletor podem aumentar a espera. Essa proteção chega online às versões com o coletor 6.9 ou posterior, sem novo ZIP.
 
+Para pedir preferência de **folga em um feriado**, abra **Escala** e selecione a semana ou mês do feriado. Clique em **Quero folgar** abaixo da tabela. O botão confirma o envio e mostra sua posição. O prazo termina às 23h59 do terceiro dia anterior, no horário de São Luís: para 20/11, até 17/11 às 23h59. A gestão vê as três primeiras solicitações e decide a escala; enviar não confirma a folga. Se sua posição for posterior à terceira, a interface informa que o envio ficou fora dessa lista. Requer versão 6.12.0. Veja [Feriados na escala](FERIADOS-NA-ESCALA.md).
+
 ## 3. Operar um pedido
 
 | Controle/ação | Resultado |

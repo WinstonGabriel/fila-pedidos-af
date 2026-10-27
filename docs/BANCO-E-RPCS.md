@@ -20,6 +20,7 @@ O cliente usa PostgREST em `/rest/v1/rpc/<funcao>`, por POST JSON, com a chave p
 | `af_mobile.pedidos_capturados` | Observações, metadados, comprovantes de consulta, origem e conciliação por ID |
 | `af_mobile.liberacao_nomes_diaria` | Controle privado da liberação de nomes por data, horário, contagem e ativação |
 | `af_mobile.feriados_referencia` | Regras e fonte do calendário local; somente referência, sem vínculo de trabalho/folga |
+| `af_mobile.feriado_preferencias` | Data, analista, posição única por feriado e horário do servidor; não define escala |
 | Objetos intermediários de gestão/escala/avisos | Dependências do backend implantado; suas definições completas não estão no repositório |
 
 O schema `af_mobile` contém funções privadas usadas pela extensão. A existência desse schema não concede ao cliente acesso livre a todos os seus objetos.
@@ -66,6 +67,8 @@ Os argumentos abaixo são **adicionais** aos três argumentos comuns. Parâmetro
 | `fila_preferencia_salvar` | `p_analista`, `p_lojas` | Preferências individuais de lojas |
 | `fila_gestao_vincular` | `p_analista`, `p_pedido`, `p_transferir` | Vínculo/transferência administrativa |
 | `fila_escala_consultar` | `p_inicio`, `p_fim`, `p_analista` | Consultar escala |
+| `fila_feriados_preferencias` | `p_inicio`, `p_fim` | Feriados e prazo, envio próprio para analista ou três primeiras solicitações para gestão |
+| `fila_feriado_solicitar_folga` | `p_data` | Preferência da identidade da instalação, idempotente e com prazo no servidor |
 | `fila_escala_salvar` | `p_itens`, `p_origem` | Edição/importação com versões por registro |
 | `fila_gestao_relatorio` | `p_inicio`, `p_fim`, `p_analista` | Relatório de gestão |
 | `fila_avisos` | `p_ultimo` quando aplicável | Consultar avisos do contexto autenticado |

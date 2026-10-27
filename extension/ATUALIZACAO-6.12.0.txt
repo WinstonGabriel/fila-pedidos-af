@@ -1,0 +1,25 @@
+AF OPERAÇÃO 6.12.0 — PREFERÊNCIA PARA FOLGAR NO FERIADO
+
+Em Escala, selecione a semana ou mês do feriado. Abaixo da tabela, clique
+em Quero folgar. O botão passa a Preferência enviada e impede envio duplicado.
+
+Prazo: até 23h59 do terceiro dia anterior, no horário de São Luís.
+Exemplo: feriado de 20/11 aceita solicitações até 17/11 às 23h59.
+A ordem e o horário são registrados pelo servidor. Coordenação/Gestão vê
+somente as três primeiras solicitações de cada feriado e usa Definir escala
+para decidir. Solicitar não confirma nem grava uma folga automaticamente.
+Solicitações posteriores à terceira são registradas, mas ficam fora da lista
+mostrada à gestão. Somente feriados do calendário, sem pontos facultativos.
+
+As cores dos status da 6.11.3 também estão incluídas: ON verde neon,
+OFF vermelho e Intervalo amarelo.
+
+ATUALIZAÇÃO DA INSTALAÇÃO EXISTENTE
+1. Feche o painel e extraia o ZIP na MESMA PASTA já instalada.
+2. Substitua os arquivos, mantendo o config.js da sua instalação.
+3. Clique em Recarregar em chrome://extensions ou opera://extensions.
+4. Atualize as abas do AF e abra Escala.
+
+O manifest.json deve continuar na raiz da mesma pasta. Mantenha a extensão
+e o perfil existentes para conservar sua identificação e preferências.
+Esta versão também exige a migration de preferência de feriados no backend.

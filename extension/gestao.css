@@ -86,6 +86,15 @@
   gap: 4px;
   margin-top: 4px;
 }
+.feriado-preferencias { margin-top: 14px; border-top: 1px solid var(--borda-fina); padding-top: 10px; }
+.feriado-preferencias h3 { margin: 0 0 6px; font-size: 13px; }
+.feriado-preferencia { padding: 10px 0; border-bottom: 1px solid var(--borda-fina); }
+.feriado-preferencia small { display: block; margin-top: 4px; }
+.feriado-solicitar { margin-top: 8px; }
+.feriado-solicitar:disabled { cursor: default; opacity: .75; }
+.feriado-solicitacoes { margin: 8px 0 0; padding-left: 23px; }
+.feriado-solicitacoes li { padding: 6px 0; }
+.feriado-solicitacoes button { margin-top: 5px; }
 table.cfg .status-periodo input[type='time'] {
   width: 78px;
   font-size: 11px;
