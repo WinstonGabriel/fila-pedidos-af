@@ -1268,10 +1268,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   $('#btnLer').onclick = ler;
   $('#btnPermitirGlobal').onclick = async () => {
-    try { const ok=await chrome.permissions.request({origins:['http://*/*','https://*/*']});
-      if(ok){await chrome.runtime.sendMessage({tipo:'af-atualizar-painel-global'});}
-      $('#painelGlobalInfo').textContent=ok?'Permissão concedida. Ative Ocultação ON para usar o painel nos sites.':'Permissão não concedida. O painel continua disponível no AF.';
-    }catch(e){$('#painelGlobalInfo').textContent=e.message || 'Não foi possível solicitar a permissão.';}
+    try {
+      const origens = ['http://*/*', 'https://*/*'];
+      const tem = await chrome.permissions.contains({origins: origens});
+      if (tem) {
+        const ok = await chrome.permissions.remove({origins: origens});
+        if (ok) await chrome.runtime.sendMessage({tipo: 'af-atualizar-painel-global'});
+        $('#painelGlobalInfo').textContent = ok ? 'Permissão revogada. O painel continua disponível no AF.' : 'Não foi possível revogar a permissão.';
+      } else {
+        const ok = await chrome.permissions.request({origins: origens});
+        if (ok) await chrome.runtime.sendMessage({tipo: 'af-atualizar-painel-global'});
+        $('#painelGlobalInfo').textContent = ok ? 'Permissão concedida. Ative Ocultação ON para usar o painel nos sites.' : 'Permissão não concedida. O painel continua disponível no AF.';
+      }
+      await renderAlcancePainel();
+    } catch (e) { $('#painelGlobalInfo').textContent = e.message || 'Não foi possível alterar a permissão.'; }
   };
   $('#btnOcultacao').onclick = async () => { if (!local.me) return; const key = 'afOcultar:' + local.me; const s = await chrome.storage.local.get(key); await chrome.storage.local.set({[key]: !s[key]}); await publicarOcultacao(); await renderOcultacao(); };
   document.addEventListener('click', (e) => { const b = e.target.closest('[data-descanso]'); if (!b) return; const n = b.dataset.descanso; if (n !== local.me || !rede.ok) return; if (!confirm('Iniciar seu descanso de 20 minutos? Ele conta como uma das duas pausas de hoje.')) return; acao(() => rpc('fila_descanso', {p_nome: n, p_iniciar: true})).then(() => renderCfg()); });
@@ -1543,7 +1553,9 @@ function atualizarBotoesDescanso() {
 
 async function renderAlcancePainel(){
  const el=$('#painelGlobalInfo');if(!el)return;
- try{const s=await chrome.storage.local.get('afAlcancePainel'),a=s.afAlcancePainel;
- el.textContent=a?.http&&a?.https?'Painel permitido em sites HTTP e HTTPS.':'Para usar fora do AF, clique em Permitir painel em outros sites.';
+ try{const btn=$('#btnPermitirGlobal');
+ const tem = await chrome.permissions.contains({origins:['http://*/*','https://*/*']});
+ if(btn) btn.textContent = tem ? 'Revogar painel em outros sites' : 'Permitir painel em outros sites';
+ el.textContent=tem?'Painel permitido em sites HTTP e HTTPS.':'Para usar fora do AF, clique em Permitir painel em outros sites.';
  }catch{}
 }

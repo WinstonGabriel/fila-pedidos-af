@@ -9,3 +9,5 @@ extension/config.js
 coverage/
 
 extension/vendor/**/.*
+
+.superpowers/

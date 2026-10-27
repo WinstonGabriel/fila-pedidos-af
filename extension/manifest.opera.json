@@ -44,22 +44,7 @@
         "efeito-core.js",
         "pedido-animacao.js",
         "baloes.js",
-        "af-notificacoes.js",
-        "painel-flutuante.js"
-      ],
-      "run_at": "document_idle",
-      "all_frames": false,
-      "world": "ISOLATED"
-    },
-    {
-      "matches": [
-        "https://af.mateusmais.com.br/*"
-      ],
-      "css": [
-        "sidebar-injetada.css"
-      ],
-      "js": [
-        "sidebar-injetada.js"
+        "af-notificacoes.js"
       ],
       "run_at": "document_idle",
       "all_frames": false,

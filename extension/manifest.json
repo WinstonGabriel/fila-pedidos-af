@@ -35,8 +35,7 @@
         "efeito-core.js",
         "pedido-animacao.js",
         "baloes.js",
-        "af-notificacoes.js",
-        "painel-flutuante.js"
+        "af-notificacoes.js"
       ],
       "run_at": "document_idle",
       "all_frames": false,
