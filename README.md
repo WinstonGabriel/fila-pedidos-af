@@ -1,6 +1,8 @@
 # AF Operação
 
-Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.13.0.**
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual do código: 6.13.1.**
+
+A versão 6.13.1 mostra imediatamente **Feriado: nome do feriado** ao passar o ponteiro sobre o pino ou dar foco pelo teclado, sem esperar o balão nativo do navegador. Código publicado sem novo ZIP. As instalações atuais precisam atualizar seus arquivos locais; o servidor não consegue alterar esse comportamento nos clientes antigos. Consulte [Dica imediata no pino](docs/FERIADOS-NA-ESCALA.md#dica-imediata-no-pino--6131).
 
 A versão 6.13.0 [retira automaticamente pedidos de contato e suporte](docs/RETIRADA-AUTOMATICA-DE-APOIO.md) após saída confirmada da lista completa do AF ou decisão final comprovada. Preserva a auditoria e não gera uma nova conclusão humana. A confirmação por varredura exige atualizar os arquivos instalados.
 

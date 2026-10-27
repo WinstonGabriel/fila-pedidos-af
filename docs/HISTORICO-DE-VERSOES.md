@@ -28,6 +28,7 @@ Este histórico consolida as notas presentes no pacote; não inventaria cada ver
 | 6.12.2 | ZIP operacional inclui configuração pública obrigatória e verifica o bootstrap completo do worker a partir dos arquivos extraídos |
 | 6.12.3 | Campo status mostra Pausa 20min durante o descanso regulamentado; intervalo comum e indicador amarelo preservados |
 | 6.13.0 | Retirada automática de contato/suporte após saída confirmada do AF, com auditoria e sem nova produção humana |
+| 6.13.1 | Dica imediata com o nome do feriado no pino, também por teclado; código sem novo ZIP, exige atualizar arquivos locais |
 
 ## Revisão documental de 26/10/2026
 

@@ -190,6 +190,27 @@ dialog::backdrop {
   outline: 2px solid var(--cor-texto, #1f2937);
   outline-offset: 2px;
 }
+.escala-feriado-tooltip {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  z-index: 10000;
+  max-width: min(280px, calc(100vw - 24px));
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid #64748b;
+  border-radius: 6px;
+  background: #0f172a;
+  color: #f8fafc;
+  font: 12px/1.4 system-ui, sans-serif;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  pointer-events: none;
+  box-shadow: 0 3px 12px #0004;
+}
+.escala-feriado-tooltip[hidden] {
+  display: none;
+}
 .escala-dia {
   display: block;
   width: 100%;

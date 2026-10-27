@@ -34,6 +34,59 @@
     return day(d);
   };
   const chave = (n, d) => n + '|' + d;
+  let tooltipFeriado = null, pinoFeriado = null;
+  function ocultarTooltipFeriado() {
+    if (!tooltipFeriado) return;
+    tooltipFeriado.hidePopover?.();
+    tooltipFeriado.hidden = true;
+    pinoFeriado = null;
+  }
+  function mostrarTooltipFeriado(pino) {
+    if (!pino) return;
+    pinoFeriado = pino;
+    tooltipFeriado.textContent = pino.getAttribute('aria-label');
+    tooltipFeriado.hidden = false;
+    // O popover fica acima da tabela e do dialog, sem corte na rolagem.
+    tooltipFeriado.showPopover?.();
+    const r = pino.getBoundingClientRect(), t = tooltipFeriado.getBoundingClientRect();
+    const d = tooltipFeriado.showPopover ? {left: 0, top: 0, right: innerWidth, bottom: innerHeight}
+      : el('escalaDialogo').getBoundingClientRect();
+    const esquerda = Math.max(d.left + 8, Math.min(r.right - t.width, d.right - t.width - 8));
+    const topo = r.bottom + 6 + t.height <= d.bottom - 8 ? r.bottom + 6 : r.top - t.height - 6;
+    tooltipFeriado.style.left = esquerda + 'px';
+    tooltipFeriado.style.top = Math.max(d.top + 8, topo) + 'px';
+  }
+  function prepararTooltipFeriado() {
+    if (tooltipFeriado) return;
+    tooltipFeriado = document.createElement('div');
+    tooltipFeriado.id = 'escalaFeriadoTooltip';
+    tooltipFeriado.className = 'escala-feriado-tooltip';
+    tooltipFeriado.setAttribute('role', 'tooltip');
+    tooltipFeriado.hidden = true;
+    if (tooltipFeriado.showPopover) tooltipFeriado.setAttribute('popover', 'manual');
+    const dialogo = el('escalaDialogo'), grade = el('escalaGrade');
+    dialogo.append(tooltipFeriado);
+    const pinoDoEvento = (e) => e.target.closest?.('.escala-feriado-pino');
+    grade.addEventListener('pointerover', (e) => mostrarTooltipFeriado(pinoDoEvento(e)));
+    grade.addEventListener('pointerout', (e) => {
+      const pino = pinoDoEvento(e);
+      if (pino && !pino.contains(e.relatedTarget) && document.activeElement !== pino) ocultarTooltipFeriado();
+    });
+    grade.addEventListener('focusin', (e) => mostrarTooltipFeriado(pinoDoEvento(e)));
+    grade.addEventListener('focusout', (e) => { if (pinoDoEvento(e)) ocultarTooltipFeriado(); });
+    dialogo.addEventListener('scroll', ocultarTooltipFeriado, true);
+    dialogo.addEventListener('close', ocultarTooltipFeriado);
+    dialogo.addEventListener('cancel', ocultarTooltipFeriado);
+    dialogo.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !tooltipFeriado.hidden) {
+        ocultarTooltipFeriado();
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true);
+    window.addEventListener('resize', ocultarTooltipFeriado);
+    window.addEventListener('blur', ocultarTooltipFeriado);
+  }
   let iniciado = false,
     versao = 0,
     contexto = '',
@@ -319,6 +372,11 @@
   }
   function renderEscala() {
     if (!periodo) return;
+    prepararTooltipFeriado();
+    const pinoAnterior = pinoFeriado, focoNoPino = pinoAnterior === document.activeElement;
+    const dataAnterior = pinoAnterior?.closest('[data-escala-data]')?.dataset.escalaData;
+    const retanguloAnterior = pinoAnterior?.getBoundingClientRect();
+    ocultarTooltipFeriado();
     const dias = [];
     for (let d = periodo.inicio; d <= periodo.fim; d = somar(d, 1)) dias.push(d);
     const analistas = valor('escalaAnalista') ? [valor('escalaAnalista')] : ANALISTAS;
@@ -335,7 +393,7 @@
           const feriado = feriados.get(d);
           const titulo = feriado ? esc('Feriado: ' + feriado) : '';
           const pino = feriado
-            ? `<span class="escala-feriado-pino" role="img" tabindex="0" title="${titulo}" aria-label="${titulo}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(30 12 12)"><path d="M12 15v7" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round"/><path d="M8 5v5l-2 3v2h12v-2l-2-3V5Z" fill="#dc2626" stroke="#991b1b" stroke-width="1.2" stroke-linejoin="round"/><rect x="6" y="2" width="12" height="4" rx="2" fill="#ef4444"/><path d="M8 3.5h7" stroke="#fca5a5" stroke-linecap="round"/></g></svg></span>`
+            ? `<span class="escala-feriado-pino" role="img" tabindex="0" aria-label="${titulo}" aria-describedby="escalaFeriadoTooltip"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(30 12 12)"><path d="M12 15v7" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round"/><path d="M8 5v5l-2 3v2h12v-2l-2-3V5Z" fill="#dc2626" stroke="#991b1b" stroke-width="1.2" stroke-linejoin="round"/><rect x="6" y="2" width="12" height="4" rx="2" fill="#ef4444"/><path d="M8 3.5h7" stroke="#fca5a5" stroke-linecap="round"/></g></svg></span>`
             : '';
           return `<th scope="col" data-escala-data="${d}">${date(d).toLocaleDateString('pt-BR', { weekday: 'short' })}<br>${fmt(d).slice(0, 5)}${pino}</th>`;
         })
@@ -351,8 +409,17 @@
               .join('')}</tr>`,
         )
         .join('')}</tbody></table>`;
+    if (dataAnterior) {
+      const pino = el('escalaGrade').querySelector(`[data-escala-data="${dataAnterior}"] .escala-feriado-pino`);
+      if (pino) {
+        const r = pino.getBoundingClientRect();
+        if (focoNoPino) pino.focus({preventScroll: true});
+        else if (r.left === retanguloAnterior.left && r.top === retanguloAnterior.top) mostrarTooltipFeriado(pino);
+      }
+    }
   }
   function tab(t) {
+    ocultarTooltipFeriado();
     if (!remote.coord && t !== 'escala') t = 'escala';
     el('escalaSecao').hidden = t !== 'escala';
     el('relatorioSecao').hidden = t !== 'relatorio';
@@ -371,6 +438,7 @@
   const cargar = () => carregarEscala();
   function editor(n, d) {
     if (!remote.coord || !periodo) return;
+    ocultarTooltipFeriado();
     editando = { rows: new Map(rows), periodo: { ...periodo } };
     const e = rows.get(chave(n, d));
     el('editarAnalista').value = n || valor('escalaAnalista') || '';

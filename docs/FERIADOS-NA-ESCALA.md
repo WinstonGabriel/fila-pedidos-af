@@ -12,6 +12,14 @@ A partir da 6.11.1, cada data de feriado tem apenas um pequeno pino vermelho de 
 
 A referência aparece também nas células já preenchidas, junto da observação existente. Na 6.11.0, continua somente na informação ao passar o mouse sobre as células, sem pino no cabeçalho.
 
+## Dica imediata no pino — 6.13.1
+
+O pino mostra **Feriado: nome do feriado** no próprio evento de entrada do ponteiro, sem temporizador, animação de entrada ou consulta adicional ao servidor. Em **02/11**, por exemplo, aparece **Feriado: Finados**. O foco pelo teclado também mostra a dica; **Esc** a dispensa. O `title` nativo foi retirado apenas do pino para evitar outro balão atrasado.
+
+A dica usa a Popover API quando disponível, acima da tabela e sem corte pela rolagem. Há alternativa dentro do diálogo para navegadores sem essa API. Ao rolar, redimensionar, fechar a escala ou abrir o editor, a dica é escondida. Uma sincronização da mesma grade preserva a dica enquanto o pino permanece na mesma posição.
+
+Esta revisão foi preparada no código, sem gerar ZIP e sem mudar o banco. **As instalações atuais não recebem esse comportamento remotamente:** o nome do feriado vem do servidor, mas o tratamento do ponteiro está nos arquivos locais. Publicar no Git ou atualizar o cadastro de feriados não troca esses arquivos. Na instalação 6.13.0, a correção da dica está em `extension/gestao.js` e `extension/gestao.css`; substitua os dois arquivos na mesma pasta instalada, recarregue a extensão e as abas do AF. Instalações de outras versões precisam de avaliação de compatibilidade antes de copiar arquivos isolados. Uma distribuição central de atualizações exige um canal de instalação apropriado, previamente configurado nos computadores.
+
 ## Preferência para folgar — 6.12.0
 
 Abra **Escala**, selecione a semana ou mês do feriado e localize **Preferência para folgar no feriado** abaixo da tabela. Cada analista identificado tem o botão **Quero folgar**. Após enviar, aparece **Preferência enviada**, com horário e posição. Uma repetição mantém o envio original, sem alterar a prioridade. As solicitações além da terceira são registradas e o analista é informado de que ficaram fora das três primeiras; elas não aparecem na lista da gestão.
@@ -57,4 +65,4 @@ Os argumentos, permissões e a sessão de gestão dos RPCs existentes são prese
 
 ## Validação
 
-`tests/feriados-tooltip.cjs` usa PostgreSQL isolado, dados fictícios e a renderização real de `gestao.js` em DOM simulado. Verifica calendário, exclusão de pontos facultativos, datas móveis, virada do ano, pino e título no cabeçalho, troca entre semana/mês, filtro individual sem consulta adicional, escape do título, linhas virtuais, observações de 500 caracteres, gravação, conflitos de versão, ausência de avisos indevidos e permissões. Não acessa produção nem exige credenciais para testar. A conferência visual e o balão nativo do navegador devem ser validados na instalação.
+`tests/feriados-tooltip.cjs` usa PostgreSQL isolado, dados fictícios e a renderização real de `gestao.js` em DOM simulado. Verifica calendário, exclusão de pontos facultativos, datas móveis, virada do ano, dica síncrona no pino, foco e Esc, rolagem, limites de posição, troca entre semana/mês, filtro individual sem consulta adicional, texto seguro, linhas virtuais, observações de 500 caracteres, gravação, conflitos de versão, ausência de avisos indevidos e permissões. Não acessa produção nem exige credenciais para testar. O DOM simulado não comprova a aparência e a composição visual do popover no navegador; confira esses aspectos na instalação.

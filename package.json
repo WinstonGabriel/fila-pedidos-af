@@ -1,6 +1,6 @@
 {
   "name": "fila-pedidos-af",
-  "version": "6.13.0",
+  "version": "6.13.1",
   "private": true,
   "description": "AF Operação: extensão Manifest V3 com fila, gestão, temas e painel flutuante.",
   "engines": {

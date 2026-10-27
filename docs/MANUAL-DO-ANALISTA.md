@@ -99,6 +99,8 @@ Na escala, posicione o mouse sobre a célula de um dia para consultar o nome do 
 
 Na versão 6.11.1, há também um pequeno pino vermelho no canto superior direito da data. Passe o mouse sobre ele para ler o nome do feriado. Esse pino exige atualizar os arquivos e recarregar a extensão existente; a publicação no Git não o instala automaticamente.
 
+No código 6.13.1, a dica aparece imediatamente ao passar o ponteiro ou dar foco no pino pelo teclado: por exemplo, **Feriado: Finados** no dia **02/11**. **Esc** esconde a dica. Esta mudança exige atualizar os arquivos locais; o servidor não muda a demora da dica nas instalações antigas.
+
 Uma animação temática pode aparecer quando chega um novo pedido para você. Abrir o painel com um pedido que já existia não dispara uma animação retroativa. No Fullmetal Alchemist, o círculo e as chamas aparecem dentro da caixa do seu pedido, com estalo opcional. No menu de temas, use **Ativar e testar estalo** para habilitar o áudio ou silenciar. O efeito não abre o pedido automaticamente. A preferência de movimento reduzido do sistema preserva a mensagem sem animação decorativa. Os ajustes remotos do efeito são administrativos; não existe editor de animações em Gestão nesta versão.
 
 ## 9. Ocultação e uso em outros sites

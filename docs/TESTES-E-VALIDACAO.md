@@ -33,7 +33,7 @@ Use Node.js 24. `npm test` executa `npm run check` e as suítes declaradas em `p
 | `tests/liberacao-diaria.cjs` | Ativação, fuso, liberação por data, escolhas após a virada, rollback e permissões em PostgreSQL isolado |
 | `tests/roy-alquimia.cjs` | Card próprio, consumo adiado, camadas, limpeza, áudio único/opcional, redesenho e encerramento |
 | `tests/triagem-online.cjs` | Prazo antes da atribuição, prova da decisão, compatibilidade, fila individual/global, produção, repetição, falhas posteriores e permissões |
-| `tests/feriados-tooltip.cjs` | Calendário sem pontos facultativos, pino/título no cabeçalho, semana/mês e filtros, linhas virtuais, escape de título, preservação de notas/versões, gravação e permissões |
+| `tests/feriados-tooltip.cjs` | Calendário sem pontos facultativos, dica imediata no pino, foco/Esc, rolagem e posição, semana/mês e filtros, texto seguro, linhas virtuais, preservação de notas/versões, gravação e permissões |
 | `tests/pausa-notificacoes.cjs` | Evento real em PostgreSQL isolado e texto de Pausa 20min, intervalo comum, retorno ON, prazo vencido, avisos de escala, devolução OFF e permissões do trigger |
 | `tests/preferencia-feriados.cjs` | Corte exato do prazo em São Luís, unicidade/ordem, reenvio, três primeiras, isolamento por identidade/gestão, preservação da escala e interface de solicitação/edição |
 | `tests/background-bootstrap.cjs` | Cadeia completa de importScripts no mesmo contexto sem DOM, falta de config, colisão global, listeners, janela alternativa e modo de validação do pacote extraído |
