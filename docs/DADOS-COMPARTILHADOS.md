@@ -1,6 +1,6 @@
-# Dados e estado compartilhados — AF Operação 6.12.3
+# Dados e estado compartilhados — AF Operação 6.13.0
 
-Referência para manutenção e continuidade do projeto, revisada em 27/10/2026. O repositório `WinstonGabriel/fila-pedidos-af`, branch `main`, reúne o código, contratos, testes, catálogo de referência e migrations. A versão do cliente é 6.12.3 em `package.json`, `package-lock.json` e `extension/manifest.json`. O pino no cabeçalho de feriado existe desde a 6.11.1; instalações 6.11.0 conservam a referência online ao passar o mouse nas células até atualizarem seus arquivos. A 6.11.2 apresenta **Pausa 20min** nos avisos de descanso identificados pelo backend, preservando o rótulo do intervalo comum. A 6.11.3 acrescenta o visual LED dos seletores de status: ON verde neon, OFF vermelho e Intervalo amarelo. Essa apresentação é local e exige atualizar os arquivos instalados; não muda os valores de status nem os contratos compartilhados.
+Referência para manutenção e continuidade do projeto, revisada em 27/10/2026. O repositório `WinstonGabriel/fila-pedidos-af`, branch `main`, reúne o código, contratos, testes, catálogo de referência e migrations. A versão do cliente é 6.13.0 em `package.json`, `package-lock.json` e `extension/manifest.json`. O pino no cabeçalho de feriado existe desde a 6.11.1; instalações 6.11.0 conservam a referência online ao passar o mouse nas células até atualizarem seus arquivos. A 6.11.2 apresenta **Pausa 20min** nos avisos de descanso identificados pelo backend, preservando o rótulo do intervalo comum. A 6.11.3 acrescenta o visual LED dos seletores de status: ON verde neon, OFF vermelho e Intervalo amarelo. Essa apresentação é local e exige atualizar os arquivos instalados; não muda os valores de status nem os contratos compartilhados.
 
 A 6.12.0 acrescenta preferências para folgar nos feriados. `af_mobile.feriado_preferencias` registra data, analista, posição e horário; a gestão recebe apenas as três primeiras solicitações por data. O prazo termina às 23h59 do terceiro dia anterior, no horário de São Luís. Os novos RPCs validam a identidade e não definem a escala. A interface exige atualizar os arquivos da extensão.
 
@@ -9,6 +9,8 @@ A 6.12.1 separa os manifestos por navegador: `extension/manifest.json` é o padr
 A 6.12.2 valida o ZIP operacional com `config.js` incluído e inicialização real dos scripts em VM isolada. O arquivo continua ignorado no Git e contém somente URL e chave pública anon do projeto, sem código de equipe, PIN ou token de instalação. Não há alteração no banco.
 
 A 6.12.3 apresenta **Pausa 20min** no campo de status durante o descanso regulamentado, usando `descanso_ate` do analista ou o metadado de pausa recebido na sincronização e o relógio do servidor. O status interno continua `intervalo`; não há migration ou mudança nas regras de descanso.
+
+A 6.13.0 retira automaticamente retenções de contato/suporte após saída do AF confirmada. `apoio_saida_af_em` preserva o arquivamento; não cria conclusão humana. A RPC de varredura valida identidade, completude, contagem e antiguidade da leitura, e a conciliação de decisões finais também encerra o apoio. Veja [Retirada automática](RETIRADA-AUTOMATICA-DE-APOIO.md).
 
 ## Fontes e alcance
 

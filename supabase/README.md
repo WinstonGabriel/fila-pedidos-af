@@ -2,6 +2,8 @@
 
 `20261027104654_preferencia_folga_feriados.sql` acrescenta as preferências de folga da 6.12.0. O registro é privado, com RLS e sem acesso direto pelos clientes. A solicitação usa a identidade da instalação, prazo pelo relógio do servidor em São Luís e trava por feriado para persistir a ordem; reenvios são idempotentes. A consulta de gestão retorna apenas as três primeiras solicitações. Não preenche a escala nem altera pedidos. Os novos controles exigem atualizar os arquivos da extensão. Veja [Feriados na escala](../docs/FERIADOS-NA-ESCALA.md).
 
+A migration `*_retirada_automatica_apoio_af.sql` implementa a retirada automática de contato/suporte da 6.13.0: marcador de arquivamento, auditoria, consulta compacta e RPC autenticada de confirmação de varredura. Também encerra retenções com decisão final já comprovada, preservando dados e sem gerar conclusão humana. Veja [Retirada automática de apoio](../docs/RETIRADA-AUTOMATICA-DE-APOIO.md).
+
 Esta pasta não é um bootstrap. As migrações dependem da infraestrutura da fila já implantada e recusam definições incompatíveis.
 
 Referência do cliente: **6.11.2**, revisão documental de 26/10/2026. Os [dados e regras compartilhados](../docs/DADOS-COMPARTILHADOS.md) e os [contratos RPC](../docs/BANCO-E-RPCS.md) consolidam o uso atual. O efeito visual 6.11.0 não acrescenta migration.

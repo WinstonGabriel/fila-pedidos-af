@@ -262,6 +262,7 @@ async function sincronizar(forcar = true) {
     remote.atribuicoes = d.atribuicoes || [];
     remote.automaticos = d.automaticos || [];
     remote.concluidos_ids = d.concluidos_ids || [];
+    remote.apoio_encerrados_ids = d.apoio_encerrados_ids || [];
     remote.janela = d.janela || {};
     remote.usuarios = d.usuarios || [];
     remote.coord = !!d.coord;
@@ -326,8 +327,8 @@ const atualDe = (n) => remote.atribuicoes.find((a) => a.analista === n && a.stat
 const podeAgirEm = (n) => remote.coord || n === local.me;
 const podeEditarContato = () => remote.coord || !!local.me;
 const reservadosDe = (n) => remote.atribuicoes.filter((a) => a.analista === n && a.status === 'reservado');
-const contatos = () => remote.atribuicoes.filter((a) => a.status === 'contato' && a.destino_apoio !== 'suporte');
-const suportes = () => remote.atribuicoes.filter((a) => a.status === 'contato' && a.destino_apoio === 'suporte');
+const contatos = () => remote.atribuicoes.filter((a) => a.status === 'contato' && !a.apoio_saida_af_em && a.destino_apoio !== 'suporte');
+const suportes = () => remote.atribuicoes.filter((a) => a.status === 'contato' && !a.apoio_saida_af_em && a.destino_apoio === 'suporte');
 const ICONE_SUPORTE = '<svg viewBox="0 0 48 48" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-3px;margin-right:3px"><path d="m20 5 1-3h7l1 7 5 2 5-4 6 6-4 5 2 5 3 1v7l-7 1-2 5-5-4-5 2-1 7h-7l-1-7-5-2-5 4-6-6 4-5-2-5-7-1v-7l7-1 2-5 5 4z" transform="translate(2 3) scale(.83)"/><path d="M28 19a9 9 0 0 0-12-8l6 6-5 5-6-6a9 9 0 0 0 9 12l14 14a6 6 0 0 0 8-8L28 20z"/></svg>';
 const ocupados = () => new Set([...remote.atribuicoes.filter((a) => a.status !== 'devolvido').map((a) => a.pedido_id), ...(remote.automaticos || []).map(p=>p.pedido_id), ...(remote.concluidos_ids || [])]);
 const atrasado = (a) => !!a && Date.now() - new Date(a.criado_em).getTime() >= LIMITE_ATRASO_MS;
@@ -435,9 +436,14 @@ async function scrapeFn(opcoes = {}) {
       filtro.searchParams.delete('page');
       filtro.searchParams.sort();
       filtro.hash = '';
+      const semFiltros = () => {
+        const u = new URL(location.href); u.searchParams.delete('page'); u.hash = '';
+        return u.href === 'https://af.mateusmais.com.br/' && filtro.href === u.href
+          && ![...document.querySelectorAll('.dataTables_filter input,input[type="search"],input[type="date"],input[name*="search"],input[name*="filter"],input[name*="filtro"]')].some(e => String(e.value || '').trim());
+      };
       const menuAtual = (document.querySelector('.main-menu') || document.body).textContent.match(/(\d+)\s*Pedidos em an[aá]lise/i);
       if (cfg.somenteTela) return {
-        ok: true, pedidos: atual, porPagina, paginaAtual: cur, contexto: filtro.href,
+        ok: true, pedidos: atual, porPagina, paginaAtual: cur, contexto: filtro.href, semFiltros: semFiltros(),
         primeira: cur === 1 ? atual.length : 0, paginas: max,
         totalMenu: menuAtual ? Number(menuAtual[1]) : null,
       };
@@ -529,7 +535,7 @@ async function scrapeFn(opcoes = {}) {
       const mapa = new Map();
       Object.values(porPagina).flat().forEach((p) => mapa.set(p.id, p));
       const menu = (document.querySelector('.main-menu') || document.body).textContent.match(/(\d+)\s*Pedidos em an[aá]lise/i);
-      return { ok: true, pedidos: [...mapa.values()], porPagina, paginaAtual: cur, contexto: filtro.href, primeira: (porPagina[1] || []).length, paginas: Object.keys(porPagina).length, totalMenu: menu ? Number(menu[1]) : null };
+      return { ok: true, pedidos: [...mapa.values()], porPagina, paginaAtual: cur, contexto: filtro.href, semFiltros: semFiltros(), primeira: (porPagina[1] || []).length, paginas: Object.keys(porPagina).length, totalMenu: menu ? Number(menu[1]) : null };
     } catch (e) {
       return { ok: false, erro: controleTotal.signal.aborted && Date.now() >= prazo ? (cfg.somenteTela ? `A tela do AF ainda não está pronta. ${novaLeitura}` : 'A leitura do AF excedeu 3 minutos. A última lista válida foi mantida.') : e.message };
     } finally {
@@ -643,6 +649,27 @@ async function aplicarLeitura(r, completa, inicio) {
       chrome.runtime.sendMessage({ tipo: 'fila-af-captura', pedidos: observados.slice(i, i + 100) }).catch(() => {});
     }
   }
+  await sincronizarSaidaApoio(r, completa, inicio);
+}
+
+async function sincronizarSaidaApoio(r, completa, inicio) {
+  // Usa o resultado fresco da varredura, nunca a união de páginas antigas/cache.
+  if (!r.ok || r.semFiltros !== true || r.contexto !== ORIGEM_PAINEL + '/' || !Array.isArray(r.pedidos)
+      || !(completa || (r.paginas === 1 && r.paginaAtual === 1)) || !Number.isInteger(r.totalMenu)) return;
+  const vistos = new Set(r.pedidos.map(p => p.id));
+  if (vistos.size !== r.pedidos.length || vistos.size !== r.totalMenu || !Number.isFinite(descansoRelogio)) return;
+  const ausentes = contatos().concat(suportes()).filter(a => !vistos.has(a.pedido_id)).map(a => a.pedido_id).slice(0, 1000);
+  const presentes = (remote.apoio_encerrados_ids || []).filter(id => vistos.has(id)).slice(0, 1000);
+  if (!ausentes.length && !presentes.length) return;
+  const contexto = contextoCliente();
+  try {
+    const resultado = await rpc('fila_apoio_sincronizar_saida', {
+      p_ausentes: ausentes, p_presentes: presentes, p_contexto: r.contexto, p_completa: true,
+      p_total: vistos.size, p_menu: r.totalMenu, p_iniciada_em: new Date(inicio + descansoRelogio).toISOString(),
+    });
+    if (contexto !== contextoCliente()) return;
+    if (resultado.removidos || resultado.retornados) await sync();
+  } catch { /* Uma falha mantém os pedidos e a próxima leitura tenta novamente. */ }
 }
 
 async function lerCompleto(tab, contexto) {
@@ -673,8 +700,9 @@ async function executarLeitura() {
   try {
     const tab = await abaPainel();
     if (!tab) throw new Error('Abra a lista de pedidos do AF Mateus em uma aba e entre na sua conta.');
+    const inicio = Date.now();
     const r = await injetarLeitura(tab, { ...RASPAGEM, somenteTela: true, esperaTelaMs: 1500, tempoTotalMs: 1800, cadenciaMs: intervaloLeitura() }, 2000);
-    await aplicarLeitura(r, false, Date.now());
+    await aplicarLeitura(r, false, inicio);
     distribuirAutomatico();
     if (!completaEmCurso && (contextoUltimaCompleta !== r.contexto || !ultimaCompleta || Date.now() - ultimaCompleta >= INTERVALO_COMPLETA_MS)) lerCompleto(tab, r.contexto);
   } catch (e) {
@@ -1061,7 +1089,7 @@ function renderPilha() {
       .map((c) => {
         const naPagina = pedidos.some((x) => x.id === c.pedido_id);
         return `<li><a href="#" data-open="${esc(c.pedido_id)}">${esc(c.pedido_id)}</a>
-          <span class="meta">${esc(c.hora)} · ${esc(c.valor)} · ${esc(c.estab)}<br>pedido de ${nomeHtml(c.analista)}${!naPagina && !usandoCache && !leitura.parcial ? ' · saiu da lista' : ''}</span>
+          <span class="meta">${esc(c.hora)} · ${esc(c.valor)} · ${esc(c.estab)}<br>pedido de ${nomeHtml(c.analista)}${!naPagina && !usandoCache && !leitura.parcial ? ' · verificando presença no AF' : ''}</span>
           ${c.href ? `<button class="ghost" data-copiar="${esc(c.href)}" title="Copiar link do pedido">⧉</button>` : ''}
           ${podeEditarContato() ? `<button data-rmcontato="${esc(c.pedido_id)}" title="Remover marcação de contato e devolver à fila" aria-label="Remover marcação de contato do pedido ${esc(c.pedido_id)}">↩</button>` : ''}</li>`;
       })
@@ -1072,7 +1100,7 @@ function renderPilha() {
   const saidos = usandoCache || leitura.parcial
     ? []
     : remote.atribuicoes
-        .filter((a) => a.status === 'concluido' && !(remote.automaticos || []).some(p=>p.pedido_id===a.pedido_id) && !pedidos.some((p) => p.id === a.pedido_id))
+        .filter((a) => a.status === 'concluido' && !a.apoio_saida_af_em && !(remote.automaticos || []).some(p=>p.pedido_id===a.pedido_id) && !pedidos.some((p) => p.id === a.pedido_id))
         .sort((a, b) => String(b.atualizado_em).localeCompare(String(a.atualizado_em)))
         .slice(0, 8);
   if (saidos.length) {
@@ -1108,6 +1136,7 @@ function renderTudo() {
 
 /* ---------- histórico de ações ---------- */
 const ROTULO = {
+  retirou_apoio_saida_af: 'retirou do apoio após saída do AF', retornou_apoio_af: 'restaurou apoio após retorno ao AF',
   marcou_para_suporte: 'marcou para suporte o pedido', removeu_de_suporte: 'removeu de suporte o pedido',
   recebeu_pedido: 'recebeu o pedido', concluiu_pedido: 'concluiu o pedido', marcou_para_contato: 'marcou para contato o pedido',
   removeu_de_contato: 'removeu da lista de contato o pedido', cancelou_reserva: 'cancelou a reserva', anexou_pedido: 'anexou o pedido',

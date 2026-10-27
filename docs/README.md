@@ -1,12 +1,13 @@
 # Documentação — AF Operação 6.11.0
 
-Referência da base 6.11.0 e das revisões até 6.12.3, com pino de feriado, nomenclatura de pausa, indicadores LED dos status e preferência para folgar no feriado. Revisão documental: 27/10/2026. Exemplos fictícios; nenhuma credencial ou dado operacional é necessário para ler estes documentos.
+Referência da base 6.11.0 e das revisões até 6.13.0, com pino de feriado, nomenclatura de pausa, indicadores LED dos status e preferência para folgar no feriado. Revisão documental: 27/10/2026. Exemplos fictícios; nenhuma credencial ou dado operacional é necessário para ler estes documentos.
 
 A organização técnica segue a [documentação anterior de extração e apresentação](ARQUITETURA-5.3.1.md), preservada como referência histórica. A documentação atual substitui suas descrições de comportamento quando houver diferença.
 
 | Documento | Público e finalidade |
 |---|---|
 | [Dados e estado compartilhados](DADOS-COMPARTILHADOS.md) | Versão de referência, fontes dos dados, configuração da equipe e regras que devem ser preservadas |
+| [Retirada automática de apoio](RETIRADA-AUTOMATICA-DE-APOIO.md) | Retirar contato/suporte após saída do AF, critérios de confirmação e preservação de histórico |
 | [Manual do analista](MANUAL-DO-ANALISTA.md) | Conexão, pedidos, status, descanso, temas, avisos e ocultação |
 | [Manual de gestão](MANUAL-DE-GESTAO.md) | Sessão de gestão, direcionamento, escala, importação e relatórios |
 | [Feriados na escala](FERIADOS-NA-ESCALA.md) | Referência online de texto e pino no cabeçalho a partir da 6.11.1, com atualização dos arquivos |
@@ -21,7 +22,7 @@ A organização técnica segue a [documentação anterior de extração e aprese
 | [Economia de transferência](ECONOMIA-DE-TRANSFERENCIA.md) | Sincronização por blocos, cache por instalação e compatibilidade |
 | [Liberação diária](LIBERACAO-DIARIA.md) | Liberação das reservas de nome às 00:00 em America/Fortaleza |
 | [Alquimia das Chamas](ALQUIMIA-DAS-CHAMAS.md) | Animação pessoal do Roy Mustang e controle do estalo |
-| [Histórico de versões](HISTORICO-DE-VERSOES.md) | Evolução documentada até 6.12.3 e atualizações do banco |
+| [Histórico de versões](HISTORICO-DE-VERSOES.md) | Evolução documentada até 6.13.0 e atualizações do banco |
 | [Publicação e colaboração](PUBLICAR_NO_GITHUB.md) | Repositório existente, branches, revisão e entrega |
 
 ## Escopo e limites

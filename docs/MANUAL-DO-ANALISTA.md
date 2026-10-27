@@ -49,6 +49,8 @@ Qualquer analista identificado pode marcar um pedido atual para contato/suporte 
 
 Enquanto retido, o pedido fica fora da fila automática. **Remover da lista o disponibiliza novamente para distribuição**, quando reconhecido como candidato elegível; remover não significa concluir. Confirme que a tratativa terminou antes de remover. Versões antigas podem mostrar suporte dentro de Para contato, pois o banco conserva compatibilidade de retenção.
 
+Desde a **6.13.0**, pedidos em contato ou suporte são retirados automaticamente após uma leitura completa e sem filtros confirmar que saíram da lista AF. Uma decisão final confirmada pelo coletor também encerra o apoio. A saída fica no histórico e não gera nova conclusão para o analista. Filtro, falha de leitura ou sessão expirada preservam os pedidos. Mantenha a lista AF disponível e os arquivos atualizados. Veja [Retirada automática de apoio](RETIRADA-AUTOMATICA-DE-APOIO.md).
+
 ## 5. Descanso de 20 minutos
 
 Abra **Analistas** e localize **Descanso 20 min** na sua linha. O botão aparece para cada pessoa, mas só o próprio usuário identificado pode iniciar a pausa.

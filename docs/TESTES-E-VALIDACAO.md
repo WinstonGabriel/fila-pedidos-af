@@ -38,6 +38,7 @@ Use Node.js 24. `npm test` executa `npm run check` e as suítes declaradas em `p
 | `tests/preferencia-feriados.cjs` | Corte exato do prazo em São Luís, unicidade/ordem, reenvio, três primeiras, isolamento por identidade/gestão, preservação da escala e interface de solicitação/edição |
 | `tests/background-bootstrap.cjs` | Cadeia completa de importScripts no mesmo contexto sem DOM, falta de config, colisão global, listeners, janela alternativa e modo de validação do pacote extraído |
 | `tests/status-pausa.cjs` | Rótulo no seletor e card, próprio/colegas/gestão, preservação de valor/cor/horários, intervalo comum, metadado expirado, relógio do servidor e retorno ON |
+| `tests/retirada-apoio.cjs` | Arquivamento de contato/suporte, confirmação de ausência, preservação de análise, auditoria sem produção, repetição, restauração, decisões AF, concorrência, filtros, autenticação e interface |
 | `tests/dom-harness.cjs` | Suporte de simulação DOM usado por testes atuais |
 
 `test-ui-510.cjs`, `test-ui-530.cjs` e `test-contato-compartilhado.cjs` permanecem como referência da interface antiga; não fazem parte do comando principal. Não afirme que toda a pasta foi executada só porque `npm test` passou.

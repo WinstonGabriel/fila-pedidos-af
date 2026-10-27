@@ -1,0 +1,23 @@
+AF OPERAÇÃO 6.13.0 — RETIRADA AUTOMÁTICA DE CONTATO E SUPORTE
+
+Pedidos retidos em Para contato ou Para suporte são retirados automaticamente
+quando uma leitura completa e sem filtros confirma que saíram da lista do AF.
+Uma autorização ou cancelamento já confirmado no detalhe do AF também encerra
+a retenção, sem depender do botão Remover.
+
+Falha de rede, sessão expirada, leitura parcial, filtro ativo e contagem
+inconsistente não removem pedidos. Uma retenção criada durante a varredura
+aguarda a leitura seguinte. Não há nova conclusão ou crédito humano por saída.
+O histórico e os dados do pedido ficam preservados no servidor.
+
+Se o mesmo pedido reaparecer numa leitura completa posterior, a retenção
+anterior pode voltar, desde que não exista decisão final confirmada no AF.
+
+ATUALIZAR NO CHROME
+1. Feche o painel e extraia este ZIP na MESMA PASTA já instalada.
+2. Substitua os arquivos, incluindo a configuração pública config.js do pacote AF.
+3. Clique em Recarregar em chrome://extensions e atualize as abas do AF.
+4. Mantenha a lista do AF disponível para a leitura da extensão.
+
+A configuração pronta e a verificação de inicialização do worker estão incluídas.
+Esta versão requer a atualização correspondente de retirada de apoio no backend.

@@ -67,6 +67,7 @@ Os argumentos abaixo são **adicionais** aos três argumentos comuns. Parâmetro
 | `fila_preferencia_salvar` | `p_analista`, `p_lojas` | Preferências individuais de lojas |
 | `fila_gestao_vincular` | `p_analista`, `p_pedido`, `p_transferir` | Vínculo/transferência administrativa |
 | `fila_escala_consultar` | `p_inicio`, `p_fim`, `p_analista` | Consultar escala |
+| `fila_apoio_sincronizar_saida` | `p_ausentes`, `p_presentes`, `p_contexto`, `p_completa`, `p_total`, `p_menu`, `p_iniciada_em` | Arquivar/restaurar somente apoio, após varredura AF válida |
 | `fila_feriados_preferencias` | `p_inicio`, `p_fim` | Feriados e prazo, envio próprio para analista ou três primeiras solicitações para gestão |
 | `fila_feriado_solicitar_folga` | `p_data` | Preferência da identidade da instalação, idempotente e com prazo no servidor |
 | `fila_escala_salvar` | `p_itens`, `p_origem` | Edição/importação com versões por registro |

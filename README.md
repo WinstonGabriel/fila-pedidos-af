@@ -1,6 +1,8 @@
 # AF Operação
 
-Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.12.3.**
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.13.0.**
+
+A versão 6.13.0 [retira automaticamente pedidos de contato e suporte](docs/RETIRADA-AUTOMATICA-DE-APOIO.md) após saída confirmada da lista completa do AF ou decisão final comprovada. Preserva a auditoria e não gera uma nova conclusão humana. A confirmação por varredura exige atualizar os arquivos instalados.
 
 A versão 6.12.3 mostra **Pausa 20min** no campo de status quando o descanso regulamentado está ativo, também na gestão e no card. O intervalo comum continua **Intervalo**; o indicador amarelo, as regras e o retorno automático para ON permanecem. A nova apresentação exige atualizar os arquivos instalados.
 
@@ -28,7 +30,7 @@ O [índice de documentação](docs/README.md) reúne os manuais de analista e ge
 - Captura de pedidos que passam rapidamente pela lista, recuperação após confirmação no AF e separação de aprovações automáticas nos relatórios e no ranking.
 - [Triagem online antes da distribuição](docs/TRIAGEM-ONLINE.md): janela mínima de 10 segundos e consulta ao AF nas instalações com coletor 6.9+, sem outro ZIP; decisões já autorizadas ficam fora da fila.
 - [Liberação automática dos nomes às 00:00](docs/LIBERACAO-DIARIA.md), no horário de São Luís, sem precisar manter a extensão aberta.
-- Listas **Para contato** e **Para suporte**, compartilhadas entre analistas identificados; pedidos retidos ficam fora da distribuição até remoção explícita.
+- Listas **Para contato** e **Para suporte**, compartilhadas entre analistas identificados; pedidos retidos ficam fora da distribuição até remoção manual ou saída confirmada do AF.
 - Imagem de **Para suporte** configurável online para a equipe, com desenho original como alternativa se a imagem falhar. Requer a atualização inicial para 6.8.2.
 - Status, escala, gestão, direcionamento por loja, histórico com origem de liberação comprovada e ranking de conclusões.
 - [Referência de feriados na escala](docs/FERIADOS-NA-ESCALA.md): pino no cabeçalho da data a partir de 6.11.1, sem preencher a escala nem incluir pontos facultativos. A referência de texto nas células da 6.11.0 continua disponível online.
