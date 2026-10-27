@@ -41,6 +41,7 @@ flowchart TD
 | Arquivos | Função |
 |---|---|
 | `manifest.json`, `background.js` | Entradas Manifest V3, permissões, painel lateral e janela alternativa |
+| `auto-reload-background.js`, `auto-reload-cliente.js`, `auto-reload-arquivos.json` | Desde 6.14.0: observar arquivos locais por alarme, manter referência de sessão e coordenar recarga com os painéis |
 | `popup.html`, `popup.js`, `popup.css`, `cliente.css` | Interface, extração, cache, candidatos e operações |
 | `af-evidencias.js`, `af-captura.js`, `af-captura-background.js` | Reconhecimento de evidências, observações duráveis e conciliação de detalhes AF |
 | `sincronizacao-background.js` | Consulta única por contexto, blocos alterados e cache de sessão por até 5 segundos |
@@ -58,6 +59,8 @@ flowchart TD
 | `config.js` | Configuração local da conexão; ignorada pelo Git |
 
 ## 2. Extração de dados
+
+A revisão 6.14.0 acrescenta um ciclo local independente da coleta e do banco. Um alarme no worker compara duas assinaturas de arquivos antes de chamar `runtime.reload`. Conexões por documento coordenam os painéis; os caminhos acompanhados não aceitam origens externas. Não há download/execução de scripts remotos. Veja [Recarga automática da pasta](AUTO-RELOAD-LOCAL.md) para ativação, concorrência, cobertura e limites dos scripts já injetados.
 
 ### 2.1 Localização da lista
 

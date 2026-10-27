@@ -1053,6 +1053,9 @@
     render();
   }
   window.FilaGestao = Object.freeze({
+    edicaoPendente: () => !!(importAbort || el('escalaEditar').open || el('gestaoLojas').dataset.sujo ||
+      (previa.length && !el('importarAplicar').hidden) ||
+      ['rotaLoja', 'gestaoPedido', 'gestaoNovoPin', 'gestaoConfirmarPin', 'gestaoPin'].some(id => valor(id).trim())),
     destinoLoja: (loja) =>
       (remote.direcionamentos_lojas || []).find((r) => r.loja_chave === normalizarLoja(loja))?.analista,
     abrirAvisos,

@@ -15,6 +15,7 @@ Use Node.js 24. `npm test` executa `npm run check` e as suítes declaradas em `p
 | Arquivo | Área verificada |
 |---|---|
 | `scripts/check-extension.cjs` | Sintaxe JS, manifesto, recursos existentes e oito avatares distintos |
+| `tests/auto-reload.cjs` | Instalação sem compactação, alarme, suspensão do worker, hashes, duas leituras, falhas, caminhos, múltiplos painéis, barreira de operações e edição pendente |
 | `tests/test-extension.cjs` | Extrator: 18 cenários da lista/paginação, falhas e consolidação |
 | `tests/catalogo-integration.cjs` | 16 verificações de catálogo, persistência, revisão, validação e integração |
 | `tests/individual-ui.cjs` | Combinações de identidade própria/alheia, descanso/ocultação e regressões de UI |

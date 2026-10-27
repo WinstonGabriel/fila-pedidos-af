@@ -8,6 +8,7 @@ async function contextoPublicoAvisos(s) {
   return Array.from(new Uint8Array(hash), (x) => x.toString(16).padStart(2, '0')).join('');
 }
 async function rpcAvisosBackground(fn, s, args = {}) {
+  const liberar = globalThis.FilaAutoReload?.iniciarOperacao();
   const controle = new AbortController(),
     timer = setTimeout(() => controle.abort(), 15000);
   try {
@@ -25,6 +26,7 @@ async function rpcAvisosBackground(fn, s, args = {}) {
     return await r.json();
   } finally {
     clearTimeout(timer);
+    liberar?.();
   }
 }
 async function publicarAvisosBackground(d, s) {
@@ -51,7 +53,7 @@ function enfileirarAvisos(fn) {
   const promessa = (async () => {
     try {
       if (anterior) await anterior.catch(() => {});
-      return await fn();
+      return await (globalThis.FilaAutoReload ? FilaAutoReload.executar(fn) : fn());
     } finally {
       if (consultaAvisos === promessa) consultaAvisos = null;
     }

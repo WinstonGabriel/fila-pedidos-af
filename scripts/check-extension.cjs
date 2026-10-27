@@ -1,6 +1,7 @@
 const {readdirSync,readFileSync,existsSync}=require('node:fs');
 const path=require('node:path'),{execFileSync}=require('node:child_process'),assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'../extension');
+require('./listar-auto-reload.cjs');
 for(const file of readdirSync(root).filter(f=>f.endsWith('.js')))execFileSync(process.execPath,['--check',path.join(root,file)]);
 const m=JSON.parse(readFileSync(path.join(root,'manifest.json')));
 assert(!Object.hasOwn(m,'sidebar_action'),'O manifesto Chrome não aceita sidebar_action; use manifest.opera.json para Opera');
@@ -12,6 +13,7 @@ comum.content_scripts=(comum.content_scripts||[]).filter(c=>!ehInjetada(c));
 const mComum={...m,content_scripts:(m.content_scripts||[]).filter(c=>!ehInjetada(c))};
 assert.deepEqual(comum,mComum,'Os manifestos devem compartilhar versão e configuração, exceto a sidebar do Opera e a sidebar injetada');
 assert(sidebar?.default_panel,'O manifesto Opera deve preservar sua sidebar');
+assert(m.permissions.includes('alarms'),'A recarga local precisa do alarme persistente do worker');
 const arquivos=[m.background.service_worker,m.side_panel.default_path,sidebar.default_panel,...Object.values(sidebar.default_icon),...m.content_scripts.flatMap(c=>[...(c.js||[]),...(c.css||[])]),...m.web_accessible_resources.flatMap(c=>c.resources),...Object.values(m.icons),...Object.values(m.action.default_icon)];
 for(const f of arquivos)assert(existsSync(path.join(root,f)),'Arquivo ausente: '+f);
 const avatares=JSON.parse(readFileSync(path.join(root,'assets/lol/analistas.json')));assert.equal(new Set(Object.values(avatares)).size,8);

@@ -1,6 +1,7 @@
 // Chrome: o ícone abre o painel lateral fixo.
 // Opera GX: a fila fica na sidebar nativa (sidebar_action) e na barra injetada na página do AF; o ícone da toolbar não faz nada.
 // Outros sem painel lateral: o ícone abre uma janelinha própria, que fica aberta até você fechar.
+importScripts('auto-reload-background.js');
 const temPainelLateral = !!(chrome.sidePanel && chrome.sidePanel.setPanelBehavior);
 const temSidebarNativa = !!chrome.sidebarAction;
 

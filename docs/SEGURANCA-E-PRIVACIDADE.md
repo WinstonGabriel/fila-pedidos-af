@@ -23,6 +23,7 @@ O cache contém dados da lista de pedidos. Proteja o perfil do navegador e a ses
 | Permissão | Uso |
 |---|---|
 | `storage` | Estado, cache, preferências, cursores e autorizações temporárias |
+| `alarms` | Desde 6.14.0: verificar mudanças nos arquivos da instalação sem compactação, inclusive sem painel aberto |
 | `activeTab` | Interação com a aba no contexto permitido |
 | `scripting` | Extrator AF, destaque e scripts locais do painel |
 | `sidePanel` | Painel lateral onde suportado |
@@ -32,6 +33,8 @@ O cache contém dados da lista de pedidos. Proteja o perfil do navegador e a ses
 | HTTP/HTTPS opcionais | Painel global em sites autorizados após concessão explícita |
 
 A permissão opcional é ampla em alcance de sites; o script atual usa esse acesso para apresentar o painel, não para raspar formulários das páginas. O usuário pode revogá-la na configuração da extensão. O recurso não funciona automaticamente em páginas privilegiadas do navegador.
+
+A [recarga automática local](AUTO-RELOAD-LOCAL.md) usa `management.getSelf` sem pedir a permissão ampla `management`. Só observa instalações `development`; limita os fetches ao próprio `chrome-extension://`, rejeita caminhos externos e mantém apenas assinatura/versão em sessão. A confirmação de recarga só aceita os painéis internos identificados por documento. A recarga não limpa o storage local, mas limpa sessões temporárias, inclusive a de gestão.
 
 ## Painel global
 

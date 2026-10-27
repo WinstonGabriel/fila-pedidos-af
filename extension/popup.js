@@ -189,7 +189,9 @@ function renderClienteInfo() {
     : `Leitura a cada ${segundosLeitura()} s · aguardando configuração da equipe`);
 }
 
-const saveLocal = () => chrome.storage.local.set({ local });
+const saveLocal = () => window.FilaAutoReloadCliente
+  ? FilaAutoReloadCliente.executar(() => chrome.storage.local.set({ local }))
+  : chrome.storage.local.set({ local });
 async function loadLocal() {
   const { local: s } = await chrome.storage.local.get('local');
   if (s) local = { ...local, ...s };
@@ -208,6 +210,7 @@ async function loadLocal() {
 
 /* ---------- banco compartilhado ---------- */
 async function rpc(fn, args = {}) {
+  const liberar = window.FilaAutoReloadCliente?.iniciarOperacao();
   const controle = new AbortController();
   const timer = setTimeout(() => controle.abort(), TEMPO_BANCO_MS);
   try {
@@ -227,6 +230,7 @@ async function rpc(fn, args = {}) {
     throw e;
   } finally {
     clearTimeout(timer);
+    liberar?.();
   }
 }
 
@@ -1491,6 +1495,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
   leituraContinua();
   atualizar();
+  window.FilaAutoReloadCliente?.definirVerificacao(() =>
+    !acaoEmCurso && !escolhendoNome && !leituraEmCurso && !completaEmCurso && !distribuicaoEmCurso &&
+    !window.FilaGestao?.edicaoPendente() &&
+    !document.activeElement?.matches('input, textarea, select, [contenteditable="true"]')
+  );
 
   // Persistência do estado dos menus details (conn, cfg e gestao).
   ['conn', 'cfg', 'gestao'].forEach((id) => {

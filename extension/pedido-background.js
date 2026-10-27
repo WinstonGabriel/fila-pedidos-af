@@ -1,6 +1,6 @@
 /* A fila serializa consultas e a confirmação visual: uma animação por evento neste navegador. */
 let filaEfeito=Promise.resolve(),pedidoConsultadoEm=0,pedidoContexto='';
-function serialEfeito(fn){const p=filaEfeito.then(fn,fn);filaEfeito=p.catch(()=>{});return p;}
+function serialEfeito(fn){const operar=()=>globalThis.FilaAutoReload ? FilaAutoReload.executar(fn) : fn();const p=filaEfeito.then(operar,operar);filaEfeito=p.catch(()=>{});return p;}
 async function atualizarPedidoEfeito(){
  const {local:s}=await chrome.storage.local.get('local');
  if(!s?.codigo||!s?.token||!s.me){await chrome.storage.local.remove('afPedidoEfeitoUI');return;}

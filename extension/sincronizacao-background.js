@@ -13,6 +13,7 @@
     return {s,contexto:contexto(s,coord)};
   }
   async function rpc(s,coord,versoes){
+    const liberar=globalThis.FilaAutoReload?.iniciarOperacao();
     const c=new AbortController(),timer=setTimeout(()=>c.abort(),35000);
     try{
       const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/fila_sincronizar`,{method:'POST',headers:{'Content-Type':'application/json',apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`},body:JSON.stringify({p_codigo:s.codigo,p_token:s.token,p_coord:coord||null,p_versoes:versoes}),signal:c.signal});
@@ -21,7 +22,7 @@
       if(!d||!d.versoes||!d.dados||!Number.isFinite(Date.parse(d.servidor_em)))throw Error('Resposta de sincronização inválida.');
       return d;
     }catch(e){if(c.signal.aborted)throw Error('O banco demorou para responder. Aguarde a próxima sincronização.');throw e;}
-    finally{clearTimeout(timer);}
+    finally{clearTimeout(timer);liberar?.();}
   }
   function montar(e){return {...e.blocos.estado,descansos:e.blocos.descansos,avisos:e.blocos.avisos,servidor_em:new Date(Date.parse(e.servidor_em)+Math.max(0,Date.now()-e.em)).toISOString()};}
   async function obter({forcar=false,coord=null,esperado=null}={}){

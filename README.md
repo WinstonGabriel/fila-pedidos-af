@@ -1,6 +1,8 @@
 # AF Operação
 
-Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual do código: 6.13.1.**
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual do código: 6.14.0.**
+
+A versão 6.14.0 acrescenta [recarga automática da pasta local](docs/AUTO-RELOAD-LOCAL.md) nas instalações sem compactação. Confere os arquivos por minuto e espera uma alteração estável e os painéis sem operações/edições pendentes antes de recarregar. Exige atualizar os arquivos e recarregar uma vez para ativar. Não baixa código do GitHub nem distribui arquivos entre computadores. Código preparado sem novo ZIP.
 
 A versão 6.13.1 mostra imediatamente **Feriado: nome do feriado** ao passar o ponteiro sobre o pino ou dar foco pelo teclado, sem esperar o balão nativo do navegador. Código publicado sem novo ZIP. As instalações atuais precisam atualizar seus arquivos locais; o servidor não consegue alterar esse comportamento nos clientes antigos. Consulte [Dica imediata no pino](docs/FERIADOS-NA-ESCALA.md#dica-imediata-no-pino--6131).
 

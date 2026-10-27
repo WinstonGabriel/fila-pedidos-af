@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AF Operação",
-  "version": "6.13.1",
+  "version": "6.14.0",
   "description": "AF Operação: fila compartilhada, status, escala, temas e animações pessoais de novos pedidos.",
   "action": {
     "default_title": "AF Operação",
@@ -53,6 +53,7 @@
   ],
   "permissions": [
     "storage",
+    "alarms",
     "activeTab",
     "scripting",
     "sidePanel",

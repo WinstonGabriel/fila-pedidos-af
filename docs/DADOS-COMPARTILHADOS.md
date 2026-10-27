@@ -1,6 +1,6 @@
-# Dados e estado compartilhados — AF Operação 6.13.1
+# Dados e estado compartilhados — AF Operação 6.14.0
 
-Referência para manutenção e continuidade do projeto, revisada em 27/10/2026. O repositório `WinstonGabriel/fila-pedidos-af`, branch `main`, reúne o código, contratos, testes, catálogo de referência e migrations. A versão do código do cliente é 6.13.1 em `package.json`, `package-lock.json` e `extension/manifest.json`. O pino no cabeçalho de feriado existe desde a 6.11.1; instalações 6.11.0 conservam a referência online ao passar o mouse nas células até atualizarem seus arquivos. A 6.11.2 apresenta **Pausa 20min** nos avisos de descanso identificados pelo backend, preservando o rótulo do intervalo comum. A 6.11.3 acrescenta o visual LED dos seletores de status: ON verde neon, OFF vermelho e Intervalo amarelo. Essa apresentação é local e exige atualizar os arquivos instalados; não muda os valores de status nem os contratos compartilhados.
+Referência para manutenção e continuidade do projeto, revisada em 27/10/2026. O repositório `WinstonGabriel/fila-pedidos-af`, branch `main`, reúne o código, contratos, testes, catálogo de referência e migrations. A versão do código do cliente é 6.14.0 em `package.json`, `package-lock.json` e `extension/manifest.json`. O pino no cabeçalho de feriado existe desde a 6.11.1; instalações 6.11.0 conservam a referência online ao passar o mouse nas células até atualizarem seus arquivos. A 6.11.2 apresenta **Pausa 20min** nos avisos de descanso identificados pelo backend, preservando o rótulo do intervalo comum. A 6.11.3 acrescenta o visual LED dos seletores de status: ON verde neon, OFF vermelho e Intervalo amarelo. Essa apresentação é local e exige atualizar os arquivos instalados; não muda os valores de status nem os contratos compartilhados.
 
 A 6.12.0 acrescenta preferências para folgar nos feriados. `af_mobile.feriado_preferencias` registra data, analista, posição e horário; a gestão recebe apenas as três primeiras solicitações por data. O prazo termina às 23h59 do terceiro dia anterior, no horário de São Luís. Os novos RPCs validam a identidade e não definem a escala. A interface exige atualizar os arquivos da extensão.
 
@@ -13,6 +13,8 @@ A 6.12.3 apresenta **Pausa 20min** no campo de status durante o descanso regulam
 A 6.13.0 retira automaticamente retenções de contato/suporte após saída do AF confirmada. `apoio_saida_af_em` preserva o arquivamento; não cria conclusão humana. A RPC de varredura valida identidade, completude, contagem e antiguidade da leitura, e a conciliação de decisões finais também encerra o apoio. Veja [Retirada automática](RETIRADA-AUTOMATICA-DE-APOIO.md).
 
 A 6.13.1 substitui a dica nativa do pino por exibição imediata no ponteiro ou foco. O nome continua vindo da consulta existente. Não há alteração de banco ou novo ZIP; as instalações antigas precisam atualizar os arquivos locais para receber esse comportamento. Veja [Feriados na escala](FERIADOS-NA-ESCALA.md).
+
+A 6.14.0 acrescenta [recarga automática local](AUTO-RELOAD-LOCAL.md) somente para instalações sem compactação. Usa alarme de um minuto, hashes dos arquivos da pasta, referência em sessão e confirmação de todos os painéis. Não distribui código, não muda RPCs e não altera o banco; a primeira ativação exige atualizar os arquivos e recarregar manualmente.
 
 ## Fontes e alcance
 

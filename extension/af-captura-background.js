@@ -2,6 +2,8 @@
 (() => {
   'use strict';
   let serial=Promise.resolve(),consulta=null,ultimaConsulta=0;
+  // Uma captura nova cancela a preparação da recarga para persistir a observação.
+  const operar=fn=>globalThis.FilaAutoReload ? FilaAutoReload.executar(fn,{prioritaria:true}) : fn();
   const contexto=s=>JSON.stringify([SUPABASE_URL,s?.codigo,s?.token]);
   async function credenciais(){
     const {local:s}=await chrome.storage.local.get('local');
@@ -54,14 +56,14 @@
     const af=/^https:\/\/af\.mateusmais\.com\.br\//.test(sender.url||'');
     const painel=sender.url?.startsWith(chrome.runtime.getURL(''));
     if(!af&&!painel)return;
-    const pedido=serial.catch(()=>{}).then(()=>armazenar(msg.pedidos));
+    const pedido=serial.catch(()=>{}).then(()=>operar(()=>armazenar(msg.pedidos)));
     serial=pedido;
     pedido.then(r=>responder({ok:r!==false}),()=>responder({ok:false}));
     // Mantém a gravação local serializada também durante o envio ao servidor.
-    serial=pedido.then(descarregar).catch(()=>{});
+    serial=pedido.then(()=>operar(descarregar)).catch(()=>{});
     if(af&&sender.tab?.id&&!consulta&&Date.now()-ultimaConsulta>=10000){
       ultimaConsulta=Date.now();
-      consulta=serial.then(()=>conferir(sender.tab.id)).catch(()=>{}).finally(()=>{consulta=null;});
+      consulta=serial.then(()=>operar(()=>conferir(sender.tab.id))).catch(()=>{}).finally(()=>{consulta=null;});
     }
     return true;
   });

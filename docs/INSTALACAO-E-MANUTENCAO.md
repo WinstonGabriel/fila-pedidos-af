@@ -32,6 +32,8 @@ Abra `chrome://extensions` ou `opera://extensions`, habilite modo de desenvolved
 
 Remover e instalar novamente pode trocar identidade local e preferências, deixando uma reserva antiga no banco. Não use reinstalação como primeira tentativa para resolver nome ocupado. Atualizar código não instala migrations automaticamente.
 
+Desde a **6.14.0**, a [recarga automática local](AUTO-RELOAD-LOCAL.md) observa os arquivos da pasta nas instalações sem compactação. Ative atualizando o código completo e recarregando manualmente uma vez. Depois, mudanças estáveis nos arquivos monitorados provocam recarga quando não houver operações/edições pendentes. O recurso não copia arquivos nem substitui a distribuição da atualização. As páginas que já têm scripts injetados ainda precisam ser atualizadas. A recarga limpa o storage de sessão; pode ser necessário entrar novamente na gestão.
+
 ## Configurar painel em outros sites
 
 Abra o painel, identifique-se, clique em **Permitir painel em outros sites**, aceite as origens e ative Ocultação ON. A concessão registra scripts e tenta alcançar abas já abertas; recarregue a página se necessário. O painel acompanha o banco, mas novos candidatos ainda exigem uma lista AF autenticada acessível. Revogar a permissão remove o registro global; Ocultação OFF remove o ícone.
