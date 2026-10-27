@@ -25,6 +25,7 @@ Este histórico consolida as notas presentes no pacote; não inventaria cada ver
 | 6.11.3 | Status com LED e brilho discreto: ON verde neon, OFF vermelho e Intervalo amarelo, em todos os temas e na gestão |
 | 6.12.0 | Preferência para folgar no feriado, prazo no servidor, ordem sem duplicidade e três primeiras solicitações para decisão da gestão |
 | 6.12.1 | Manifesto padrão compatível com Chrome; configuração Opera separada, preservando preferências e demais funções |
+| 6.12.2 | ZIP operacional inclui configuração pública obrigatória e verifica o bootstrap completo do worker a partir dos arquivos extraídos |
 
 ## Revisão documental de 26/10/2026
 

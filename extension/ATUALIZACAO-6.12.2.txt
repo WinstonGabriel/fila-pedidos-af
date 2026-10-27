@@ -1,0 +1,21 @@
+AF OPERAÇÃO 6.12.2 — PACOTE COMPLETO E INICIALIZAÇÃO DO WORKER
+
+O ZIP operacional agora inclui config.js com a configuração pública do AF.
+Esse arquivo é obrigatório: sua ausência interrompe a inicialização de
+background.js e pode resultar no erro de registro do service worker (código 15).
+
+O pacote foi extraído e sua cadeia real de importScripts executada em uma
+VM isolada, sem acesso à rede. Também foram verificados o papel público anon
+da chave, o projeto da URL, os listeners e a integridade do ZIP.
+
+COMO ATUALIZAR
+1. Feche o painel e extraia este ZIP na MESMA PASTA já instalada.
+2. Substitua os arquivos, incluindo o config.js fornecido neste pacote AF.
+3. Em chrome://extensions, clique em Recarregar na extensão existente.
+4. Na lista de erros, clique em Limpar tudo para remover os registros antigos.
+5. Atualize as abas do AF e reabra o painel.
+
+Mantenha a mesma instalação e perfil do navegador. As preferências de feriado,
+cores LED, temas e demais recursos continuam incluídos. O pacote não contém
+código de equipe, PIN de gestão ou token de analista. A configuração pronta
+é somente para esta equipe AF; o código-fonte no Git conserva config.example.js.

@@ -86,3 +86,11 @@ Paletas e parâmetros declarativos suportados podem chegar online. Código novo,
 O `extension/manifest.json` padrão e o ZIP identificado como Chrome usam `side_panel`, sem `sidebar_action`. A configuração de sidebar do Opera foi preservada em `extension/manifest.opera.json`; para usá-la, copie esse arquivo sobre `manifest.json` somente na pasta instalada no Opera e recarregue. Os arquivos de código são os mesmos. A checagem compara ambos os manifestos para impedir divergências de versão e de configuração compartilhada.
 
 No Chrome, depois de substituir os arquivos na mesma pasta e recarregar, use **Limpar tudo** na lista de erros para remover o aviso antigo de manifesto. Abra a extensão novamente e confira se houve novo registro. Preserve `config.js` e a instalação existente.
+
+## Pacote operacional e erro de registro do worker — 6.12.2
+
+O worker importa `config.js` durante o registro. Se o arquivo faltar ou tiver erro de JavaScript, o Chrome pode informar **Service worker registration failed. Status code: 15**. Esse código é genérico: examine também a causa de avaliação indicada nos erros do worker. Os ZIPs anteriores destinados apenas à atualização dependiam da configuração já existente na pasta instalada.
+
+A distribuição operacional configurada da 6.12.2 inclui esse arquivo, somente com URL e chave pública anon do projeto autorizado. Não inclui código da equipe, PIN ou token de analista. Para atualizar essa equipe com o ZIP pronto, substitua também o `config.js` fornecido. O clone do Git continua exigindo a configuração manual descrita acima. Não copie uma configuração de outra equipe/projeto sobre uma instalação diferente.
+
+Para preparar uma distribuição, configure `extension/config.js` localmente e use `npm run package:chrome` ou `npm run package:opera`. O arquivo permanece ignorado no Git. O empacotador recusa sua ausência, cria o ZIP, verifica CRC, extrai em diretório temporário e executa `tests/background-bootstrap.cjs` sobre a pasta extraída. Essa checagem valida o papel anon da chave, sua correspondência ao projeto, validade e inicialização dos scripts em VM sem DOM e sem rede. Não equivale a executar Chrome real.

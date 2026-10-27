@@ -1,6 +1,8 @@
 # AF Operação
 
-Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.12.1.**
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.12.2.**
+
+A versão 6.12.2 corrige a entrega operacional: o ZIP configurado inclui `config.js`, obrigatório para iniciar o worker. O empacotador verifica a configuração pública e executa a cadeia de imports extraída do próprio ZIP em VM isolada. O código-fonte continua sem configuração de produção no Git; prepare a configuração local e use `npm run package:chrome` ou `npm run package:opera` para gerar uma distribuição.
 
 A versão 6.12.1 corrige o aviso de manifesto no Chrome: `manifest.json` usa o painel `side_panel`; a configuração específica do Opera foi separada em `manifest.opera.json`. Para Opera, copie o manifesto alternativo sobre `manifest.json` somente na pasta dessa instalação.
 
