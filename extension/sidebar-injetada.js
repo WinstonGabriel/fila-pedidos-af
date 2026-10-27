@@ -12,11 +12,13 @@
   let aberto = false;
   let timer = null;
   let geracao = 0;
+  let ancora = null;
 
   function desmontar() {
     geracao++;
     clearTimeout(timer);
     timer = null;
+    ancora?.destruir(); ancora = null;
     if (host && host.isConnected) host.remove();
     host = null;
     iframe = null;
@@ -36,12 +38,13 @@
   }
 
   function abrir() {
-    if (!host) return;
+    if (!host || ancora?.interagindo()) return;
     clearTimeout(timer);
     timer = null;
     montarFrame();
     aberto = true;
     host.classList.add('aberto');
+    ancora?.posicionar();
     const orelha = host.querySelector('#fila-pedidos-orelha');
     if (orelha) orelha.setAttribute('aria-expanded', 'true');
     try { sessionStorage.setItem(ESTADO, '1'); } catch {}
@@ -80,6 +83,7 @@
     const img = document.createElement('img');
     img.src = chrome.runtime.getURL('icons/icon32.png');
     img.alt = '';
+    img.draggable = false;
     orelha.append(img);
 
     const painel = document.createElement('div');
@@ -88,10 +92,11 @@
     container.append(orelha, painel);
     document.body.append(container);
     host = container;
+    ancora = globalThis.FilaPainelPosicao?.vincular({host: container, botao: orelha, painel: () => painel, aoArrastar: () => { clearTimeout(timer); fechar(); }, aoSoltar: abrir});
 
     orelha.addEventListener('mouseenter', () => { if (geracao === versao) abrir(); });
     container.addEventListener('mouseleave', () => {
-      if (geracao !== versao) return;
+      if (geracao !== versao || ancora?.interagindo()) return;
       clearTimeout(timer);
       timer = setTimeout(() => { if (geracao === versao && host && !host.matches(':hover')) fechar(); }, 350);
     });

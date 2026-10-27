@@ -27,6 +27,7 @@
     "painel-global-host.js",
     "painel-global.html",
     "painel-global.js",
+    "painel-posicao.js",
     "pedido-animacao.js",
     "pedido-background.js",
     "popup.css",

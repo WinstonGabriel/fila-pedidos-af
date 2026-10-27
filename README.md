@@ -1,6 +1,8 @@
 # AF Operação
 
-Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual do código: 6.14.0.**
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual do código: 6.15.0.**
+
+A versão 6.15.0 permite [arrastar o ícone flutuante](docs/ICONE-ARRASTAVEL.md) pela página e abrir o painel junto da posição escolhida, com ajuste às bordas e posição salva no navegador. Exige atualizar os arquivos instalados e as páginas com scripts injetados. Para substituir a distribuição manual de pastas, consulte [Distribuição e atualizações automáticas](docs/DISTRIBUICAO-E-ATUALIZACOES.md).
 
 A versão 6.14.0 acrescenta [recarga automática da pasta local](docs/AUTO-RELOAD-LOCAL.md) nas instalações sem compactação. Confere os arquivos por minuto e espera uma alteração estável e os painéis sem operações/edições pendentes antes de recarregar. Exige atualizar os arquivos e recarregar uma vez para ativar. Não baixa código do GitHub nem distribui arquivos entre computadores. Código preparado sem novo ZIP.
 

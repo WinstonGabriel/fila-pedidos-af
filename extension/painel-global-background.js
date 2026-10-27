@@ -1,6 +1,6 @@
 /* Painel em sites autorizados: scripts locais, permissão opcional e acesso ao iframe por token de aba. */
 const AF_SCRIPT_GLOBAL='af-operacao-flutuante-global';
-const AF_ARQUIVOS_GLOBAIS=['efeito-core.js','pedido-animacao.js','painel-global-host.js','painel-flutuante.js'];
+const AF_ARQUIVOS_GLOBAIS=['efeito-core.js','pedido-animacao.js','painel-global-host.js','painel-posicao.js','painel-flutuante.js'];
 const AF_EXCLUIR=['https://af.mateusmais.com.br/*','https://chromewebstore.google.com/*','https://chrome.google.com/webstore/*'];
 async function AFOrigemPermitida(url){
  try{

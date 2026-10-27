@@ -1,68 +1,48 @@
-/* Container = orelha (44px) + painel (400px). Desliza como um bloco. */
+/* Ícone arrastável de 44px; o painel abre junto dele, dentro da tela. */
 #fila-pedidos-container {
   position: fixed;
-  top: 0;
-  right: -400px; /* fechado: só a orelha (44px) fica visível */
-  width: 444px;
-  height: 100vh;
-  z-index: 999999;
-  transition: right 0.3s ease;
-  display: flex;
-  align-items: flex-start;
-  pointer-events: none; /* só a orelha recebe clique quando fechado */
-}
-
-#fila-pedidos-container.aberto {
-  right: 0; /* aberto: orelha + painel inteiros */
-  pointer-events: auto;
-}
-
-/* Orelha: colada à esquerda do painel, desliza junto com ele. */
-#fila-pedidos-orelha {
-  position: relative;
-  flex: 0 0 44px;
+  top: 70px;
+  right: 10px;
   width: 44px;
   height: 44px;
-  margin-top: 70px;
-  border: 1px solid #8eacca;
-  border-radius: 0 14px 14px 0;
-  background: #14283b;
-  color: #fff;
-  cursor: pointer;
-  box-shadow: 0 4px 18px rgba(0,0,0,.35);
+  z-index: 2147483646;
+  display: block;
+  pointer-events: none;
+}
+#fila-pedidos-orelha {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #8eacca;
+  border-radius: 14px;
+  background: #14283b;
+  color: #fff;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  box-shadow: 0 4px 18px #0005;
   pointer-events: auto;
 }
-
-#fila-pedidos-orelha img {
-  width: 30px;
-  height: 30px;
-  pointer-events: none;
-}
-
-#fila-pedidos-orelha:focus-visible {
-  outline: 3px solid #38bdf8;
-}
-
-/* Painel: 400px à direita da orelha. */
+#fila-pedidos-orelha img { width: 30px; height: 30px; pointer-events: none; }
+#fila-pedidos-orelha:focus-visible { outline: 3px solid #38bdf8; outline-offset: 2px; }
 #fila-pedidos-painel {
-  flex: 0 0 400px;
-  width: 400px;
-  height: 100vh;
+  display: none;
+  position: absolute;
+  width: min(400px, calc(100vw - 16px));
+  height: min(820px, calc(100vh - 16px));
+  box-sizing: border-box;
+  border: 1px solid #6e8397;
+  border-radius: 12px;
   background: #1e1e24;
-  box-shadow: -5px 0 15px rgba(0,0,0,.3);
+  box-shadow: 0 8px 30px #0005;
   overflow: hidden;
+  pointer-events: auto;
 }
-
-iframe#fila-pedidos-frame {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-@media (max-width: 440px) {
-  #fila-pedidos-container { width: 100vw; }
-  #fila-pedidos-painel { flex: 1 1 auto; width: auto; }
-}
+#fila-pedidos-container.aberto #fila-pedidos-painel { display: block; }
+iframe#fila-pedidos-frame { display: block; width: 100%; height: 100%; border: none; }

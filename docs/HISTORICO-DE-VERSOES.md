@@ -30,6 +30,7 @@ Este histórico consolida as notas presentes no pacote; não inventaria cada ver
 | 6.13.0 | Retirada automática de contato/suporte após saída confirmada do AF, com auditoria e sem nova produção humana |
 | 6.13.1 | Dica imediata com o nome do feriado no pino, também por teclado; código sem novo ZIP, exige atualizar arquivos locais |
 | 6.14.0 | Recarga automática após mudança estável na pasta da extensão sem compactação; alarme, referência de sessão e confirmação dos painéis |
+| 6.15.0 | Ícone flutuante arrastável, abertura junto da posição escolhida, limites de tela e preferência local persistida |
 
 ## Revisão documental de 26/10/2026
 
