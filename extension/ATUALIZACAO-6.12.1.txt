@@ -1,0 +1,16 @@
+AF OPERAÇÃO 6.12.1 — CORREÇÃO DO MANIFESTO CHROME
+
+Este pacote corrige o aviso "Unrecognized manifest key 'sidebar_action'".
+A configuração de sidebar exclusiva do Opera foi separada do manifesto Chrome.
+As preferências de folga, cores LED, status e demais recursos continuam incluídos.
+
+ATUALIZAR NO CHROME
+1. Feche o painel e extraia o ZIP na MESMA PASTA já instalada.
+2. Substitua os arquivos, preservando o config.js existente.
+3. Abra chrome://extensions e clique em Recarregar na extensão existente.
+4. Na lista de erros, clique em Limpar tudo para retirar o aviso antigo.
+5. Atualize as abas do AF e abra a extensão novamente.
+
+Mantenha a instalação existente para preservar sua identificação e preferências.
+O manifest.json deve continuar na raiz da mesma pasta.
+Este ZIP é para Chrome; o repositório também mantém o manifesto alternativo Opera.

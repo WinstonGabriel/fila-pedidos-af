@@ -1,6 +1,8 @@
 # AF Operação
 
-Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.12.0.**
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.12.1.**
+
+A versão 6.12.1 corrige o aviso de manifesto no Chrome: `manifest.json` usa o painel `side_panel`; a configuração específica do Opera foi separada em `manifest.opera.json`. Para Opera, copie o manifesto alternativo sobre `manifest.json` somente na pasta dessa instalação.
 
 A versão 6.12.0 acrescenta **Quero folgar** nos feriados da escala. O servidor aceita a preferência até 23h59 do terceiro dia anterior, registra a ordem sem duplicidade e entrega à gestão somente as três primeiras solicitações. A definição da escala continua manual e exclusiva da gestão. Consulte [Feriados na escala](docs/FERIADOS-NA-ESCALA.md). Atualize os arquivos instalados para exibir os novos controles.
 

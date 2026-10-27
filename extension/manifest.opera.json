@@ -1,0 +1,110 @@
+{
+  "manifest_version": 3,
+  "name": "AF Operação",
+  "version": "6.12.1",
+  "description": "AF Operação: fila compartilhada, status, escala, temas e animações pessoais de novos pedidos.",
+  "action": {
+    "default_title": "AF Operação",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "24": "icons/icon24.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png",
+    "512": "icons/icon512.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "popup.html"
+  },
+  "sidebar_action": {
+    "default_title": "AF Operação",
+    "default_panel": "popup.html",
+    "default_icon": {
+      "19": "icons/sidebar-19.png",
+      "38": "icons/sidebar-38.png"
+    },
+    "panel_width": 400
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://af.mateusmais.com.br/*"
+      ],
+      "js": [
+        "af-evidencias.js",
+        "af-captura.js",
+        "efeito-core.js",
+        "pedido-animacao.js",
+        "baloes.js",
+        "af-notificacoes.js",
+        "painel-flutuante.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false,
+      "world": "ISOLATED"
+    },
+    {
+      "matches": [
+        "https://af.mateusmais.com.br/*"
+      ],
+      "css": [
+        "sidebar-injetada.css"
+      ],
+      "js": [
+        "sidebar-injetada.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false,
+      "world": "ISOLATED"
+    }
+  ],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "sidePanel",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "https://af.mateusmais.com.br/*",
+    "https://*.supabase.co/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; worker-src 'self'"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "popup.html",
+        "icons/icon32.png",
+        "assets/nuvem-3d.svg"
+      ],
+      "matches": [
+        "https://af.mateusmais.com.br/*"
+      ]
+    },
+    {
+      "resources": [
+        "painel-global.html",
+        "icons/icon32.png",
+        "assets/nuvem-3d.svg"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ]
+}

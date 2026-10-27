@@ -1,8 +1,10 @@
-# Dados e estado compartilhados — AF Operação 6.12.0
+# Dados e estado compartilhados — AF Operação 6.12.1
 
-Referência para manutenção e continuidade do projeto, revisada em 27/10/2026. O repositório `WinstonGabriel/fila-pedidos-af`, branch `main`, reúne o código, contratos, testes, catálogo de referência e migrations. A versão do cliente é 6.12.0 em `package.json`, `package-lock.json` e `extension/manifest.json`. O pino no cabeçalho de feriado existe desde a 6.11.1; instalações 6.11.0 conservam a referência online ao passar o mouse nas células até atualizarem seus arquivos. A 6.11.2 apresenta **Pausa 20min** nos avisos de descanso identificados pelo backend, preservando o rótulo do intervalo comum. A 6.11.3 acrescenta o visual LED dos seletores de status: ON verde neon, OFF vermelho e Intervalo amarelo. Essa apresentação é local e exige atualizar os arquivos instalados; não muda os valores de status nem os contratos compartilhados.
+Referência para manutenção e continuidade do projeto, revisada em 27/10/2026. O repositório `WinstonGabriel/fila-pedidos-af`, branch `main`, reúne o código, contratos, testes, catálogo de referência e migrations. A versão do cliente é 6.12.1 em `package.json`, `package-lock.json` e `extension/manifest.json`. O pino no cabeçalho de feriado existe desde a 6.11.1; instalações 6.11.0 conservam a referência online ao passar o mouse nas células até atualizarem seus arquivos. A 6.11.2 apresenta **Pausa 20min** nos avisos de descanso identificados pelo backend, preservando o rótulo do intervalo comum. A 6.11.3 acrescenta o visual LED dos seletores de status: ON verde neon, OFF vermelho e Intervalo amarelo. Essa apresentação é local e exige atualizar os arquivos instalados; não muda os valores de status nem os contratos compartilhados.
 
 A 6.12.0 acrescenta preferências para folgar nos feriados. `af_mobile.feriado_preferencias` registra data, analista, posição e horário; a gestão recebe apenas as três primeiras solicitações por data. O prazo termina às 23h59 do terceiro dia anterior, no horário de São Luís. Os novos RPCs validam a identidade e não definem a escala. A interface exige atualizar os arquivos da extensão.
+
+A 6.12.1 separa os manifestos por navegador: `extension/manifest.json` é o padrão Chrome e não inclui `sidebar_action`; `extension/manifest.opera.json` preserva a configuração de sidebar do Opera. O ZIP Chrome contém somente seu manifesto de instalação. Não há mudança de banco nesta revisão.
 
 ## Fontes e alcance
 

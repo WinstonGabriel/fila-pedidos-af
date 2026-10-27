@@ -80,3 +80,9 @@ A base SQL não é autossuficiente. Veja [Banco e RPCs](BANCO-E-RPCS.md) antes d
 7. Publique no GitHub e confira o workflow. Distribua a atualização pelo canal da equipe.
 
 Paletas e parâmetros declarativos suportados podem chegar online. Código novo, imagens e permissões precisam de atualização do pacote. Publicar no repositório não é mecanismo automático de atualização do navegador.
+
+## Manifestos por navegador — 6.12.1
+
+O `extension/manifest.json` padrão e o ZIP identificado como Chrome usam `side_panel`, sem `sidebar_action`. A configuração de sidebar do Opera foi preservada em `extension/manifest.opera.json`; para usá-la, copie esse arquivo sobre `manifest.json` somente na pasta instalada no Opera e recarregue. Os arquivos de código são os mesmos. A checagem compara ambos os manifestos para impedir divergências de versão e de configuração compartilhada.
+
+No Chrome, depois de substituir os arquivos na mesma pasta e recarregar, use **Limpar tudo** na lista de erros para remover o aviso antigo de manifesto. Abra a extensão novamente e confira se houve novo registro. Preserve `config.js` e a instalação existente.
