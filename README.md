@@ -1,6 +1,8 @@
 # AF Operação
 
-Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.11.2.**
+Extensão Manifest V3 para organizar os pedidos do AF Mateus Mais. **Versão atual: 6.11.3.**
+
+A versão 6.11.3 apresenta os status dos analistas com indicador LED e brilho discreto: **ON em verde neon**, **OFF em vermelho** e **Intervalo em amarelo**, em todos os temas e na visão da gestão. As cores acompanham a seleção e a sincronização. Atualize os arquivos instalados e recarregue a extensão para aplicar o novo visual.
 
 A versão 6.11.2 identifica o descanso regulamentado nas notificações como **Pausa 20min**. O intervalo comum mantém o nome **Intervalo**. O novo texto exige atualizar os arquivos instalados, além do metadado de pausa emitido pelo backend; não há novo ZIP nesta revisão.
 

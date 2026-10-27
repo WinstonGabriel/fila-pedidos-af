@@ -47,6 +47,40 @@
   background: var(--bg-input);
   color: var(--cor-texto);
 }
+/* A opção selecionada acompanha tanto a troca local quanto a sincronização. */
+.status-analista:has(> option[value='on']:checked) {
+  --status-led: #39ff88;
+  --status-led-brilho: #39ff8840;
+  --status-led-fundo: #0b2818;
+}
+.status-analista:has(> option[value='off']:checked) {
+  --status-led: #ff6971;
+  --status-led-brilho: #ff697140;
+  --status-led-fundo: #321217;
+}
+.status-analista:has(> option[value='intervalo']:checked) {
+  --status-led: #ffe566;
+  --status-led-brilho: #ffe56640;
+  --status-led-fundo: #30280c;
+}
+:is(#cfgBody, #gestao) .status-analista:has(> option:is([value='on'], [value='off'], [value='intervalo']):checked) {
+  padding-inline-start: 23px;
+  border-color: var(--status-led);
+  background-color: var(--status-led-fundo);
+  background-image: radial-gradient(circle at 11px 50%, var(--status-led) 0 3px, transparent 4px);
+  color: var(--status-led);
+  -webkit-text-fill-color: var(--status-led);
+  font-weight: 700;
+  text-shadow: 0 0 6px var(--status-led-brilho);
+  box-shadow: 0 0 7px var(--status-led-brilho), inset 0 0 8px var(--status-led-brilho);
+  opacity: 1;
+}
+:is(#cfgBody, #gestao) .status-analista option {
+  background: var(--bg-input);
+  color: var(--cor-texto);
+  -webkit-text-fill-color: var(--cor-texto);
+  text-shadow: none;
+}
 .status-periodo {
   display: flex;
   gap: 4px;

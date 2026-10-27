@@ -22,6 +22,7 @@ Este histórico consolida as notas presentes no pacote; não inventaria cada ver
 | 6.11.0 | Alquimia das Chamas de Roy Mustang no card próprio, com estalo local opcional, movimento reduzido e consumo único |
 | 6.11.1 | Pino vermelho minimalista no canto da data de feriado; título com o nome, sem alterar a definição da escala |
 | 6.11.2 | Notificações do descanso identificado mostram Pausa 20min; intervalo comum preservado |
+| 6.11.3 | Status com LED e brilho discreto: ON verde neon, OFF vermelho e Intervalo amarelo, em todos os temas e na gestão |
 
 ## Revisão documental de 26/10/2026
 

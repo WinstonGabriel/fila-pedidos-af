@@ -17,6 +17,8 @@ Os oito nomes configurados são Natalie, Cássio, Evangela, Gabriel, Kazaf, Rayl
 
 Os status exibidos são ON, OFF, Intervalo, Férias, Contato tel, Em call, Missão, CBKs, Valid e Folga. Seu próprio status pode ser alterado na linha do analista; a gestão possui controles adicionais. ON habilita a participação na fila, sujeita às regras e à disponibilidade no banco. O status de atividade não é uma mudança na decisão antifraude do pedido.
 
+A partir da versão 6.11.3, o seletor mostra **ON em verde neon**, **OFF em vermelho** e **Intervalo em amarelo**, com um pequeno LED e brilho discreto, inclusive nos status dos colegas e na visão da gestão. A cor acompanha o status selecionado e as atualizações recebidas. O novo visual exige atualizar os arquivos instalados e recarregar a extensão.
+
 Ao voltar para ON, a interface seleciona Pilha e tenta distribuir quando há pedidos e leitura válida. Não é necessário um colega “enviar” o pedido: a alocação pode ocorrer automaticamente durante a sincronização. A equipe deve acompanhar status e eventuais pedidos em andamento ao sair da operação.
 
 Pedidos novos passam por uma triagem no servidor, com espera mínima de 10 segundos e consulta ao AF. Autorizações já reconhecidas ficam fora da fila; o tempo de resposta e a cadência do coletor podem aumentar a espera. Essa proteção chega online às versões com o coletor 6.9 ou posterior, sem novo ZIP.
